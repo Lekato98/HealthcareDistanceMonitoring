@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 abstract class MongooseService {
     public static db: typeof mongoose;
-    public static readonly MONGODB_URI: string = process.env.MONGODB_URI || 'mongodb://localhost/test';
+    public static readonly MONGODB_URI: string = process.env.MONGODB_URI || 'mongodb://localhost:27017/test';
     public static async connect(): Promise<void> {
         const connectionOption = {
             useUnifiedTopology: true,

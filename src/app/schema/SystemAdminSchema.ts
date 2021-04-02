@@ -1,6 +1,8 @@
-import { DocumentDefinition, ObjectId, Schema, SchemaDefinition, SchemaOptions, SchemaTypeOptions } from 'mongoose';
+import mongoose, { Schema, SchemaDefinition, SchemaOptions, SchemaTypeOptions } from 'mongoose';
+import { ISystemAdmin } from '../models/SystemAdminModel';
 
-const adminIdTypeOptions: SchemaTypeOptions<string> = {
+const adminIdTypeOptions: SchemaTypeOptions<any> = {
+    type: 'String',
     required: true,
     unique: true,
     lowercase: true,
@@ -9,13 +11,14 @@ const adminIdTypeOptions: SchemaTypeOptions<string> = {
     minlength: [6, 'Too short Patient id'],
 };
 
-const passwordTypeOptions: SchemaTypeOptions<string> = {
+const passwordTypeOptions: SchemaTypeOptions<any> = {
+    type: 'String',
     required: true,
     maxlength: [128, 'Too large Password id'],
     minlength: [6, 'Too short Password id'],
-}
+};
 
-const schemaDefinition: SchemaDefinition<DocumentDefinition<undefined>> = {
+const schemaDefinition: SchemaDefinition<any> = {
     adminId: adminIdTypeOptions,
     password: passwordTypeOptions,
 };
@@ -24,6 +27,9 @@ const schemaOptions: SchemaOptions = {
     timestamps: true,
 };
 
-const SystemAdminSchema: Schema = new Schema(schemaDefinition, schemaOptions);
+const SystemAdminSchema: Schema<mongoose.Document<ISystemAdmin>> = new Schema<mongoose.Document<ISystemAdmin>>(
+    schemaDefinition,
+    schemaOptions,
+);
 
 export default SystemAdminSchema;

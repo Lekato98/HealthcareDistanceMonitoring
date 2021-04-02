@@ -1,7 +1,8 @@
-import mongoose, { DocumentDefinition, ObjectId, Schema, SchemaDefinition, SchemaOptions, SchemaTypeOptions } from 'mongoose';
+import mongoose, { Schema, SchemaDefinition, SchemaOptions, SchemaTypeOptions } from 'mongoose';
 import { ISpecialDoctor } from '../models/SpecialDoctorModel';
 
-const doctorIdTypeOptions: SchemaTypeOptions<string> = {
+const doctorIdTypeOptions: SchemaTypeOptions<any> = {
+    type: 'String',
     required: true,
     unique: true,
     lowercase: true,
@@ -10,11 +11,12 @@ const doctorIdTypeOptions: SchemaTypeOptions<string> = {
     minlength: [6, 'Too short Doctor id'],
 };
 
-const userTypeOptions: SchemaTypeOptions<ObjectId> = {
+const userTypeOptions: SchemaTypeOptions<any> = {
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'user',
 };
 
-const schemaDefinition: SchemaDefinition<DocumentDefinition<undefined>> = {
+const schemaDefinition: SchemaDefinition<any> = {
     doctorId: doctorIdTypeOptions,
     user: userTypeOptions,
 };
@@ -23,6 +25,9 @@ const schemaOptions: SchemaOptions = {
     timestamps: true,
 };
 
-const SpecialDoctorSchema: Schema<mongoose.Document<ISpecialDoctor>> = new Schema<mongoose.Document<ISpecialDoctor>>(schemaDefinition, schemaOptions);
+const SpecialDoctorSchema: Schema<mongoose.Document<ISpecialDoctor>> = new Schema<mongoose.Document<ISpecialDoctor>>(
+    schemaDefinition,
+    schemaOptions,
+);
 
 export default SpecialDoctorSchema;

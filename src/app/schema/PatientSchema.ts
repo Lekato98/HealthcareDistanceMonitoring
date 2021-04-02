@@ -1,6 +1,8 @@
-import { DocumentDefinition, ObjectId, Schema, SchemaDefinition, SchemaOptions, SchemaTypeOptions } from 'mongoose';
+import mongoose, { Schema, SchemaDefinition, SchemaOptions, SchemaTypeOptions } from 'mongoose';
+import { IPatient } from '../models/PatientModel';
 
-const patientIdTypeOptions: SchemaTypeOptions<string> = {
+const patientIdTypeOptions: SchemaTypeOptions<any> = {
+    type: 'String',
     required: true,
     unique: true,
     lowercase: true,
@@ -9,11 +11,12 @@ const patientIdTypeOptions: SchemaTypeOptions<string> = {
     minlength: [6, 'Too short Patient id'],
 };
 
-const userTypeOptions: SchemaTypeOptions<ObjectId> = {
+const userTypeOptions: SchemaTypeOptions<any> = {
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'user',
 };
 
-const schemaDefinition: SchemaDefinition<DocumentDefinition<undefined>> = {
+const schemaDefinition: SchemaDefinition<any> = {
     patientId: patientIdTypeOptions,
     user: userTypeOptions,
 };
@@ -22,6 +25,6 @@ const schemaOptions: SchemaOptions = {
     timestamps: true,
 };
 
-const PatientSchema: Schema = new Schema(schemaDefinition, schemaOptions);
+const PatientSchema: Schema<mongoose.Document<IPatient>> = new Schema<mongoose.Document<IPatient>>(schemaDefinition, schemaOptions);
 
 export default PatientSchema;

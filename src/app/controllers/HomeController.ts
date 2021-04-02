@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import UserModel from '../models/UserModel';
 
 abstract class HomeController {
-    public static async homePageController(req: Request, res: Response) {
+    public static async homePage(req: Request, res: Response): Promise<void> {
         res.render('home');
     }
 }
