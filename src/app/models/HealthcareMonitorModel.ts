@@ -37,8 +37,8 @@ const schemaOptions: SchemaOptions = {
 const modelOptions: IModelOptions = {
     schemaOptions,
     options: {
-        customName: 'healthcare_monitor'
-    }
+        customName: 'healthcare_monitor',
+    },
 };
 
 export interface IHealthcareMonitor {

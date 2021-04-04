@@ -72,8 +72,8 @@ const schemaOptions: SchemaOptions = {
 const modelOptions: IModelOptions = {
     schemaOptions,
     options: {
-        customName: 'user'
-    }
+        customName: 'user',
+    },
 };
 
 export interface IUser {

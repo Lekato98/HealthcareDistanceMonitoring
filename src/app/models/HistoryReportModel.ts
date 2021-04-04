@@ -19,7 +19,7 @@ const patientTypeOptions: ArrayPropOptions = {
     ref: 'patient',
 };
 
-const textTypeOptions: PropOptionsForString= {
+const textTypeOptions: PropOptionsForString = {
     type: String,
     required: true,
     min: [10, 'Too short report text'],
@@ -33,8 +33,8 @@ const schemaOptions: SchemaOptions = {
 const modelOptions: IModelOptions = {
     schemaOptions,
     options: {
-        customName: 'report'
-    }
+        customName: 'report',
+    },
 };
 
 @ModelOptions(modelOptions)

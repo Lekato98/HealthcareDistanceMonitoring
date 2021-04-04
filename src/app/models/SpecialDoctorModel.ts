@@ -1,9 +1,5 @@
 import { SchemaOptions } from 'mongoose';
-import {
-    BasePropOptions,
-    IModelOptions,
-    PropOptionsForString, Ref,
-} from '@typegoose/typegoose/lib/types';
+import { BasePropOptions, IModelOptions, PropOptionsForString, Ref } from '@typegoose/typegoose/lib/types';
 import { getModelForClass, ModelOptions, mongoose, Prop } from '@typegoose/typegoose';
 import { User } from './UserModel';
 
@@ -34,8 +30,8 @@ const schemaOptions: SchemaOptions = {
 const modelOptions: IModelOptions = {
     schemaOptions,
     options: {
-        customName: 'doctor'
-    }
+        customName: 'doctor',
+    },
 };
 
 @ModelOptions(modelOptions)

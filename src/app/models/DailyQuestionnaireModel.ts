@@ -3,7 +3,8 @@ import {
     BasePropOptions,
     IModelOptions,
     PropOptionsForNumber,
-    PropOptionsForString, Ref,
+    PropOptionsForString,
+    Ref,
 } from '@typegoose/typegoose/lib/types';
 import { getModelForClass, ModelOptions, Prop } from '@typegoose/typegoose';
 import { Patient } from './PatientModel';

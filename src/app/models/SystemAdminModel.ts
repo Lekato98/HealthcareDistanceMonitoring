@@ -26,8 +26,8 @@ const schemaOptions: SchemaOptions = {
 const modelOptions: IModelOptions = {
     schemaOptions,
     options: {
-        customName: 'admin'
-    }
+        customName: 'admin',
+    },
 };
 
 @ModelOptions(modelOptions)

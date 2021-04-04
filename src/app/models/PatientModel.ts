@@ -3,12 +3,13 @@ import {
     AnyParamConstructor,
     BasePropOptions,
     IModelOptions,
-    PropOptionsForString, Ref,
+    PropOptionsForString,
+    Ref,
 } from '@typegoose/typegoose/lib/types';
 import { getModelForClass, ModelOptions, mongoose, Prop } from '@typegoose/typegoose';
 import { User } from './UserModel';
 
-export interface IPatient extends AnyParamConstructor<any>{
+export interface IPatient extends AnyParamConstructor<any> {
     patientId: string;
     user: Ref<User>;
 }
@@ -35,8 +36,8 @@ const schemaOptions: SchemaOptions = {
 const modelOptions: IModelOptions = {
     schemaOptions,
     options: {
-        customName: 'patient'
-    }
+        customName: 'patient',
+    },
 };
 
 @ModelOptions(modelOptions)
