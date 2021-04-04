@@ -1,9 +1,10 @@
-body{
-    margin:0;
-    padding:0;
+body {
+    margin: 0;
+    padding: 0;
     font-family: 'Montserrat', sans-serif;
 }
-.navbar-brand{
+
+.navbar-brand {
     padding-left: 15%;
     font-size: 1.8rem;
     display: inline-block;
@@ -15,19 +16,20 @@ body{
     width: 1.2rem;
     display: inline-block;
     background-size: contain;
-    padding-right:10px ;
+    padding-right: 10px;
 }
 
-.ul-nav{
-padding-right:11%;
+.ul-nav {
+    padding-right: 11%;
 }
+
 /*home page content */
 
 .home-page-content {
     background-color: aliceblue;
 }
 
-.covid-header{
+.covid-header {
     color: #2554a1;
     font-weight: 900;
     font-size: 3.5rem;
@@ -35,51 +37,52 @@ padding-right:11%;
 }
 
 .left-content {
-    margin-left: 15% ;
+    margin-left: 15%;
     margin-top: 10%;
     text-align: left;
 
 }
-.pat-img{
+
+.pat-img {
     width: 100%;
 }
 
 
-                        /* features */
+/* features */
 
-#Features{
+#Features {
     padding: 1% 10%;
 }
 
-.Features-item-l{
+.Features-item-l {
     text-align: center;
-    background-color:#f0f8ff;
+    background-color: #f0f8ff;
     padding: 2%;
 
 }
 
-.Features-item-r{
+.Features-item-r {
     text-align: center;
-    background-color:#D7ECFF;
+    background-color: #D7ECFF;
     padding: 2%;
 }
 
-.icon{
-    
+.icon {
+
 }
 
 
 /* testimonials */
 
-#testimonials{
-    
+#testimonials {
+
     text-align: center;
-    background-color:#D7ECFF;
+    background-color: #D7ECFF;
     width: 100%;
     height: 30rem;
 }
 
-.carousel-item{
+.carousel-item {
     padding: 7% 15%;
 }
 
@@ -92,22 +95,18 @@ padding-right:11%;
 
 /* footer */
 
-#footer{
+#footer {
     text-align: center;
     padding: 1.5rem;
 }
 
-.footer-p{
+.footer-p {
     margin: 1rem;
 }
 
-.icon-fo{
+.icon-fo {
     padding: 1%;
 }
-
-
-
-
 
 
 .serv-btn {
@@ -124,10 +123,10 @@ padding-right:11%;
     display: inline-block;
     cursor: pointer;
     text-align: center;
- }
- 
- .serv-btn:hover {
+}
+
+.serv-btn:hover {
     border: solid #337FED 1px;
     background: #1E62D0;
     text-decoration: none;
- }
+}

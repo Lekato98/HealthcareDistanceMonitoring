@@ -3,7 +3,7 @@ import HomeController from '../controllers/HomeController';
 
 abstract class HomeRoute {
     public static readonly ROUTE: Router = Router();
-    public static readonly  ROUTE_PREFIX_URL: string = '/';
+    public static readonly ROUTE_PREFIX_URL: string = '/';
     public static readonly HOME_PAGE_URL: string = '/';
 
     public static initialize(): void {

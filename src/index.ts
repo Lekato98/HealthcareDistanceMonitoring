@@ -1,3 +1,3 @@
-import ExpressApp from "./app/ExpressApp";
+import ExpressApp from './app/ExpressApp';
 
-ExpressApp.createServer()
+ExpressApp.createServer();

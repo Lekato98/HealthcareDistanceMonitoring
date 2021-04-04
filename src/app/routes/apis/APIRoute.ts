@@ -3,7 +3,7 @@ import AuthRoute from './AuthRoute';
 
 abstract class APIRoute {
     public static readonly ROUTE: Router = Router();
-    public static readonly  ROUTE_PREFIX_URL: string = '/api';
+    public static readonly ROUTE_PREFIX_URL: string = '/api';
 
     public static initialize(): void {
         this.initializeRoutes();

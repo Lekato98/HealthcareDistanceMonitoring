@@ -5,6 +5,9 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import MongooseService from './services/MongooseService';
 import APIRoute from './routes/apis/APIRoute';
+import AuthMiddleware from './middlewares/AuthMiddleware';
+
+const cookieParser = require('cookie-parser');
 
 abstract class ExpressApp {
     public static app: Express;
@@ -39,6 +42,8 @@ abstract class ExpressApp {
 
     public static initializeMiddlewares(): void {
         this.app.use(this.MIDDLEWARES);
+        this.app.use(cookieParser());
+        this.app.use(AuthMiddleware.setAuth);
     }
 
     public static initializeRoutes(): void {

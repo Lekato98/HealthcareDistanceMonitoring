@@ -1,18 +1,49 @@
-import mongoose from 'mongoose';
-import HealthcareMonitorSchema from '../schema/HealthcareMonitorSchema';
-import { IPatient } from './PatientModel';
+import { SchemaOptions } from 'mongoose';
+import { getModelForClass, ModelOptions, mongoose, Prop } from '@typegoose/typegoose';
+import { ArrayPropOptions, IModelOptions, PropOptionsForString, Ref } from '@typegoose/typegoose/lib/types';
+import { Patient } from './PatientModel';
 
-export interface IHistoryReport extends mongoose.Document {
-    historyId: string;
-    patient: IPatient['_id'];
-    text: string;
+const reportIdTypeOptions: PropOptionsForString = {
+    type: String,
+    required: true,
+    unique: true,
+    lowercase: true,
+    trim: true,
+    maxlength: [50, 'Too large Patient id'],
+    minlength: [6, 'Too short Patient id'],
+};
+
+const patientTypeOptions: ArrayPropOptions = {
+    type: [mongoose.Types.ObjectId],
+    required: true,
+    ref: 'patient',
+};
+
+const textTypeOptions: PropOptionsForString= {
+    type: String,
+    required: true,
+    min: [10, 'Too short report text'],
+    max: [1000, 'Too large report text'],
+};
+
+const schemaOptions: SchemaOptions = {
+    timestamps: true,
+};
+
+const modelOptions: IModelOptions = {
+    schemaOptions,
+    options: {
+        customName: 'report'
+    }
+};
+
+@ModelOptions(modelOptions)
+class HistoryReport {
+    @Prop(reportIdTypeOptions) historyId: string;
+    @Prop(patientTypeOptions) patient: Ref<Patient>[];
+    @Prop(textTypeOptions) text: string;
 }
 
-abstract class HistoryReportModel {
-    public static readonly MODEL_NAME: string = 'historyReport';
-    public static readonly Model: mongoose.Model<IHistoryReport> = mongoose.model<IHistoryReport>(
-        HistoryReportModel.MODEL_NAME, HealthcareMonitorSchema
-    );
-}
+const HistoryReportModel = getModelForClass(HistoryReport);
 
 export default HistoryReportModel;
