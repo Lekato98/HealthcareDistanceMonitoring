@@ -2,10 +2,10 @@ import express, { Express } from 'express';
 import HomeRoute from './routes/HomeRoute';
 import path from 'path';
 import cors from 'cors';
-import bodyParser from 'body-parser';
+import bodyParser, { OptionsUrlencoded } from 'body-parser';
 import MongooseService from './services/MongooseService';
-import APIRoute from './routes/apis/APIRoute';
-import AuthMiddleware from './middlewares/AuthMiddleware';
+import ApiRoute from './routes/apis/ApiRoute';
+import AuthRoute from './routes/AuthRoute';
 
 const cookieParser = require('cookie-parser');
 
@@ -14,11 +14,15 @@ abstract class ExpressApp {
     public static readonly PORT: number = Number(process.env.PORT || 3333);
     public static readonly PUBLIC_FILE_PATH: string = path.join(__dirname, 'public');
     public static readonly VIEWS_PATH: string = path.join(__dirname, 'public/views');
+    public static readonly urlencodedOptions: OptionsUrlencoded = {
+        extended: true,
+    };
     public static readonly MIDDLEWARES = [
-        cors(),
-        express.json(),
         bodyParser.json(),
-        bodyParser.urlencoded({extended: true}),
+        bodyParser.urlencoded(ExpressApp.urlencodedOptions),
+        cors(),
+        cookieParser(),
+        express.json(),
         express.static(ExpressApp.PUBLIC_FILE_PATH),
     ];
 
@@ -41,14 +45,13 @@ abstract class ExpressApp {
     }
 
     public static initializeMiddlewares(): void {
-        this.app.use(this.MIDDLEWARES);
-        this.app.use(cookieParser());
-        this.app.use(AuthMiddleware.setAuth);
+        this.app.use(this.MIDDLEWARES); // called before any request
     }
 
     public static initializeRoutes(): void {
         this.app.use(HomeRoute.ROUTE_PREFIX_URL, HomeRoute.ROUTE); // / @default route
-        this.app.use(APIRoute.ROUTE_PREFIX_URL, APIRoute.ROUTE); // /api @api route
+        this.app.use(ApiRoute.ROUTE_PREFIX_URL, ApiRoute.ROUTE); // /api @api route
+        this.app.use(AuthRoute.ROUTE_PREFIX_URL, AuthRoute.ROUTE); // /auth @auth route
     }
 }
 

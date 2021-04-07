@@ -1,12 +1,7 @@
 import { SchemaOptions } from 'mongoose';
-import { BasePropOptions, IModelOptions, PropOptionsForString, Ref } from '@typegoose/typegoose/lib/types';
-import { getModelForClass, ModelOptions, mongoose, Prop } from '@typegoose/typegoose';
-import { User } from './UserModel';
-
-export interface IDoctor {
-    doctorId: string;
-    user: Ref<User>;
-}
+import { IModelOptions, PropOptionsForString } from '@typegoose/typegoose/lib/types';
+import { getDiscriminatorModelForClass, ModelOptions, Prop } from '@typegoose/typegoose';
+import UserModel, { IUser, RoleName, User } from './UserModel';
 
 const doctorIdTypeOptions: PropOptionsForString = {
     type: String,
@@ -18,11 +13,6 @@ const doctorIdTypeOptions: PropOptionsForString = {
     minlength: [6, 'Too short Patient id'],
 };
 
-const userTypeOptions: BasePropOptions = {
-    type: mongoose.Types.ObjectId,
-    ref: 'user',
-};
-
 const schemaOptions: SchemaOptions = {
     timestamps: true,
 };
@@ -30,17 +20,24 @@ const schemaOptions: SchemaOptions = {
 const modelOptions: IModelOptions = {
     schemaOptions,
     options: {
-        customName: 'doctor',
+        customName: RoleName.DOCTOR,
     },
 };
 
 @ModelOptions(modelOptions)
-export class SpecialDoctor {
+class SpecialDoctor extends User {
     @Prop(doctorIdTypeOptions) public doctorId: string;
-    @Prop(userTypeOptions) public user: Ref<User>;
 }
 
-const DoctorModel = getModelForClass(SpecialDoctor);
+interface IDoctor extends IUser {
+    doctorId: string;
+}
 
+const DoctorModel = getDiscriminatorModelForClass(UserModel, SpecialDoctor);
+
+export {
+    SpecialDoctor,
+    IDoctor,
+};
 export default DoctorModel;
 

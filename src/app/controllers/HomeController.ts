@@ -1,10 +1,15 @@
 import { Request, Response } from 'express';
 
-abstract class HomeController {
-    public static async homePage(req: Request, res: Response): Promise<void> {
+class HomeController {
+    public async homePage(req: Request, res: Response): Promise<void> {
+        res.render('home');
+    }
+
+    public async defaultPage(req: Request, res: Response): Promise<void> {
         res.render('home');
     }
 }
 
+const homeController = new HomeController();
 
-export default HomeController;
+export default homeController;

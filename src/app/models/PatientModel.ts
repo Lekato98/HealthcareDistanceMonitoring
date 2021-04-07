@@ -1,32 +1,17 @@
 import { SchemaOptions } from 'mongoose';
-import {
-    AnyParamConstructor,
-    BasePropOptions,
-    IModelOptions,
-    PropOptionsForString,
-    Ref,
-} from '@typegoose/typegoose/lib/types';
-import { getModelForClass, ModelOptions, mongoose, Prop } from '@typegoose/typegoose';
-import { User } from './UserModel';
+import { IModelOptions, PropOptionsForString } from '@typegoose/typegoose/lib/types';
+import { getDiscriminatorModelForClass, ModelOptions, Prop } from '@typegoose/typegoose';
+import UserModel, { IUser, RoleName, User } from './UserModel';
 
-export interface IPatient extends AnyParamConstructor<any> {
-    patientId: string;
-    user: Ref<User>;
-}
 
 const patientIdTypeOptions: PropOptionsForString = {
     type: String,
-    required: true,
     unique: true,
+    required: true,
     lowercase: true,
     trim: true,
     maxlength: [50, 'Too large Patient id'],
     minlength: [6, 'Too short Patient id'],
-};
-
-const userTypeOptions: BasePropOptions = {
-    type: mongoose.Types.ObjectId,
-    ref: 'user',
 };
 
 const schemaOptions: SchemaOptions = {
@@ -36,17 +21,23 @@ const schemaOptions: SchemaOptions = {
 const modelOptions: IModelOptions = {
     schemaOptions,
     options: {
-        customName: 'patient',
+        customName: RoleName.PATIENT,
     },
 };
 
 @ModelOptions(modelOptions)
-export class Patient {
+class Patient extends User {
     @Prop(patientIdTypeOptions) public patientId: string;
-    @Prop(userTypeOptions) public user: Ref<User>;
 }
 
-const PatientModel = getModelForClass(Patient);
+interface IPatient extends IUser {
+    patientId: string;
+}
 
+const PatientModel = getDiscriminatorModelForClass(UserModel, Patient);
+
+export {
+    Patient,
+    IPatient,
+};
 export default PatientModel;
-
