@@ -16,7 +16,7 @@ abstract class MongooseService {
             this.db = await mongoose.connect(this.MONGODB_URI, connectionOptions);
         } catch (err) {
             console.error(err.message);
-            process.exit();
+            process.exit(0);
         }
     }
 }

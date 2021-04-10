@@ -36,6 +36,6 @@ export class SystemAdmin {
     @Prop(passwordTypeOptions) public password: string;
 }
 
-const SystemAdminModel = getModelForClass(SystemAdmin);
+const AdminModel = getModelForClass(SystemAdmin);
 
-export default SystemAdminModel;
+export default AdminModel;

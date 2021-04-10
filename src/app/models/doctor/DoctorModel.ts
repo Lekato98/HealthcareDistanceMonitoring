@@ -1,16 +1,15 @@
 import { SchemaOptions } from 'mongoose';
 import { IModelOptions, PropOptionsForString } from '@typegoose/typegoose/lib/types';
-import { getDiscriminatorModelForClass, ModelOptions, Prop } from '@typegoose/typegoose';
-import UserModel, { IUser, RoleName, User } from './UserModel';
+import { getDiscriminatorModelForClass, ModelOptions, Pre, Prop } from '@typegoose/typegoose';
+import UserModel, { IUser, RoleName, User } from '../user/UserModel';
+import { nanoid } from 'nanoid';
+import DoctorModelUtils from './DoctorModelUtils';
 
 const doctorIdTypeOptions: PropOptionsForString = {
     type: String,
     required: true,
     unique: true,
-    lowercase: true,
     trim: true,
-    maxlength: [50, 'Too large Patient id'],
-    minlength: [6, 'Too short Patient id'],
 };
 
 const schemaOptions: SchemaOptions = {
@@ -24,6 +23,7 @@ const modelOptions: IModelOptions = {
     },
 };
 
+@Pre<SpecialDoctor>('validate', DoctorModelUtils.preValidate)
 @ModelOptions(modelOptions)
 class SpecialDoctor extends User {
     @Prop(doctorIdTypeOptions) public doctorId: string;

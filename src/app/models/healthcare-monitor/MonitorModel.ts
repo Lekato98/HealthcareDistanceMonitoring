@@ -1,17 +1,16 @@
 import { SchemaOptions } from 'mongoose';
-import { getDiscriminatorModelForClass, ModelOptions, mongoose, Prop } from '@typegoose/typegoose';
+import { getDiscriminatorModelForClass, ModelOptions, mongoose, Pre, Prop } from '@typegoose/typegoose';
 import { ArrayPropOptions, IModelOptions, PropOptionsForString, Ref } from '@typegoose/typegoose/lib/types';
-import UserModel, { IUser, RoleName, User } from './UserModel';
-import { Patient } from './PatientModel';
+import UserModel, { IUser, RoleName, User } from '../user/UserModel';
+import { Patient } from '../patient/PatientModel';
+import { nanoid } from 'nanoid';
+import MonitorModelUtils from './MonitorModelUtils';
 
 const monitorIdTypeOptions: PropOptionsForString = {
     type: String,
     unique: true,
     required: true,
-    lowercase: true,
     trim: true,
-    maxlength: [50, 'Too large Monitor id'],
-    minlength: [6, 'Too short Monitor id'],
 };
 
 const patientsTypeOptions: ArrayPropOptions = {
@@ -30,6 +29,7 @@ const modelOptions: IModelOptions = {
     },
 };
 
+@Pre<HealthcareMonitor>('validate', MonitorModelUtils.preValidate)
 @ModelOptions(modelOptions)
 class HealthcareMonitor extends User {
     @Prop(monitorIdTypeOptions) monitorId: string;
@@ -41,10 +41,10 @@ interface IHealthcareMonitor extends IUser {
     patients?: mongoose.Types.ObjectId[];
 }
 
-const HealthcareMonitorModel = getDiscriminatorModelForClass(UserModel, HealthcareMonitor);
+const MonitorModel = getDiscriminatorModelForClass(UserModel, HealthcareMonitor);
 
 export {
     HealthcareMonitor,
     IHealthcareMonitor,
 };
-export default HealthcareMonitorModel;
+export default MonitorModel;

@@ -1,8 +1,8 @@
 import { DocumentType } from '@typegoose/typegoose';
-import HealthcareMonitorModel from './HealthcareMonitorModel';
-import PatientModel from './PatientModel';
+import MonitorModel from '../healthcare-monitor/MonitorModel';
+import PatientModel from '../patient/PatientModel';
 import { IUser, RoleName, User } from './UserModel';
-import SpecialDoctorModel from './SpecialDoctorModel';
+import SpecialDoctorModel from '../doctor/DoctorModel';
 
 export abstract class UserModelFactory {
     public static create(role: RoleName, userInfo: IUser): DocumentType<User> {
@@ -11,7 +11,7 @@ export abstract class UserModelFactory {
                 return new PatientModel(userInfo);
 
             case RoleName.MONITOR:
-                return new HealthcareMonitorModel(userInfo);
+                return new MonitorModel(userInfo);
 
             case RoleName.DOCTOR:
                 return new SpecialDoctorModel(userInfo);

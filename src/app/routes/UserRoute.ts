@@ -1,8 +1,8 @@
 import IRoute from './IRoute';
 import { Router } from 'express';
-import ProfileController from '../controllers/ProfileController';
+import ProfileController from '../controllers/UserController';
 
-class ProfileRoute implements IRoute {
+class UserRoute implements IRoute {
     public readonly ROUTE: Router = Router();
     public readonly ROUTE_PREFIX_URL: string = '/profile';
     public readonly PROFILE_PAGE_URL: string = '/';
@@ -16,10 +16,10 @@ class ProfileRoute implements IRoute {
     }
 
     public initializeControllers(): void {
-        this.ROUTE.get(this.PROFILE_PAGE_URL, ProfileController.profilePage);
+        this.ROUTE.get(this.PROFILE_PAGE_URL, ProfileController.userProfilePage);
     }
 }
 
-const profileRoute = new ProfileRoute();
+const profileRoute = new UserRoute();
 
 export default profileRoute;

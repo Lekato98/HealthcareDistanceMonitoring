@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import AuthApiRoute from './AuthApiRoute';
 import IRoute from '../IRoute';
-import ProfileApiRoute from '../apis/ProfileApiRoute';
+import { UserApiRoute } from './UserApiRoute';
 
 class ApiRoute implements IRoute {
     public readonly ROUTE: Router = Router();
@@ -17,7 +17,7 @@ class ApiRoute implements IRoute {
 
     public initializeRoutes(): void {
         this.ROUTE.use(AuthApiRoute.ROUTE_PREFIX_URL, AuthApiRoute.ROUTE);
-        this.ROUTE.use(ProfileApiRoute.ROUTE_PREFIX_URL, ProfileApiRoute.ROUTE);
+        this.ROUTE.use(UserApiRoute.ROUTE_PREFIX_URL, UserApiRoute.ROUTE);
     }
 }
 

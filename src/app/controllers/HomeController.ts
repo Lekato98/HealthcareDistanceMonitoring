@@ -12,4 +12,7 @@ class HomeController {
 
 const homeController = new HomeController();
 
+export {
+    homeController,
+}
 export default homeController;

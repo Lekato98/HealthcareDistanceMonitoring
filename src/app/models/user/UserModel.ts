@@ -1,6 +1,7 @@
-import { SchemaOptions } from 'mongoose';
+import { SchemaOptions, UpdateQuery } from 'mongoose';
 import { BasePropOptions, IModelOptions, PropOptionsForString } from '@typegoose/typegoose/lib/types';
-import { getModelForClass, index, ModelOptions, pre, Prop } from '@typegoose/typegoose';
+import { DocumentType, getModelForClass, Index, ModelOptions, Pre, Prop } from '@typegoose/typegoose';
+import UserModelUtils from './UserModelUtils';
 
 const bcrypt = require('bcrypt');
 
@@ -76,12 +77,8 @@ const modelOptions: IModelOptions = {
     },
 };
 
-@pre<User>('save', async function (): Promise<void> {
-    const payload = this;
-    const salt = await bcrypt.genSalt(10);
-    payload.password = await bcrypt.hash(payload.password, salt); // hash password
-})
-@index({nationalId: 1}, {unique: true})
+@Pre<User>('save', UserModelUtils.preSave)
+@Index({nationalId: 1}, {unique: true})
 @ModelOptions(modelOptions)
 class User {
     @Prop(nationalIdTypeOptions) public nationalId!: string;
@@ -93,12 +90,45 @@ class User {
     @Prop(homeAddressTypeOptions) public homeAddress?: string;
     @Prop(phoneNumberTypeOptions) public phoneNumber?: string;
 
+    constructor() {
+        // null object
+        this.nationalId = '';
+        this.password = '';
+        this.firstName = '';
+        this.lastName = '';
+        this.gender = '';
+        this.birthdate = new Date();
+        this.homeAddress = '';
+        this.phoneNumber = '';
+    }
+
+    public static readonly USERS_LIMIT_PER_PAGE: number = 20; // used for get all users
+
     public static isValidPassword(password: string, hashedPassword: string): boolean {
         return bcrypt.compareSync(password, hashedPassword);
     }
 
-    public static findByNationalId(nationalId: string) {
-        return UserModel.findOne({nationalId});
+    public static async findByNationalId(nationalId: string, projection: string): Promise<DocumentType<User>> {
+        return UserModel.findOne({nationalId}, projection);
+    }
+
+    public static async patchOne(nationalId: string, payload: object): Promise<any> {
+        const userObject = UserModelUtils.createUserObjectFromObject(payload);
+        return UserModel.updateOne({nationalId}, {...userObject})
+    }
+
+    public static async getAll(pageNumber: number): Promise<DocumentType<User>[]> {
+        const sortStage = {$sort: {createdAt: 1}}; // stage 1 sort by created time
+        const skipStage = {$skip: (pageNumber - 1) * this.USERS_LIMIT_PER_PAGE}; // stage 2 skip previous pages
+        const limitStage = {$limit: User.USERS_LIMIT_PER_PAGE}; // stage 3 limitation users number
+        const projectionStage = {$project: {password: 0, updatedAt: 0}}; // stage 4 remove password from the data
+
+        return UserModel.aggregate([
+            sortStage,
+            skipStage,
+            limitStage,
+            projectionStage,
+        ]);
     }
 }
 
