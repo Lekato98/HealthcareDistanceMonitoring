@@ -5,22 +5,27 @@ import { HttpStatusCode } from '../utils/HttpUtils';
 const jwt = require('jsonwebtoken');
 
 abstract class AuthMiddleware {
+    // global middleware
     public static async setAuth(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
             const token = req.cookies[JWTUtils.JWT_COOKIE_NAME];
-            res.locals.user = jwt.verify(token, process.env.JWT_SECRET);
-        } catch (err) {
-            console.log(err.message);
+            res.locals.jwt = jwt.verify(token, process.env.JWT_SECRET);
+        } catch (e) {
+            console.error(`~SetAuth ${e.message}`);
+            delete res.locals.jwt;
         } finally {
             next();
         }
     }
 
-    public static auth(req: Request, res: Response, next: NextFunction): void {
-        if (res.locals.user) {
+    public static isAuth(req: Request, res: Response, next: NextFunction): void {
+        // setAuth is a global middleware which sets the exist decoded token in res.locals.jwt
+        // so we have to check only if the jwt is exist
+        if (res.locals.jwt) {
             next();
         } else {
-            res.status(HttpStatusCode.UNAUTHORIZED);
+            const body = {success: 0, message: 'Unauthorized'};
+            res.status(HttpStatusCode.UNAUTHORIZED).json(body);
         }
     }
 }

@@ -29,7 +29,7 @@ class AuthController {
     }
 
     /**
-     * @route /api/auth/login
+     * @route /api/v1/auth/login
      * @body ILogin
      * */
     public async login(req: Request, res: Response): Promise<void> {
@@ -39,8 +39,9 @@ class AuthController {
 
             if (user) {
                 if (UserModel.isValidPassword(loginInformation.password, user.password)) {
-                    const payload: IJWTPayload = {_id: user._id, nationalId: user.nationalId};
+                    const payload: IJWTPayload = {_id: user._id, nationalId: user.nationalId, role: user.role};
                     const token = JWTUtils.createToken(payload);
+                    res.cookie(JWTUtils.JWT_COOKIE_NAME, token, JWTUtils.JWT_COOKIE_OPTIONS); // set token in cookies
                     const body = {success: 1, token};
                     res.json(body);
                 } else {
@@ -61,15 +62,15 @@ class AuthController {
     /**
      * @desc creates user and token
      * @body IUser
-     * @route /api/auth/register
+     * @route /api/v1/auth/register
      * */
     public async register(req: Request, res: Response): Promise<void> {
         try {
             const userInfo: IUser = req.body;
-            const user = await UserModelFactory.create(RoleName.PATIENT, userInfo).save();
+            const user = await UserModelFactory.create(userInfo).save();
 
             // create and set token in cookie
-            const payload: IJWTPayload = {_id: user._id, nationalId: user.nationalId}; // token payload
+            const payload: IJWTPayload = {_id: user._id, nationalId: user.nationalId, role: user.role}; // token payload
             const token = JWTUtils.createToken(payload); // create JWT token
             res.cookie(JWTUtils.JWT_COOKIE_NAME, token, JWTUtils.JWT_COOKIE_OPTIONS); // set token in cookies
 
@@ -80,6 +81,21 @@ class AuthController {
             res.status(HttpStatusCode.SERVER_ERROR).json(body);
         }
 
+    }
+
+    /**
+     * @route /api/v1/logout
+     * @request DELETE
+     * */
+    public logout(req: Request, res: Response): void {
+        try {
+            res.clearCookie(JWTUtils.JWT_COOKIE_NAME);
+            const body = {success: 1};
+            res.json(body);
+        } catch (e) {
+            const body = {success: 0};
+            res.status(HttpStatusCode.SERVER_ERROR).json(body);
+        }
     }
 }
 

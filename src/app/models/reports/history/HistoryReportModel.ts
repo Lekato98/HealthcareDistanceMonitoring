@@ -1,6 +1,11 @@
 import { SchemaOptions } from 'mongoose';
 import { getModelForClass, ModelOptions, mongoose, Prop } from '@typegoose/typegoose';
-import { ArrayPropOptions, IModelOptions, PropOptionsForString, Ref } from '@typegoose/typegoose/lib/types';
+import {
+    BasePropOptions,
+    IModelOptions,
+    PropOptionsForString,
+    Ref,
+} from '@typegoose/typegoose/lib/types';
 import { Patient } from '../../patient/PatientModel';
 
 const reportIdTypeOptions: PropOptionsForString = {
@@ -13,8 +18,8 @@ const reportIdTypeOptions: PropOptionsForString = {
     minlength: [6, 'Too short Patient id'],
 };
 
-const patientTypeOptions: ArrayPropOptions = {
-    type: [mongoose.Types.ObjectId],
+const patientTypeOptions: BasePropOptions = {
+    type: mongoose.Types.ObjectId,
     required: true,
     ref: 'patient',
 };
@@ -40,7 +45,7 @@ const modelOptions: IModelOptions = {
 @ModelOptions(modelOptions)
 class HistoryReport {
     @Prop(reportIdTypeOptions) historyId: string;
-    @Prop(patientTypeOptions) patient: Ref<Patient>[];
+    @Prop(patientTypeOptions) patient: Ref<Patient>;
     @Prop(textTypeOptions) text: string;
 }
 

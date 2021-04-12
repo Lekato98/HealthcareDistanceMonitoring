@@ -2,7 +2,6 @@ import { SchemaOptions } from 'mongoose';
 import { IModelOptions, PropOptionsForString } from '@typegoose/typegoose/lib/types';
 import { getDiscriminatorModelForClass, ModelOptions, Pre, Prop } from '@typegoose/typegoose';
 import UserModel, { IUser, RoleName, User } from '../user/UserModel';
-import { nanoid } from 'nanoid';
 import DoctorModelUtils from './DoctorModelUtils';
 
 const doctorIdTypeOptions: PropOptionsForString = {

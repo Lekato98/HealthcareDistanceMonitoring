@@ -3,7 +3,6 @@ import { getDiscriminatorModelForClass, ModelOptions, mongoose, Pre, Prop } from
 import { ArrayPropOptions, IModelOptions, PropOptionsForString, Ref } from '@typegoose/typegoose/lib/types';
 import UserModel, { IUser, RoleName, User } from '../user/UserModel';
 import { Patient } from '../patient/PatientModel';
-import { nanoid } from 'nanoid';
 import MonitorModelUtils from './MonitorModelUtils';
 
 const monitorIdTypeOptions: PropOptionsForString = {

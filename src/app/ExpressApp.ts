@@ -4,8 +4,9 @@ import path from 'path';
 import cors from 'cors';
 import bodyParser, { OptionsUrlencoded } from 'body-parser';
 import MongooseService from './services/MongooseService';
-import ApiRoute from './routes/apis/ApiRoute';
+import ApiRoute from './routes/apis/v1/ApiRoute';
 import AuthRoute from './routes/AuthRoute';
+import AuthMiddleware from './middlewares/AuthMiddleware';
 
 const cookieParser = require('cookie-parser');
 
@@ -44,12 +45,13 @@ abstract class ExpressApp {
 
     public static initializeMiddlewares(): void {
         this.app.use(this.MIDDLEWARES); // called before any request
+        this.app.use(AuthMiddleware.setAuth); // should be called before any request
     }
 
     public static initializeRoutes(): void {
-        this.app.use(ApiRoute.ROUTE_PREFIX_URL, ApiRoute.ROUTE); // /api @api route
-        this.app.use(AuthRoute.ROUTE_PREFIX_URL, AuthRoute.ROUTE); // /auth @auth route
-        this.app.use(HomeRoute.ROUTE_PREFIX_URL, HomeRoute.ROUTE); // / @default route
+        this.app.use(ApiRoute.ROUTE_PREFIX_URL, ApiRoute.ROUTE); // /api/v1 @api version 1
+        this.app.use(AuthRoute.ROUTE_PREFIX_URL, AuthRoute.ROUTE); // /auth @auth
+        this.app.use(HomeRoute.ROUTE_PREFIX_URL, HomeRoute.ROUTE); // / @default
     }
 }
 

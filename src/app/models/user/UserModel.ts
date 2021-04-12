@@ -1,11 +1,24 @@
-import { SchemaOptions, UpdateQuery } from 'mongoose';
+import { SchemaOptions } from 'mongoose';
 import { BasePropOptions, IModelOptions, PropOptionsForString } from '@typegoose/typegoose/lib/types';
 import { DocumentType, getModelForClass, Index, ModelOptions, Pre, Prop } from '@typegoose/typegoose';
 import UserModelUtils from './UserModelUtils';
+import PhoneUtils from '../../utils/PhoneUtils';
 
 const bcrypt = require('bcrypt');
 
-const nationalIdTypeOptions: BasePropOptions = {
+const enum RoleName {
+    PATIENT = 'patient',
+    MONITOR = 'monitor',
+    DOCTOR = 'doctor',
+}
+
+const enum Gender {
+    MALE = 'male',
+    FEMALE = 'female',
+    OTHER = 'other',
+}
+
+const nationalIdTypeOptions: PropOptionsForString = {
     type: String,
     required: true,
     trim: true,
@@ -36,7 +49,7 @@ const genderTypeOptions: PropOptionsForString = {
     required: true,
     lowercase: true,
     trim: true,
-    enum: ['male', 'female', 'other'],
+    enum: [Gender.MALE, Gender.FEMALE, Gender.OTHER],
 };
 
 const birthdateTypeOptions: BasePropOptions = {
@@ -53,8 +66,10 @@ const homeAddressTypeOptions: PropOptionsForString = {
 const phoneNumberTypeOptions: PropOptionsForString = {
     type: String,
     trim: true,
-    maxlength: [15, 'Too large Phone Number'], // todo validate
-    minlength: [10, 'Too short Phone Number'],
+    validate: {
+        validator: PhoneUtils.validatePhoneNumber,
+        message: 'Invalid phone number',
+    },
 };
 
 const passwordTypeOptions: PropOptionsForString = {
@@ -63,6 +78,13 @@ const passwordTypeOptions: PropOptionsForString = {
     trim: true,
     maxlength: [128, 'Too large Password'],
     minlength: [6, 'Too short Password'],
+};
+
+const roleTypeOptions: PropOptionsForString = {
+    type: String,
+    required: true,
+    trim: true,
+    enum: [RoleName.PATIENT, RoleName.DOCTOR, RoleName.MONITOR],
 };
 
 const schemaOptions: SchemaOptions = {
@@ -81,18 +103,18 @@ const modelOptions: IModelOptions = {
 @Index({nationalId: 1}, {unique: true})
 @ModelOptions(modelOptions)
 class User {
+    @Prop(roleTypeOptions) public role!: string;
     @Prop(nationalIdTypeOptions) public nationalId!: string;
-    @Prop(passwordTypeOptions) public password: string;
-    @Prop(firstNameTypeOptions) public firstName: string;
-    @Prop(lastNameTypeOptions) public lastName: string;
-    @Prop(genderTypeOptions) public gender: string;
-    @Prop(birthdateTypeOptions) public birthdate: Date;
+    @Prop(passwordTypeOptions) public password!: string;
+    @Prop(firstNameTypeOptions) public firstName!: string;
+    @Prop(lastNameTypeOptions) public lastName!: string;
+    @Prop(genderTypeOptions) public gender!: string;
+    @Prop(birthdateTypeOptions) public birthdate!: Date;
     @Prop(homeAddressTypeOptions) public homeAddress?: string;
     @Prop(phoneNumberTypeOptions) public phoneNumber?: string;
 
     constructor() {
         // null object
-        this.nationalId = '';
         this.password = '';
         this.firstName = '';
         this.lastName = '';
@@ -108,13 +130,13 @@ class User {
         return bcrypt.compareSync(password, hashedPassword);
     }
 
-    public static async findByNationalId(nationalId: string, projection: string): Promise<DocumentType<User>> {
+    public static async findByNationalId(nationalId: string, projection: string = ''): Promise<DocumentType<User>> {
         return UserModel.findOne({nationalId}, projection);
     }
 
     public static async patchOne(nationalId: string, payload: object): Promise<any> {
         const userObject = UserModelUtils.createUserObjectFromObject(payload);
-        return UserModel.updateOne({nationalId}, {...userObject})
+        return UserModel.updateOne({nationalId}, {...userObject});
     }
 
     public static async getAll(pageNumber: number): Promise<DocumentType<User>[]> {
@@ -130,24 +152,22 @@ class User {
             projectionStage,
         ]);
     }
+
+    public static async deleteOneUser(nationalId: string) {
+        return UserModel.deleteOne({nationalId});
+    }
 }
 
 interface IUser {
-    role: RoleName,
-    nationalId: string,
+    role: RoleName;
+    nationalId: string;
     firstName: string;
     lastName: string;
-    gender: string;
+    gender: Gender;
     birthdate: Date;
     homeAddress?: string;
     phoneNumber?: string;
     password: string;
-}
-
-const enum RoleName {
-    PATIENT = 'patient',
-    MONITOR = 'healthcare monitor',
-    DOCTOR = 'special doctor',
 }
 
 const UserModel = getModelForClass(User);
@@ -161,5 +181,6 @@ export {
     User,
     IUser,
     RoleName,
+    Gender,
 };
 export default UserModel;

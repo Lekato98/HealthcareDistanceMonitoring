@@ -6,10 +6,11 @@ const jwt = require('jsonwebtoken');
 export interface IJWTPayload {
     _id: mongoose.Types.ObjectId,
     nationalId: string,
+    role: string,
 }
 
 export interface IJWTOptions {
-    expiresIn: number | string;
+    expiresIn: number | string | Date;
 }
 
 abstract class JWTUtils {

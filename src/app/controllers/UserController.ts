@@ -12,12 +12,12 @@ class UserController {
     }
 
     /**
-     * @route /api/user/:nationalId
+     * @route /api/v1/user/:nationalId
      * */
     public static async getUser(req: Request, res: Response): Promise<void> {
         try {
             const {nationalId} = req.params;
-            const projection = '-password'; // todo check if Owner
+            const projection = '-password';
             const user = await UserModel.findByNationalId(nationalId, projection);
 
             if (user) {
@@ -35,13 +35,14 @@ class UserController {
     }
 
     /**
-     * @route /api/user
+     * @route /api/v1/user
      * @request PATCH
      * */
-    public static async updateUser(req: Request, res: Response): Promise<void> { // todo isAuth middleware protected route
+    public static async updateUser(req: Request, res: Response): Promise<void> {
         try {
+            const {nationalId} = res.locals.jwt;
             const payload = req.body;
-            const user = await UserModel.patchOne("1234567862", payload);
+            const user = await UserModel.patchOne(nationalId, payload);
             const body = {success: 1, user};
             res.json(body);
         } catch (e) {
@@ -51,10 +52,10 @@ class UserController {
     }
 
     /**
-     * @route /api/user/users?page=
+     * @route /api/v1/user/users?page=
      * @request GET
      * */
-    public static async getAllUsers(req: Request, res: Response): Promise<void> {
+    public static async getUsersByPageNumber(req: Request, res: Response): Promise<void> {
         try {
             const pageNumber = Number(req.query.page) || 1; // 1 for default
             const users = await UserModel.getAll(pageNumber);
@@ -62,10 +63,25 @@ class UserController {
             res.json(body);
         } catch (e) {
             const body = {success: 0, message: e.message};
-            res.json(body);
+            res.status(HttpStatusCode.SERVER_ERROR).json(body);
         }
     }
 
+    /**
+     * @route /api/v1/user
+     * @request DELETE
+     * */
+    public static async deleteUser(req: Request, res: Response): Promise<void> {
+        try {
+            const {nationalId} = res.locals.jwt.nationalId;
+            const user = UserModel.deleteOneUser(nationalId);
+            const body = {success: 1, user};
+            res.json(body);
+        } catch (e) {
+            const body = {success: 0, message: e.message};
+            res.status(HttpStatusCode.SERVER_ERROR).json(body);
+        }
+    }
 }
 
 export default UserController;

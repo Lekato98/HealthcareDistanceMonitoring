@@ -1,6 +1,7 @@
-import IRoute from '../IRoute';
+import IRoute from '../../IRoute';
 import { Router } from 'express';
-import UserController from '../../controllers/UserController';
+import UserController from '../../../controllers/UserController';
+import AuthMiddleware from '../../../middlewares/AuthMiddleware';
 
 class UserApiRoute implements IRoute {
     public readonly ROUTE: Router = Router();
@@ -8,6 +9,7 @@ class UserApiRoute implements IRoute {
     public readonly GET_USERS = '/users';
     public readonly GET_USER = '/:nationalId';
     public readonly PATCH_USER = '/';
+    public readonly DELETE_USER = '/';
 
     constructor() {
         this.initialize();
@@ -18,10 +20,10 @@ class UserApiRoute implements IRoute {
     }
 
     public initializeControllers(): void {
-        // this.ROUTE.use(AuthMiddleware.setAuth);
-        this.ROUTE.get(this.GET_USERS, UserController.getAllUsers);
+        this.ROUTE.get(this.GET_USERS, UserController.getUsersByPageNumber);
         this.ROUTE.get(this.GET_USER, UserController.getUser);
-        this.ROUTE.patch(this.PATCH_USER, UserController.updateUser);
+        this.ROUTE.patch(this.PATCH_USER, AuthMiddleware.isAuth, UserController.updateUser);
+        this.ROUTE.delete(this.DELETE_USER, AuthMiddleware.isAuth, UserController.deleteUser);
     }
 }
 

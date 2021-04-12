@@ -6,10 +6,7 @@ const adminIdTypeOptions: PropOptionsForString = {
     type: String,
     required: true,
     unique: true,
-    lowercase: true,
     trim: true,
-    maxlength: [50, 'Too large Patient id'],
-    minlength: [6, 'Too short Patient id'],
 };
 
 const passwordTypeOptions: PropOptionsForString = {

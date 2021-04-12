@@ -20,7 +20,8 @@
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.10.18",
-    "nanoid": "^3.1.22"
+    "nanoid": "^3.1.22",
+    "phone": "^2.4.21"
   },
   "devDependencies": {
     "@types/cors": "^2.8.10",

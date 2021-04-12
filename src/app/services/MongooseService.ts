@@ -13,7 +13,7 @@ abstract class MongooseService {
         };
 
         try {
-            this.db = await mongoose.connect(this.MONGODB_URI, connectionOptions);
+            MongooseService.db = await mongoose.connect(this.MONGODB_URI, connectionOptions);
         } catch (err) {
             console.error(err.message);
             process.exit(0);

@@ -1,5 +1,6 @@
 import { User } from './UserModel';
 import { IMyObject } from '../../utils/ObjectUtils';
+import PhoneUtils from '../../utils/PhoneUtils';
 
 const bcrypt = require('bcrypt');
 
@@ -7,6 +8,7 @@ class UserModelUtils {
     public static async preSave(this: User): Promise<void> {
         const salt = await bcrypt.genSalt(10);
         this.password = await bcrypt.hash(this.password, salt); // hash password
+        this.phoneNumber = PhoneUtils.formatPhoneNumber(this.phoneNumber); // reformat phone number
     }
 
     public static createUserObjectFromObject(payload: IMyObject): object {
