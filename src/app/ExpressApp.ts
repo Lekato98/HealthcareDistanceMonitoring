@@ -9,6 +9,7 @@ import AuthRoute from './routes/AuthRoute';
 import AuthMiddleware from './middlewares/AuthMiddleware';
 
 const cookieParser = require('cookie-parser');
+const rateLimit = require('express-rate-limit');
 
 abstract class ExpressApp {
     public static app: Express;
@@ -16,6 +17,10 @@ abstract class ExpressApp {
     public static readonly PUBLIC_FILE_PATH: string = path.join(__dirname, 'public'); // public folder
     public static readonly VIEWS_PATH: string = path.join(__dirname, 'public/views'); // views folder
     public static readonly urlencodedOptions: OptionsUrlencoded = {extended: true};
+    public static readonly limiter = rateLimit({
+        windowMs: 15 * 60 * 1000, // 15 minutes
+        max: 100, // limit each IP to 100 requests per windowMs
+    });
     public static readonly MIDDLEWARES = [
         bodyParser.json(),
         bodyParser.urlencoded(ExpressApp.urlencodedOptions),
@@ -32,6 +37,7 @@ abstract class ExpressApp {
         this.initializeViewEngine();
         this.initializeMiddlewares();
         this.initializeRoutes();
+        // this.app.set('trust proxy', 1);
 
         // connect to mongoDB
         MongooseService.connect()
@@ -44,7 +50,8 @@ abstract class ExpressApp {
     }
 
     public static initializeMiddlewares(): void {
-        this.app.use(this.MIDDLEWARES); // called before any request
+        this.app.use(ExpressApp.limiter); // to avoid DDOS attack and spammer
+        this.app.use(ExpressApp.MIDDLEWARES); // called before any request
         this.app.use(AuthMiddleware.setAuth); // should be called before any request
     }
 

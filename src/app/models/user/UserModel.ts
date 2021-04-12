@@ -59,7 +59,6 @@ const birthdateTypeOptions: BasePropOptions = {
 
 const homeAddressTypeOptions: PropOptionsForString = {
     type: String,
-    uppercase: true,
     trim: true,
 };
 

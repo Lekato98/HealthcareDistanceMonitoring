@@ -4,7 +4,7 @@ import { HttpStatusCode } from '../utils/HttpUtils';
 
 const jwt = require('jsonwebtoken');
 
-abstract class AuthMiddleware {
+class AuthMiddleware {
     // global middleware
     public static async setAuth(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
