@@ -1,8 +1,10 @@
 import { Router } from 'express';
 import HomeController from '../controllers/HomeController';
 import IRoute from './IRoute';
+import { Inject } from 'dependency-injection-v1';
 
 class HomeRoute implements IRoute {
+    @Inject(HomeController) private homeController: HomeController;
     public readonly ROUTE: Router = Router();
     public readonly ROUTE_PREFIX_URL: string = '/';
     public readonly HOME_PAGE_URL: string = '/';
@@ -17,8 +19,8 @@ class HomeRoute implements IRoute {
     }
 
     public initializeControllers(): void {
-        this.ROUTE.get(this.HOME_PAGE_URL, HomeController.homePage);
-        this.ROUTE.get(this.DEFAULT_PAGE_URL, HomeController.defaultPage);
+        this.ROUTE.get(this.HOME_PAGE_URL, this.homeController.homePage);
+        this.ROUTE.get(this.DEFAULT_PAGE_URL, this.homeController.defaultPage);
     }
 }
 

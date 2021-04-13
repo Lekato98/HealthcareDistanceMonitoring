@@ -1,5 +1,7 @@
 import { Request, Response } from 'express';
+import {Injectable} from 'dependency-injection-v1';
 
+@Injectable
 class HomeController {
     public async homePage(req: Request, res: Response): Promise<void> {
         res.render('home');
@@ -10,9 +12,4 @@ class HomeController {
     }
 }
 
-const homeController = new HomeController();
-
-export {
-    homeController,
-}
-export default homeController;
+export default HomeController;

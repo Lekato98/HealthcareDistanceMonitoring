@@ -1,3 +1,3 @@
 import ExpressApp from './app/ExpressApp';
 
-ExpressApp.createServer();
+const expressApp = new ExpressApp();

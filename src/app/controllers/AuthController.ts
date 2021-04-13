@@ -4,12 +4,14 @@ import JWTUtils, { IJWTPayload } from '../utils/JWTUtils';
 import { DocumentType } from '@typegoose/typegoose';
 import { HttpStatusCode } from '../utils/HttpUtils';
 import { UserModelFactory } from '../models/user/UserModelFactory';
+import {Injectable} from 'dependency-injection-v1';
 
 export interface ILogin {
     nationalId: string;
     password: string;
 }
 
+@Injectable
 class AuthController {
     public readonly LOGIN_PAGE = 'login';
     public readonly REGISTER_PAGE = 'register';
@@ -99,9 +101,4 @@ class AuthController {
     }
 }
 
-const authController = new AuthController();
-
-export {
-    authController,
-};
-export default authController;
+export default AuthController;

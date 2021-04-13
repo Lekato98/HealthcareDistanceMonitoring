@@ -1,9 +1,8 @@
+import {Injectable} from 'dependency-injection-v1';
+
+@Injectable
 class HistoryReportController {
 
 }
 
-const historyReportController = new HistoryReportController();
-
-export {
-    historyReportController as HistoryReportController,
-};
+export default HistoryReportController;

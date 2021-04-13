@@ -2,8 +2,12 @@ import { Router } from 'express';
 import AuthController from '../../../controllers/AuthController';
 import IRoute from '../../IRoute';
 import AuthMiddleware from '../../../middlewares/AuthMiddleware';
+import { Inject } from 'dependency-injection-v1';
 
 class AuthApiRoute implements IRoute {
+    @Inject(AuthController) private authController: AuthController;
+    @Inject(AuthMiddleware) private authMiddleware: AuthMiddleware;
+
     public readonly ROUTE: Router = Router();
     public readonly ROUTE_PREFIX_URL: string = '/auth';
     public readonly LOGIN_URL: string = '/login';
@@ -19,9 +23,9 @@ class AuthApiRoute implements IRoute {
     }
 
     public initializeControllers(): void {
-        this.ROUTE.post(this.LOGIN_URL, AuthController.login);
-        this.ROUTE.post(this.REGISTER_URL, AuthController.register);
-        this.ROUTE.get(this.LOGOUT_URL, AuthMiddleware.isAuth, AuthController.logout);
+        this.ROUTE.post(this.LOGIN_URL, this.authController.login);
+        this.ROUTE.post(this.REGISTER_URL, this.authController.register);
+        this.ROUTE.get(this.LOGOUT_URL, this.authMiddleware.isAuth, this.authController.logout);
     }
 }
 

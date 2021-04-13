@@ -1,9 +1,8 @@
+import {Injectable} from 'dependency-injection-v1';
+
+@Injectable
 class ReportController {
 
 }
 
-const reportController = new ReportController();
-
-export {
-    reportController as ReportController,
-};
+export default ReportController;

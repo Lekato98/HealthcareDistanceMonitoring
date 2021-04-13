@@ -1,15 +1,19 @@
 import { Request, Response } from 'express';
 import DailyReportModel, { IDailyReport } from '../../models/reports/daily/DailyReportModel';
 import { HttpStatusCode } from '../../utils/HttpUtils';
+import {Injectable} from 'dependency-injection-v1';
 
+@Injectable
 class DailyReportController {
     /**
      * @route /api/v1/report/daily
      * @request POST
      * */
-    public async submitReport(req: Request, res: Response): Promise<void> { // todo res.locals.jwt.nationalId
+    public async submitReport(req: Request, res: Response): Promise<void> {
         try {
+            const userId = res.locals.jwt._id;
             const payload: IDailyReport = req.body;
+            payload.patient = userId;
             const report = await DailyReportModel.create(payload);
             const body = {success: 1, report};
             res.json(body);
@@ -73,10 +77,22 @@ class DailyReportController {
             res.status(HttpStatusCode.SERVER_ERROR).json(body);
         }
     }
+
+    /**
+     * @route /api/v1/report/daily/user/:userId
+     * @request GET
+     * */
+    public async getUserReports(req: Request, res: Response): Promise<void> {
+        try {
+            const { userId } = req.params;
+            const reports = await DailyReportModel.userReports(userId);
+            const body = {success: 1, reports};
+            res.json(body);
+        } catch (e) {
+            const body = {success: 0, message: e.message};
+            res.status(HttpStatusCode.SERVER_ERROR).json(body);
+        }
+    }
 }
 
-const dailyReportController = new DailyReportController();
-
-export {
-    dailyReportController as DailyReportController,
-};
+export default DailyReportController;

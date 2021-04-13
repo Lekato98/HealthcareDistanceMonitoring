@@ -1,8 +1,12 @@
 import { Router } from 'express';
 import AuthController from '../controllers/AuthController';
 import IRoute from './IRoute';
+import { Inject, Injectable } from 'dependency-injection-v1';
 
+@Injectable
 class AuthRoute implements IRoute {
+    @Inject(AuthController) private authController: AuthController;
+
     public readonly ROUTE: Router = Router();
     public readonly ROUTE_PREFIX_URL: string = '/auth';
     public readonly LOGIN_URL: string = '/login';
@@ -17,11 +21,9 @@ class AuthRoute implements IRoute {
     }
 
     public initializeControllers(): void {
-        this.ROUTE.get(this.LOGIN_URL, AuthController.loginPage);
-        this.ROUTE.get(this.REGISTER_URL, AuthController.loginPage);
+        this.ROUTE.get(this.LOGIN_URL, this.authController.loginPage);
+        this.ROUTE.get(this.REGISTER_URL, this.authController.loginPage);
     }
 }
 
-const authRoute = new AuthRoute();
-
-export default authRoute;
+export default AuthRoute;

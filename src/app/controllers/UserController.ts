@@ -1,20 +1,22 @@
 import { Request, Response } from 'express';
 import UserModel from '../models/user/UserModel';
 import { HttpStatusCode } from '../utils/HttpUtils';
+import {Injectable} from 'dependency-injection-v1';
 
+@Injectable
 class UserController {
     /**
      * @route /user/profile
      * @request GET
      * */
-    public static async userProfilePage(req: Request, res: Response): Promise<void> {
+    public async userProfilePage(req: Request, res: Response): Promise<void> {
         res.render('profile');
     }
 
     /**
      * @route /api/v1/user/:nationalId
      * */
-    public static async getUser(req: Request, res: Response): Promise<void> {
+    public async getUser(req: Request, res: Response): Promise<void> {
         try {
             const {nationalId} = req.params;
             const projection = '-password';
@@ -38,7 +40,7 @@ class UserController {
      * @route /api/v1/user
      * @request PATCH
      * */
-    public static async updateUser(req: Request, res: Response): Promise<void> {
+    public async updateUser(req: Request, res: Response): Promise<void> {
         try {
             const {nationalId} = res.locals.jwt;
             const payload = req.body;
@@ -55,7 +57,7 @@ class UserController {
      * @route /api/v1/user/users?page=
      * @request GET
      * */
-    public static async getUsersByPageNumber(req: Request, res: Response): Promise<void> {
+    public async getUsersByPageNumber(req: Request, res: Response): Promise<void> {
         try {
             const pageNumber = Number(req.query.page) || 1; // 1 for default
             const users = await UserModel.getAll(pageNumber);
@@ -71,7 +73,7 @@ class UserController {
      * @route /api/v1/user
      * @request DELETE
      * */
-    public static async deleteUser(req: Request, res: Response): Promise<void> {
+    public async deleteUser(req: Request, res: Response): Promise<void> {
         try {
             const {nationalId} = res.locals.jwt.nationalId;
             const user = UserModel.deleteOneUser(nationalId);

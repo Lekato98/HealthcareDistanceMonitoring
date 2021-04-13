@@ -9,7 +9,6 @@ import {
 import { getModelForClass, ModelOptions, Pre, Prop, DocumentType } from '@typegoose/typegoose';
 import { Patient } from '../../patient/PatientModel';
 import DailyReportUtils from './DailyReportUtils';
-import UserModel from '../../user/UserModel';
 
 const dailyIdTypeOptions: PropOptionsForString = {
     type: String,
@@ -19,8 +18,9 @@ const dailyIdTypeOptions: PropOptionsForString = {
 };
 
 const patientTypeOptions: BasePropOptions = {
-    type: Number,
-    ref: 'patient',
+    required: true,
+    type: () => Patient,
+    ref: () => Patient,
 };
 
 const headacheTypeOptions: PropOptionsForNumber = {
@@ -119,6 +119,10 @@ class DailyReport {
 
     public static async deleteOneReport(dailyId: string): Promise<any> {
         return DailyReportModel.deleteOne({dailyId});
+    }
+
+    public static async userReports(userId: string): Promise<DocumentType<DailyReport>[]> {
+        return DailyReportModel.find({patient: userId});
     }
 }
 
