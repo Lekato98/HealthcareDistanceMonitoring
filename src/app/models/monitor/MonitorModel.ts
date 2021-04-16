@@ -1,19 +1,31 @@
 import { SchemaOptions } from 'mongoose';
-import { getDiscriminatorModelForClass, ModelOptions, mongoose, Pre, Prop } from '@typegoose/typegoose';
-import { ArrayPropOptions, IModelOptions, PropOptionsForString, Ref } from '@typegoose/typegoose/lib/types';
-import UserModel, { IUser, RoleName, User } from '../user/UserModel';
+import { getModelForClass, ModelOptions, mongoose, Pre, Prop } from '@typegoose/typegoose';
+import {
+    ArrayPropOptions,
+    BasePropOptions,
+    IModelOptions,
+    PropOptionsForString,
+    Ref,
+} from '@typegoose/typegoose/lib/types';
+import { RoleName, User } from '../user/UserModel';
 import { Patient } from '../patient/PatientModel';
 import MonitorModelUtils from './MonitorModelUtils';
 
 const monitorIdTypeOptions: PropOptionsForString = {
     type: String,
-    unique: true,
     required: true,
     trim: true,
 };
 
+const userIdTypeOptions: BasePropOptions = {
+    type: () => String,
+    ref: () => User,
+    required: true,
+    unique: true,
+};
+
 const patientsTypeOptions: ArrayPropOptions = {
-    type: () => [Patient],
+    type: () => [String],
     ref: () => Patient,
 };
 
@@ -30,17 +42,18 @@ const modelOptions: IModelOptions = {
 
 @Pre<HealthcareMonitor>('validate', MonitorModelUtils.preValidate)
 @ModelOptions(modelOptions)
-class HealthcareMonitor extends User {
-    @Prop(monitorIdTypeOptions) monitorId: string;
-    @Prop(patientsTypeOptions) patients: Ref<Patient>[];
+class HealthcareMonitor {
+    @Prop(monitorIdTypeOptions) _id: string;
+    @Prop(patientsTypeOptions) patients: Ref<Patient, string>[];
+    @Prop(userIdTypeOptions) public userId: string;
 }
 
-interface IHealthcareMonitor extends IUser {
-    monitorId: string;
+interface IHealthcareMonitor {
+    _id: string;
     patients?: mongoose.Types.ObjectId[];
 }
 
-const MonitorModel = getDiscriminatorModelForClass(UserModel, HealthcareMonitor);
+const MonitorModel = getModelForClass(HealthcareMonitor);
 
 export {
     HealthcareMonitor,

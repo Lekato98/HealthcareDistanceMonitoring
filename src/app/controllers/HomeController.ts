@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import {Injectable} from 'dependency-injection-v1';
+import { Injectable } from 'dependency-injection-v1';
 
 @Injectable
 class HomeController {

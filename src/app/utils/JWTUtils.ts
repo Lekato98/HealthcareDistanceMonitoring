@@ -1,12 +1,12 @@
 import { CookieOptions } from 'express';
-import mongoose from 'mongoose';
 
 const jwt = require('jsonwebtoken');
 
 export interface IJWTPayload {
-    _id: mongoose.Types.ObjectId,
+    _id: string,
     nationalId: string,
-    role: string,
+    current_role?: string,
+    roleId?: string,
 }
 
 export interface IJWTOptions {

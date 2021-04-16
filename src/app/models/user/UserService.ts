@@ -1,8 +1,47 @@
-import { Injectable } from '../../dependency-injection/dependencyInjection';
+import { DocumentType } from '@typegoose/typegoose';
+import UserModelUtils from './UserModelUtils';
+import UserModel, { IUser, User } from './UserModel';
 
-@Injectable
+const bcrypt = require('bcrypt');
+
 class UserService {
+    public static readonly USERS_LIMIT_PER_PAGE: number = 20; // used for get all users
 
+    public static async createUser(userInfo: IUser): Promise<DocumentType<User>> {
+        const user = new User(userInfo);
+        return UserModel.create(user);
+    }
+
+    public static isValidPassword(password: string, hashedPassword: string): boolean {
+        return bcrypt.compareSync(password, hashedPassword);
+    }
+
+    public static async findByNationalId(nationalId: string, projection: string = ''): Promise<DocumentType<User>> {
+        return UserModel.findOne({nationalId}, projection);
+    }
+
+    public static async patchOne(nationalId: string, payload: object): Promise<any> {
+        const userObject = UserModelUtils.createUserObjectFromObject(payload);
+        return UserModel.updateOne({nationalId}, {...userObject});
+    }
+
+    public static async getAll(pageNumber: number): Promise<DocumentType<User>[]> {
+        const sortStage = {$sort: {createdAt: 1}}; // stage 1 sort by created time
+        const skipStage = {$skip: (pageNumber - 1) * this.USERS_LIMIT_PER_PAGE}; // stage 2 skip previous pages
+        const limitStage = {$limit: this.USERS_LIMIT_PER_PAGE}; // stage 3 limitation users number
+        const projectionStage = {$project: {password: 0, updatedAt: 0}}; // stage 4 remove password from the data
+
+        return UserModel.aggregate([
+            sortStage,
+            skipStage,
+            limitStage,
+            projectionStage,
+        ]);
+    }
+
+    public static async deleteOneUser(nationalId: string) {
+        return UserModel.deleteOne({nationalId});
+    }
 }
 
 export default UserService;

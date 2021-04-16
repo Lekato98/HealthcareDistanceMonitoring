@@ -1,22 +1,9 @@
 import { User } from './UserModel';
 import { IMyObject } from '../../utils/ObjectUtils';
-import PhoneUtils from '../../utils/PhoneUtils';
-import StringUtils from '../../utils/StringUtils';
-
-const bcrypt = require('bcrypt');
 
 class UserModelUtils {
-    public static async preSave(this: User): Promise<void> {
-        const salt = await bcrypt.genSalt(10);
-        this.password = await bcrypt.hash(this.password, salt); // hash password
-        this.phoneNumber = PhoneUtils.formatPhoneNumber(this.phoneNumber); // reformat phone number
-        if (this.homeAddress) {
-            this.homeAddress = StringUtils.capitalize(this.homeAddress); // jordan amman -> Jordan Amman
-        }
-    }
-
     public static createUserObjectFromObject(payload: IMyObject): object {
-        const user = new User(); // todo null create null object of user
+        const user = new User();
         const userObject: IMyObject = {};
         const propertiesToUpdate: string[] = Object.keys(user).filter(item => item in payload); // get only active property
 

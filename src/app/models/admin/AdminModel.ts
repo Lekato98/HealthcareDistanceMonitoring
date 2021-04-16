@@ -5,7 +5,6 @@ import { IModelOptions, PropOptionsForString } from '@typegoose/typegoose/lib/ty
 const adminIdTypeOptions: PropOptionsForString = {
     type: String,
     required: true,
-    unique: true,
     trim: true,
 };
 

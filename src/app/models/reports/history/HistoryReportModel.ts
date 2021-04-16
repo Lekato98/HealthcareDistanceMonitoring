@@ -1,11 +1,6 @@
 import { SchemaOptions } from 'mongoose';
-import { getModelForClass, ModelOptions, mongoose, Prop } from '@typegoose/typegoose';
-import {
-    BasePropOptions,
-    IModelOptions,
-    PropOptionsForString,
-    Ref,
-} from '@typegoose/typegoose/lib/types';
+import { getModelForClass, ModelOptions, Prop } from '@typegoose/typegoose';
+import { BasePropOptions, IModelOptions, PropOptionsForString, Ref } from '@typegoose/typegoose/lib/types';
 import { Patient } from '../../patient/PatientModel';
 
 const reportIdTypeOptions: PropOptionsForString = {
@@ -19,9 +14,9 @@ const reportIdTypeOptions: PropOptionsForString = {
 };
 
 const patientTypeOptions: BasePropOptions = {
-    type: mongoose.Types.ObjectId,
+    type: () => String,
     required: true,
-    ref: 'patient',
+    ref: () => Patient,
 };
 
 const textTypeOptions: PropOptionsForString = {
@@ -45,7 +40,7 @@ const modelOptions: IModelOptions = {
 @ModelOptions(modelOptions)
 class HistoryReport {
     @Prop(reportIdTypeOptions) historyId: string;
-    @Prop(patientTypeOptions) patient: Ref<Patient>;
+    @Prop(patientTypeOptions) patient: Ref<Patient, string>;
     @Prop(textTypeOptions) text: string;
 }
 

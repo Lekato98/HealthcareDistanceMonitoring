@@ -3,7 +3,7 @@ import { HealthcareMonitor } from './MonitorModel';
 
 class MonitorModelUtils {
     public static async preValidate(this: HealthcareMonitor): Promise<void> {
-        this.monitorId = `monitor~${nanoid()}`;
+        this._id = `monitor~${ nanoid() }`;
     }
 }
 

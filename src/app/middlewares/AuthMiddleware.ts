@@ -13,7 +13,6 @@ class AuthMiddleware {
             const token = req.cookies[JWTUtils.JWT_COOKIE_NAME];
             res.locals.jwt = jwt.verify(token, process.env.JWT_SECRET);
         } catch (e) {
-            console.error(`~SetAuth ${e.message}`);
             delete res.locals.jwt;
         } finally {
             next();

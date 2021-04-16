@@ -25,5 +25,5 @@ class ReportApiRoute implements IRoute {
 const reportApiRoute = new ReportApiRoute();
 
 export {
-    reportApiRoute as ReportApiRoute
+    reportApiRoute as ReportApiRoute,
 };

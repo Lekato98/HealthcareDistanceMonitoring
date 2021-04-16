@@ -1,15 +1,20 @@
 import { SchemaOptions } from 'mongoose';
-import { IModelOptions, PropOptionsForString } from '@typegoose/typegoose/lib/types';
-import { getDiscriminatorModelForClass, ModelOptions, Pre, Prop } from '@typegoose/typegoose';
-import UserModel, { IUser, RoleName, User } from '../user/UserModel';
+import { BasePropOptions, IModelOptions, PropOptionsForString } from '@typegoose/typegoose/lib/types';
+import { getModelForClass, ModelOptions, Pre, Prop } from '@typegoose/typegoose';
+import { RoleName, User } from '../user/UserModel';
 import PatientModelUtils from './PatientModelUtils';
-
 
 const patientIdTypeOptions: PropOptionsForString = {
     type: String,
-    unique: true,
     required: true,
     trim: true,
+};
+
+const userIdTypeOptions: BasePropOptions = {
+    type: () => String,
+    ref: () => User,
+    required: true,
+    unique: true,
 };
 
 const schemaOptions: SchemaOptions = {
@@ -25,15 +30,17 @@ const modelOptions: IModelOptions = {
 
 @Pre<Patient>('validate', PatientModelUtils.preValidation)
 @ModelOptions(modelOptions)
-class Patient extends User {
-    @Prop(patientIdTypeOptions) public patientId: string;
+class Patient {
+    @Prop(patientIdTypeOptions) public _id: string;
+    @Prop(userIdTypeOptions) public userId: string;
 }
 
-interface IPatient extends IUser {
-    patientId: string;
+interface IPatient {
+    _id: string;
+    userId?: string;
 }
 
-const PatientModel = getDiscriminatorModelForClass(UserModel, Patient);
+const PatientModel = getModelForClass(Patient);
 
 export {
     Patient,

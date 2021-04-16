@@ -1,14 +1,20 @@
 import { SchemaOptions } from 'mongoose';
-import { IModelOptions, PropOptionsForString } from '@typegoose/typegoose/lib/types';
+import { BasePropOptions, IModelOptions, PropOptionsForString } from '@typegoose/typegoose/lib/types';
 import { getDiscriminatorModelForClass, ModelOptions, Pre, Prop } from '@typegoose/typegoose';
-import UserModel, { IUser, RoleName, User } from '../user/UserModel';
+import UserModel, { RoleName, User } from '../user/UserModel';
 import DoctorModelUtils from './DoctorModelUtils';
 
 const doctorIdTypeOptions: PropOptionsForString = {
     type: String,
     required: true,
-    unique: true,
     trim: true,
+};
+
+const userIdTypeOptions: BasePropOptions = {
+    type: () => String,
+    ref: () => User,
+    required: true,
+    unique: true,
 };
 
 const schemaOptions: SchemaOptions = {
@@ -24,12 +30,14 @@ const modelOptions: IModelOptions = {
 
 @Pre<SpecialDoctor>('validate', DoctorModelUtils.preValidate)
 @ModelOptions(modelOptions)
-class SpecialDoctor extends User {
-    @Prop(doctorIdTypeOptions) public doctorId: string;
+class SpecialDoctor {
+    @Prop(doctorIdTypeOptions) public _id: string;
+    @Prop(userIdTypeOptions) public userId: string;
 }
 
-interface IDoctor extends IUser {
-    doctorId: string;
+interface IDoctor {
+    _id: string;
+    userId?: string;
 }
 
 const DoctorModel = getDiscriminatorModelForClass(UserModel, SpecialDoctor);

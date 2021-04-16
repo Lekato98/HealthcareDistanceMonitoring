@@ -1,10 +1,10 @@
 import { DailyReport } from './DailyReportModel';
 import { nanoid } from 'nanoid';
 
-class DailyReportUtils {
+class DailyReportModelHooks {
     public static preValidate(this: DailyReport) {
-        this.dailyId = `daily~${ nanoid() }`;
+        this._id = `daily~${ nanoid() }`;
     }
 }
 
-export default DailyReportUtils;
+export default DailyReportModelHooks;

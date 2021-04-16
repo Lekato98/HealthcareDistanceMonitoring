@@ -1,4 +1,4 @@
-import {Injectable} from 'dependency-injection-v1';
+import { Injectable } from 'dependency-injection-v1';
 
 @Injectable
 class HistoryReportController {

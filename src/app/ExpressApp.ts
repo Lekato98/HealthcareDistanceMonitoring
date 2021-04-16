@@ -11,6 +11,7 @@ import { Inject } from 'dependency-injection-v1';
 
 const cookieParser = require('cookie-parser');
 const rateLimit = require('express-rate-limit');
+const compression = require('compression');
 
 class ExpressApp {
     public app: Express = express();
@@ -22,10 +23,6 @@ class ExpressApp {
         windowMs: 15 * 60 * 1000, // 15 minutes
         max: 100, // limit each IP to 100 requests per windowMs
     });
-
-    @Inject(AuthMiddleware) private authMiddleware: AuthMiddleware;
-    @Inject(AuthRoute) private authRoute: AuthRoute;
-
     public readonly MIDDLEWARES = [
         bodyParser.json(),
         bodyParser.urlencoded(this.urlencodedOptions),
@@ -33,7 +30,10 @@ class ExpressApp {
         cookieParser(),
         express.json(),
         express.static(this.PUBLIC_FILE_PATH),
+        compression(),
     ];
+    @Inject(AuthMiddleware) private authMiddleware: AuthMiddleware;
+    @Inject(AuthRoute) private authRoute: AuthRoute;
 
     constructor() {
         this.app.listen(this.PORT, () => console.log(`Server listening to ${ this.PORT }`));
@@ -54,7 +54,7 @@ class ExpressApp {
     }
 
     public initializeMiddlewares(): void {
-        this.app.use(this.requestLimiter); // to avoid DDOS attack and spammer
+        this.app.use(this.requestLimiter); // @TOP PRIORITY to avoid DDOS attack and spammer
         this.app.use(this.MIDDLEWARES); // called before any request
         this.app.use(this.authMiddleware.setAuth); // should be called before any request
     }

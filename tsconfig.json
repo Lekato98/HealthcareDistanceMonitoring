@@ -8,7 +8,12 @@
     "strictNullChecks": false,
     "esModuleInterop": true,
     "experimentalDecorators": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "declaration": true,
+    "sourceMap": true,
+    "declarationMap": true,
+    "alwaysStrict": true,
+    "pretty": true
   },
   "include": [
     "src"

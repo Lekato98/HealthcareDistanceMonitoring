@@ -17,8 +17,9 @@ class HistoryReportApiRoute implements IRoute {
     }
 
 }
+
 const historyReportApiRoute = new HistoryReportApiRoute();
 
 export {
-    historyReportApiRoute as HistoryReportApiRoute
+    historyReportApiRoute as HistoryReportApiRoute,
 };

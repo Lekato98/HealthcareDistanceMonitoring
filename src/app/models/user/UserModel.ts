@@ -1,10 +1,8 @@
 import { SchemaOptions } from 'mongoose';
-import { BasePropOptions, IModelOptions, PropOptionsForString } from '@typegoose/typegoose/lib/types';
-import { DocumentType, getModelForClass, Index, ModelOptions, Pre, Prop } from '@typegoose/typegoose';
-import UserModelUtils from './UserModelUtils';
-import PhoneUtils from '../../utils/PhoneUtils';
-
-const bcrypt = require('bcrypt');
+import { ArrayPropOptions, BasePropOptions, IModelOptions, PropOptionsForString } from '@typegoose/typegoose/lib/types';
+import { getModelForClass, Index, ModelOptions, mongoose, Pre, Prop } from '@typegoose/typegoose';
+import UserModelHooks from './UserModelHooks';
+import UserValidator from './UserValidator';
 
 const enum RoleName {
     PATIENT = 'patient',
@@ -18,13 +16,19 @@ const enum Gender {
     OTHER = 'other',
 }
 
+const userIdTypeOptions: PropOptionsForString = {
+    type: String,
+    required: true,
+    trim: true,
+};
+
 const nationalIdTypeOptions: PropOptionsForString = {
     type: String,
     required: true,
     trim: true,
     validate: {
-        validator: (value: string) => value.length === 10, // only 10 chars is allowed
-        message: 'National id should be 10 characters', // todo validate id
+        validator: UserValidator.nationalIdValidator, // only 10 chars is allowed
+        message: 'Invalid national id',
     },
 };
 
@@ -59,14 +63,16 @@ const birthdateTypeOptions: BasePropOptions = {
 
 const homeAddressTypeOptions: PropOptionsForString = {
     type: String,
+    required: true,
     trim: true,
 };
 
 const phoneNumberTypeOptions: PropOptionsForString = {
     type: String,
+    required: true,
     trim: true,
     validate: {
-        validator: PhoneUtils.validatePhoneNumber,
+        validator: UserValidator.phoneNumberValidator,
         message: 'Invalid phone number',
     },
 };
@@ -79,16 +85,18 @@ const passwordTypeOptions: PropOptionsForString = {
     minlength: [6, 'Too short Password'],
 };
 
-const roleTypeOptions: PropOptionsForString = {
-    type: String,
-    required: true,
-    trim: true,
-    enum: [RoleName.PATIENT, RoleName.DOCTOR, RoleName.MONITOR],
+const rolesTypeOptions: ArrayPropOptions = {
+    type: [mongoose.Schema.Types.Mixed],
+    validate: {
+        validator: UserValidator.rolesValidator,
+        message: 'Unknown role',
+    },
+    default: [RoleName.PATIENT],
 };
 
 const schemaOptions: SchemaOptions = {
     timestamps: true,
-    discriminatorKey: 'role', // used in inheritance as collection name for the childes
+    discriminatorKey: '', // used in inheritance as collection name for the childes
 };
 
 const modelOptions: IModelOptions = {
@@ -98,81 +106,52 @@ const modelOptions: IModelOptions = {
     },
 };
 
-@Pre<User>('save', UserModelUtils.preSave)
+@Pre<User>('validate', UserModelHooks.preValidate)
+@Pre<User>('save', UserModelHooks.preSave)
 @Index({nationalId: 1}, {unique: true})
 @ModelOptions(modelOptions)
 class User {
-    @Prop(roleTypeOptions) public role!: string;
+    @Prop(userIdTypeOptions) public _id!: string;
     @Prop(nationalIdTypeOptions) public nationalId!: string;
     @Prop(passwordTypeOptions) public password!: string;
     @Prop(firstNameTypeOptions) public firstName!: string;
     @Prop(lastNameTypeOptions) public lastName!: string;
     @Prop(genderTypeOptions) public gender!: string;
     @Prop(birthdateTypeOptions) public birthdate!: Date;
-    @Prop(homeAddressTypeOptions) public homeAddress?: string;
-    @Prop(phoneNumberTypeOptions) public phoneNumber?: string;
+    @Prop(homeAddressTypeOptions) public homeAddress!: string;
+    @Prop(phoneNumberTypeOptions) public phoneNumber!: string;
+    @Prop(rolesTypeOptions) public roles?: string[];
 
-    constructor() {
+    constructor(user?: IUser) {
         // null object
-        this.password = '';
-        this.firstName = '';
-        this.lastName = '';
-        this.gender = '';
-        this.birthdate = new Date();
-        this.homeAddress = '';
-        this.phoneNumber = '';
-    }
-
-    public static readonly USERS_LIMIT_PER_PAGE: number = 20; // used for get all users
-
-    public static isValidPassword(password: string, hashedPassword: string): boolean {
-        return bcrypt.compareSync(password, hashedPassword);
-    }
-
-    public static async findByNationalId(nationalId: string, projection: string = ''): Promise<DocumentType<User>> {
-        return UserModel.findOne({nationalId}, projection);
-    }
-
-    public static async patchOne(nationalId: string, payload: object): Promise<any> {
-        const userObject = UserModelUtils.createUserObjectFromObject(payload);
-        return UserModel.updateOne({nationalId}, {...userObject});
-    }
-
-    public static async getAll(pageNumber: number): Promise<DocumentType<User>[]> {
-        const sortStage = {$sort: {createdAt: 1}}; // stage 1 sort by created time
-        const skipStage = {$skip: (pageNumber - 1) * this.USERS_LIMIT_PER_PAGE}; // stage 2 skip previous pages
-        const limitStage = {$limit: User.USERS_LIMIT_PER_PAGE}; // stage 3 limitation users number
-        const projectionStage = {$project: {password: 0, updatedAt: 0}}; // stage 4 remove password from the data
-
-        return UserModel.aggregate([
-            sortStage,
-            skipStage,
-            limitStage,
-            projectionStage,
-        ]);
-    }
-
-    public static async deleteOneUser(nationalId: string) {
-        return UserModel.deleteOne({nationalId});
+        this.nationalId = user?.nationalId || '';
+        this.password = user?.password || '';
+        this.firstName = user?.firstName || '';
+        this.lastName = user?.lastName || '';
+        this.gender = user?.gender || '';
+        this.birthdate = user?.birthdate || new Date();
+        this.homeAddress = user?.homeAddress || '';
+        this.phoneNumber = user?.phoneNumber || '';
     }
 }
 
 interface IUser {
-    role: RoleName;
+    _id?: string;
     nationalId: string;
     firstName: string;
     lastName: string;
     gender: Gender;
     birthdate: Date;
-    homeAddress?: string;
-    phoneNumber?: string;
+    homeAddress: string;
+    phoneNumber: string;
     password: string;
+    roles?: string[];
 }
 
 const UserModel = getModelForClass(User);
 
-UserModel.createIndexes().catch(err => {
-    console.log(err);
+UserModel.createIndexes().catch((err) => {
+    console.error(err);
     process.exit(0);
 });
 
