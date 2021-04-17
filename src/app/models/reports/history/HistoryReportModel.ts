@@ -1,7 +1,7 @@
 import { SchemaOptions } from 'mongoose';
 import { getModelForClass, ModelOptions, Prop } from '@typegoose/typegoose';
 import { BasePropOptions, IModelOptions, PropOptionsForString, Ref } from '@typegoose/typegoose/lib/types';
-import { Patient } from '../../patient/PatientModel';
+import { Patient } from '../../roles/patient/PatientModel';
 
 const reportIdTypeOptions: PropOptionsForString = {
     type: String,

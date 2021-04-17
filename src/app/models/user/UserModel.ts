@@ -48,6 +48,14 @@ const lastNameTypeOptions: PropOptionsForString = {
     minlength: [1, 'Too short Last Name'],
 };
 
+const emailTypeOptions: PropOptionsForString = {
+    type: String,
+    required: true,
+    trim: true,
+    lowercase: true,
+    unique: true,
+};
+
 const genderTypeOptions: PropOptionsForString = {
     type: String,
     required: true,
@@ -91,7 +99,6 @@ const rolesTypeOptions: ArrayPropOptions = {
         validator: UserValidator.rolesValidator,
         message: 'Unknown role',
     },
-    default: [RoleName.PATIENT],
 };
 
 const schemaOptions: SchemaOptions = {
@@ -113,6 +120,7 @@ const modelOptions: IModelOptions = {
 class User {
     @Prop(userIdTypeOptions) public _id!: string;
     @Prop(nationalIdTypeOptions) public nationalId!: string;
+    @Prop(emailTypeOptions) public email!: string;
     @Prop(passwordTypeOptions) public password!: string;
     @Prop(firstNameTypeOptions) public firstName!: string;
     @Prop(lastNameTypeOptions) public lastName!: string;
@@ -125,6 +133,7 @@ class User {
     constructor(user?: IUser) {
         // null object
         this.nationalId = user?.nationalId || '';
+        this.email = user?.email || '';
         this.password = user?.password || '';
         this.firstName = user?.firstName || '';
         this.lastName = user?.lastName || '';
@@ -138,6 +147,7 @@ class User {
 interface IUser {
     _id?: string;
     nationalId: string;
+    email: string;
     firstName: string;
     lastName: string;
     gender: Gender;

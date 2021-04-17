@@ -7,9 +7,10 @@ import {
     PropOptionsForString,
     Ref,
 } from '@typegoose/typegoose/lib/types';
-import { RoleName, User } from '../user/UserModel';
+import { RoleName, User } from '../../user/UserModel';
 import { Patient } from '../patient/PatientModel';
 import MonitorModelUtils from './MonitorModelUtils';
+import IRole from '../IRole';
 
 const monitorIdTypeOptions: PropOptionsForString = {
     type: String,
@@ -22,6 +23,12 @@ const userIdTypeOptions: BasePropOptions = {
     ref: () => User,
     required: true,
     unique: true,
+};
+
+const activeTypeOptions: BasePropOptions = {
+    type: Boolean,
+    required: true,
+    default: false,
 };
 
 const patientsTypeOptions: ArrayPropOptions = {
@@ -42,15 +49,23 @@ const modelOptions: IModelOptions = {
 
 @Pre<HealthcareMonitor>('validate', MonitorModelUtils.preValidate)
 @ModelOptions(modelOptions)
-class HealthcareMonitor {
+class HealthcareMonitor implements IRole {
     @Prop(monitorIdTypeOptions) _id: string;
     @Prop(patientsTypeOptions) patients: Ref<Patient, string>[];
     @Prop(userIdTypeOptions) public userId: string;
+    @Prop(activeTypeOptions) public active: boolean;
+
+    constructor(payload: IRole) {
+        if (payload) {
+            this.userId = payload.userId;
+            this.active = false;
+        }
+    }
 }
 
-interface IHealthcareMonitor {
+interface IHealthcareMonitor extends IRole {
     _id: string;
-    patients?: mongoose.Types.ObjectId[];
+    patients?: string[];
 }
 
 const MonitorModel = getModelForClass(HealthcareMonitor);

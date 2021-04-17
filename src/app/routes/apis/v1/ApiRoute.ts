@@ -3,6 +3,7 @@ import AuthApiRoute from './AuthApiRoute';
 import IRoute from '../../IRoute';
 import { UserApiRoute } from './UserApiRoute';
 import { ReportApiRoute } from './report/ReportApiRoute';
+import RoleApiRoute from './roles/RoleApiRoute';
 
 class ApiRoute implements IRoute {
     public readonly ROUTE: Router = Router();
@@ -20,6 +21,7 @@ class ApiRoute implements IRoute {
         this.ROUTE.use(AuthApiRoute.ROUTE_PREFIX_URL, AuthApiRoute.ROUTE); // /auth
         this.ROUTE.use(UserApiRoute.ROUTE_PREFIX_URL, UserApiRoute.ROUTE); // /user
         this.ROUTE.use(ReportApiRoute.ROUTE_PREFIX_URL, ReportApiRoute.ROUTE); // /report
+        this.ROUTE.use(RoleApiRoute.ROUTE_PREFIX_URL, RoleApiRoute.ROUTE); // /role
     }
 }
 

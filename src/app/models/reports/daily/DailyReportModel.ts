@@ -7,7 +7,7 @@ import {
     Ref,
 } from '@typegoose/typegoose/lib/types';
 import { getModelForClass, ModelOptions, Pre, Prop } from '@typegoose/typegoose';
-import { Patient } from '../../patient/PatientModel';
+import { Patient } from '../../roles/patient/PatientModel';
 import DailyReportModelHooks from './DailyReportModelHooks';
 
 const dailyIdTypeOptions: PropOptionsForString = {

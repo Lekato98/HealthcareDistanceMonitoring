@@ -1,8 +1,9 @@
 import { SchemaOptions } from 'mongoose';
 import { BasePropOptions, IModelOptions, PropOptionsForString } from '@typegoose/typegoose/lib/types';
 import { getModelForClass, ModelOptions, Pre, Prop } from '@typegoose/typegoose';
-import { RoleName, User } from '../user/UserModel';
+import { RoleName, User } from '../../user/UserModel';
 import PatientModelUtils from './PatientModelUtils';
+import IRole from '../IRole';
 
 const patientIdTypeOptions: PropOptionsForString = {
     type: String,
@@ -15,6 +16,12 @@ const userIdTypeOptions: BasePropOptions = {
     ref: () => User,
     required: true,
     unique: true,
+};
+
+const activeTypeOptions: BasePropOptions = {
+    type: Boolean,
+    required: true,
+    default: true,
 };
 
 const schemaOptions: SchemaOptions = {
@@ -30,20 +37,23 @@ const modelOptions: IModelOptions = {
 
 @Pre<Patient>('validate', PatientModelUtils.preValidation)
 @ModelOptions(modelOptions)
-class Patient {
+export class Patient implements IRole {
     @Prop(patientIdTypeOptions) public _id: string;
     @Prop(userIdTypeOptions) public userId: string;
+    @Prop(activeTypeOptions) public active: boolean;
+
+    constructor(payload: IRole) {
+        if (payload) {
+            this.userId = payload.userId;
+            this.active = true;
+        }
+    }
 }
 
-interface IPatient {
+export interface IPatient extends IRole {
     _id: string;
-    userId?: string;
 }
 
 const PatientModel = getModelForClass(Patient);
 
-export {
-    Patient,
-    IPatient,
-};
 export default PatientModel;

@@ -1,6 +1,6 @@
 import IRoute from './IRoute';
 import { Router } from 'express';
-import UserController from '../controllers/UserController';
+import UserController from '../controllers/user/UserController';
 import { Inject } from 'dependency-injection-v1';
 
 class UserRoute implements IRoute {

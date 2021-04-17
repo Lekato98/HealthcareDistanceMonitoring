@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import { HttpStatusCode } from '../utils/HttpUtils';
+import { HttpStatusCode } from '../../utils/HttpUtils';
 import { Injectable } from 'dependency-injection-v1';
-import UserService from '../models/user/UserService';
+import UserService from '../../models/user/UserService';
 
 @Injectable
 class UserController { // todo check why this is undefined

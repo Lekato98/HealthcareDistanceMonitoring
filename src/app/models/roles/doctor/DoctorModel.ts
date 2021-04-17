@@ -1,8 +1,9 @@
 import { SchemaOptions } from 'mongoose';
 import { BasePropOptions, IModelOptions, PropOptionsForString } from '@typegoose/typegoose/lib/types';
-import { getDiscriminatorModelForClass, ModelOptions, Pre, Prop } from '@typegoose/typegoose';
-import UserModel, { RoleName, User } from '../user/UserModel';
+import { getDiscriminatorModelForClass, getModelForClass, ModelOptions, Pre, Prop } from '@typegoose/typegoose';
+import UserModel, { RoleName, User } from '../../user/UserModel';
 import DoctorModelUtils from './DoctorModelUtils';
+import IRole from '../IRole';
 
 const doctorIdTypeOptions: PropOptionsForString = {
     type: String,
@@ -15,6 +16,12 @@ const userIdTypeOptions: BasePropOptions = {
     ref: () => User,
     required: true,
     unique: true,
+};
+
+const activeTypeOptions: BasePropOptions = {
+    type: Boolean,
+    required: true,
+    default: false,
 };
 
 const schemaOptions: SchemaOptions = {
@@ -30,17 +37,24 @@ const modelOptions: IModelOptions = {
 
 @Pre<SpecialDoctor>('validate', DoctorModelUtils.preValidate)
 @ModelOptions(modelOptions)
-class SpecialDoctor {
+class SpecialDoctor implements IRole {
     @Prop(doctorIdTypeOptions) public _id: string;
     @Prop(userIdTypeOptions) public userId: string;
+    @Prop(activeTypeOptions) public active: boolean;
+
+    constructor(payload?: IRole) {
+        if (payload) {
+            this.userId = payload.userId;
+            this.active = false;
+        }
+    }
 }
 
-interface IDoctor {
+interface IDoctor extends IRole {
     _id: string;
-    userId?: string;
 }
 
-const DoctorModel = getDiscriminatorModelForClass(UserModel, SpecialDoctor);
+const DoctorModel = getModelForClass(SpecialDoctor);
 
 export {
     SpecialDoctor,

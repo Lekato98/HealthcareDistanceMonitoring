@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import HomeController from '../controllers/HomeController';
+import HomeController from '../controllers/home/HomeController';
 import IRoute from './IRoute';
 import { Inject, Injectable } from 'dependency-injection-v1';
 

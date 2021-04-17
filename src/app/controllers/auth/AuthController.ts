@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
-import { IUser, User } from '../models/user/UserModel';
-import JWTUtils, { IJWTPayload } from '../utils/JWTUtils';
+import { IUser, User } from '../../models/user/UserModel';
+import JWTUtils, { IJWTPayload } from '../../utils/JWTUtils';
 import { DocumentType } from '@typegoose/typegoose';
-import { HttpStatusCode } from '../utils/HttpUtils';
+import { HttpStatusCode } from '../../utils/HttpUtils';
 import { Injectable } from 'dependency-injection-v1';
-import UserService from '../models/user/UserService';
+import UserService from '../../models/user/UserService';
 
 export interface ILogin {
     nationalId: string;

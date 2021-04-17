@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import AuthController from '../controllers/AuthController';
+import AuthController from '../controllers/auth/AuthController';
 import IRoute from './IRoute';
 import { Inject, Injectable } from 'dependency-injection-v1';
 
