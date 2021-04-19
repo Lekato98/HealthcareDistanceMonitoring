@@ -75,8 +75,8 @@ class UserController { // todo check why this is undefined
      * */
     public async deleteUser(req: Request, res: Response): Promise<void> {
         try {
-            const {nationalId} = res.locals.jwt.nationalId;
-            const user = await UserService.deleteOneUser(nationalId);
+            const {_id} = res.locals.jwt;
+            const user = await UserService.deleteOneUser(_id);
             const body = {success: 1, user};
             res.json(body);
         } catch (e) {

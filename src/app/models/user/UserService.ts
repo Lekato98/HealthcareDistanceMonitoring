@@ -1,14 +1,15 @@
 import { DocumentType } from '@typegoose/typegoose';
 import UserModelUtils from './UserModelUtils';
 import UserModel, { IUser, User } from './UserModel';
+import RoleService from '../roles/RoleService';
 
 const bcrypt = require('bcrypt');
 
 class UserService {
     public static readonly USERS_LIMIT_PER_PAGE: number = 20; // used for get all users
 
-    public static async createUser(userInfo: IUser): Promise<DocumentType<User>> {
-        const user = new User(userInfo);
+    public static async createUser(payload: IUser): Promise<DocumentType<User>> {
+        const user = new User(payload);
         return UserModel.create(user);
     }
 
@@ -39,8 +40,10 @@ class UserService {
         ]);
     }
 
-    public static async deleteOneUser(nationalId: string) {
-        return UserModel.deleteOne({nationalId});
+    public static async deleteOneUser(userId: string) {
+        const roles = RoleService.deleteAllRoles(userId);
+        const user = UserModel.findOneAndDelete({_id: userId});
+        return Promise.all([user, roles]);
     }
 }
 

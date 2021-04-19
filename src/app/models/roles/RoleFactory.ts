@@ -1,29 +1,26 @@
 import { RoleName } from '../user/UserModel';
 import IRole from './IRole';
-import MonitorModel, { HealthcareMonitor } from './monitor/MonitorModel';
-import DoctorModel, { SpecialDoctor } from './doctor/DoctorModel';
-import PatientModel, { Patient } from './patient/PatientModel';
-import { DocumentType } from '@typegoose/typegoose';
+import { Monitor } from './monitor/MonitorModel';
+import { Doctor } from './doctor/DoctorModel';
+import { Patient } from './patient/PatientModel';
 
 class RoleFactory {
-    public static create(roleName: RoleName, payload: IRole): DocumentType<IRole> {
+    public static create(roleName: string, payload: IRole): IRole {
         switch (roleName) {
             case RoleName.MONITOR:
-                const monitor = new HealthcareMonitor(payload);
-                return new MonitorModel(monitor);
+                return new Monitor(payload);
 
             case RoleName.DOCTOR:
-                const doctor = new SpecialDoctor(payload);
-                return new DoctorModel(doctor);
+                return new Doctor(payload);
 
             case RoleName.PATIENT:
-                const patient = new Patient(payload);
-                return new PatientModel(patient);
+                return new Patient(payload);
 
             default:
                 throw new Error('Trying to create unknown role');
         }
     }
+
 }
 
 export default RoleFactory;

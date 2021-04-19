@@ -15,11 +15,9 @@ export interface IJWTOptions {
 
 abstract class JWTUtils {
     public static readonly JWT_COOKIE_NAME = 'jwt';
-    public static readonly JWT_OPTIONS: IJWTOptions = {
-        expiresIn: '1h',
-    };
+    public static readonly JWT_OPTIONS: IJWTOptions = {expiresIn: '1h'};
     public static readonly JWT_COOKIE_OPTIONS: CookieOptions = {
-        maxAge: 60 * 60 * 60,
+        maxAge: 60 * 60 * 60 * 1000,
         httpOnly: true,
     };
 

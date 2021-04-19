@@ -26,7 +26,7 @@ class DailyReportService {
     }
 
     public static async deleteOneReport(dailyId: string): Promise<any> {
-        return DailyReportModel.deleteOne({dailyId});
+        return DailyReportModel.findOneAndDelete({dailyId});
     }
 
     public static async getReportsByUserId(userId: string): Promise<DocumentType<DailyReport>[]> {

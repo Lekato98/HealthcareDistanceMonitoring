@@ -3,7 +3,7 @@ import { BasePropOptions, IModelOptions, PropOptionsForString } from '@typegoose
 import { getDiscriminatorModelForClass, getModelForClass, ModelOptions, Pre, Prop } from '@typegoose/typegoose';
 import UserModel, { RoleName, User } from '../../user/UserModel';
 import DoctorModelUtils from './DoctorModelUtils';
-import IRole from '../IRole';
+import IRole, { Status } from '../IRole';
 
 const doctorIdTypeOptions: PropOptionsForString = {
     type: String,
@@ -24,6 +24,15 @@ const activeTypeOptions: BasePropOptions = {
     default: false,
 };
 
+const statusTypeOptions: PropOptionsForString = {
+    type: String,
+    required: true,
+    trim: true,
+    lowercase: true,
+    enum: [Status.ACCEPTED, Status.PENDING, Status.REJECTED],
+    default: Status.PENDING,
+};
+
 const schemaOptions: SchemaOptions = {
     timestamps: true,
 };
@@ -35,17 +44,17 @@ const modelOptions: IModelOptions = {
     },
 };
 
-@Pre<SpecialDoctor>('validate', DoctorModelUtils.preValidate)
+@Pre<Doctor>('validate', DoctorModelUtils.preValidate)
 @ModelOptions(modelOptions)
-class SpecialDoctor implements IRole {
+class Doctor implements IRole {
     @Prop(doctorIdTypeOptions) public _id: string;
     @Prop(userIdTypeOptions) public userId: string;
     @Prop(activeTypeOptions) public active: boolean;
+    @Prop(statusTypeOptions) public status: string;
 
     constructor(payload?: IRole) {
         if (payload) {
             this.userId = payload.userId;
-            this.active = false;
         }
     }
 }
@@ -54,10 +63,10 @@ interface IDoctor extends IRole {
     _id: string;
 }
 
-const DoctorModel = getModelForClass(SpecialDoctor);
+const DoctorModel = getModelForClass(Doctor);
 
 export {
-    SpecialDoctor,
+    Doctor,
     IDoctor,
 };
 export default DoctorModel;

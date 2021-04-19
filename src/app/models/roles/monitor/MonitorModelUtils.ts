@@ -1,8 +1,8 @@
 import { nanoid } from 'nanoid';
-import { HealthcareMonitor } from './MonitorModel';
+import { Monitor } from './MonitorModel';
 
 class MonitorModelUtils {
-    public static async preValidate(this: HealthcareMonitor): Promise<void> {
+    public static async preValidate(this: Monitor): Promise<void> {
         this._id = `monitor~${ nanoid() }`;
     }
 }

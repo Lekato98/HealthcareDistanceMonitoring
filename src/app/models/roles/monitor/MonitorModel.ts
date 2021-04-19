@@ -10,7 +10,7 @@ import {
 import { RoleName, User } from '../../user/UserModel';
 import { Patient } from '../patient/PatientModel';
 import MonitorModelUtils from './MonitorModelUtils';
-import IRole from '../IRole';
+import IRole, { Status } from '../IRole';
 
 const monitorIdTypeOptions: PropOptionsForString = {
     type: String,
@@ -36,6 +36,15 @@ const patientsTypeOptions: ArrayPropOptions = {
     ref: () => Patient,
 };
 
+const statusTypeOptions: PropOptionsForString = {
+    type: String,
+    required: true,
+    trim: true,
+    lowercase: true,
+    enum: [Status.ACCEPTED, Status.PENDING, Status.REJECTED],
+    default: Status.PENDING,
+};
+
 const schemaOptions: SchemaOptions = {
     timestamps: true,
 };
@@ -47,31 +56,31 @@ const modelOptions: IModelOptions = {
     },
 };
 
-@Pre<HealthcareMonitor>('validate', MonitorModelUtils.preValidate)
+@Pre<Monitor>('validate', MonitorModelUtils.preValidate)
 @ModelOptions(modelOptions)
-class HealthcareMonitor implements IRole {
+class Monitor implements IRole {
     @Prop(monitorIdTypeOptions) _id: string;
     @Prop(patientsTypeOptions) patients: Ref<Patient, string>[];
     @Prop(userIdTypeOptions) public userId: string;
     @Prop(activeTypeOptions) public active: boolean;
+    @Prop(statusTypeOptions) public status: string;
 
     constructor(payload: IRole) {
         if (payload) {
             this.userId = payload.userId;
-            this.active = false;
         }
     }
 }
 
-interface IHealthcareMonitor extends IRole {
+interface IMonitor extends IRole {
     _id: string;
     patients?: string[];
 }
 
-const MonitorModel = getModelForClass(HealthcareMonitor);
+const MonitorModel = getModelForClass(Monitor);
 
 export {
-    HealthcareMonitor,
-    IHealthcareMonitor,
+    Monitor,
+    IMonitor,
 };
 export default MonitorModel;

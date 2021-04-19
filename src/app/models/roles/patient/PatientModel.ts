@@ -3,7 +3,7 @@ import { BasePropOptions, IModelOptions, PropOptionsForString } from '@typegoose
 import { getModelForClass, ModelOptions, Pre, Prop } from '@typegoose/typegoose';
 import { RoleName, User } from '../../user/UserModel';
 import PatientModelUtils from './PatientModelUtils';
-import IRole from '../IRole';
+import IRole, { Status } from '../IRole';
 
 const patientIdTypeOptions: PropOptionsForString = {
     type: String,
@@ -24,6 +24,15 @@ const activeTypeOptions: BasePropOptions = {
     default: true,
 };
 
+const statusTypeOptions: PropOptionsForString = {
+    type: String,
+    required: true,
+    trim: true,
+    lowercase: true,
+    enum: [Status.ACCEPTED, Status.PENDING, Status.REJECTED],
+    default: Status.ACCEPTED,
+};
+
 const schemaOptions: SchemaOptions = {
     timestamps: true,
 };
@@ -41,11 +50,11 @@ export class Patient implements IRole {
     @Prop(patientIdTypeOptions) public _id: string;
     @Prop(userIdTypeOptions) public userId: string;
     @Prop(activeTypeOptions) public active: boolean;
+    @Prop(statusTypeOptions) public status: string;
 
     constructor(payload: IRole) {
         if (payload) {
             this.userId = payload.userId;
-            this.active = true;
         }
     }
 }
