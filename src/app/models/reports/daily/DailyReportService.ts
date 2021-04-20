@@ -11,7 +11,7 @@ class DailyReportService {
     }
 
     public static async findReportByDailyId(dailyId: string, projection: string = ''): Promise<DocumentType<DailyReport>> {
-        return DailyReportModel.findOne({dailyId}, projection);
+        return DailyReportModel.findOne({_id: dailyId}, projection);
     }
 
     public static async getAll(pageNumber: number): Promise<DocumentType<DailyReport>[]> {
