@@ -3,6 +3,7 @@ import JWTUtils from '../utils/JWTUtils';
 import { HttpStatusCode } from '../utils/HttpUtils';
 import { Injectable } from 'dependency-injection-v1';
 import UserService from '../models/user/UserService';
+import AuthenticationUtils from '../utils/AuthenticationUtils';
 
 const jwt = require('jsonwebtoken');
 
@@ -19,8 +20,11 @@ class AuthMiddleware {
 
             if (user && user._id === decodedToken._id && user.nationalId === decodedToken.nationalId) {
                 res.locals.jwt = decodedToken;
+            } else {
+                AuthenticationUtils.removeAuthCookies(res);
             }
         } catch (e) {
+            AuthenticationUtils.removeAuthCookies(res);
             delete res.locals.jwt;
         } finally {
             next();

@@ -27,3 +27,5 @@ const reportApiRoute = new ReportApiRoute();
 export {
     reportApiRoute as ReportApiRoute,
 };
+
+export default reportApiRoute;

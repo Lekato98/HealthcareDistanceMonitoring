@@ -8,7 +8,7 @@ class UserRoute implements IRoute {
 
     public readonly ROUTE: Router = Router();
     public readonly ROUTE_PREFIX_URL: string = '/profile';
-    public readonly PROFILE_PAGE_URL: string = '/';
+    public readonly PROFILE_PAGE_URL: string = '/:nationalId';
 
     constructor() {
         this.initialize();

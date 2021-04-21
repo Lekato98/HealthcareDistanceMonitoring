@@ -13,7 +13,6 @@ const enum RoleName {
 const enum Gender {
     MALE = 'male',
     FEMALE = 'female',
-    OTHER = 'other',
 }
 
 const userIdTypeOptions: PropOptionsForString = {
@@ -61,7 +60,7 @@ const genderTypeOptions: PropOptionsForString = {
     required: true,
     lowercase: true,
     trim: true,
-    enum: [Gender.MALE, Gender.FEMALE, Gender.OTHER],
+    enum: [Gender.MALE, Gender.FEMALE],
 };
 
 const birthdateTypeOptions: BasePropOptions = {

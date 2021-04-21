@@ -4,13 +4,31 @@ import { Injectable } from 'dependency-injection-v1';
 import UserService from '../../models/user/UserService';
 
 @Injectable
-class UserController { // todo check why this is undefined
+class UserController {
     /**
-     * @route /user/profile
+     * @route /profile/:nationalId
      * @request GET
      * */
     public async userProfilePage(req: Request, res: Response): Promise<void> {
-        res.render('profile');
+        try {
+            const {nationalId} = req.params;
+            const user = await UserService.findByNationalId(nationalId);
+            res.render('profile', {user});
+        } catch (e) {
+            res.status(HttpStatusCode.SERVER_ERROR).send('Server Error');
+        }
+    }
+
+    public async registrationPage(req: Request, res: Response): Promise<void> {
+        try {
+            if (res.locals.jwt) {
+                res.redirect('/');
+            } else {
+                res.render('registration');
+            }
+        } catch (e) {
+            res.status(HttpStatusCode.SERVER_ERROR).send('Server Error');
+        }
     }
 
     /**

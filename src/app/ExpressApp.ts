@@ -8,6 +8,7 @@ import ApiRoute from './routes/apis/v1/ApiRoute';
 import AuthRoute from './routes/AuthRoute';
 import AuthMiddleware from './middlewares/AuthMiddleware';
 import { Inject } from 'dependency-injection-v1';
+import UserRoute from './routes/UserRoute';
 
 const cookieParser = require('cookie-parser');
 const rateLimit = require('express-rate-limit');
@@ -33,7 +34,6 @@ class ExpressApp {
         compression(),
     ];
     @Inject(AuthMiddleware) private authMiddleware: AuthMiddleware;
-    @Inject(AuthRoute) private authRoute: AuthRoute;
 
     constructor() {
         this.app.listen(this.PORT, () => console.log(`Server listening to ${ this.PORT }`));
@@ -61,7 +61,8 @@ class ExpressApp {
 
     public initializeRoutes(): void {
         this.app.use(ApiRoute.ROUTE_PREFIX_URL, ApiRoute.ROUTE); // /api/v1 @api version 1
-        this.app.use(this.authRoute.ROUTE_PREFIX_URL, this.authRoute.ROUTE); // /auth @auth
+        this.app.use(AuthRoute.ROUTE_PREFIX_URL, AuthRoute.ROUTE); // /auth @auth
+        this.app.use(UserRoute.ROUTE_PREFIX_URL, UserRoute.ROUTE);
         this.app.use(HomeRoute.ROUTE_PREFIX_URL, HomeRoute.ROUTE); // / @default
     }
 }

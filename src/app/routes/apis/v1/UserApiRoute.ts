@@ -36,3 +36,5 @@ const userApiRoute = new UserApiRoute();
 export {
     userApiRoute as UserApiRoute,
 };
+
+export default userApiRoute;

@@ -5,6 +5,7 @@ import { DocumentType } from '@typegoose/typegoose';
 import { HttpStatusCode } from '../../utils/HttpUtils';
 import { Injectable } from 'dependency-injection-v1';
 import UserService from '../../models/user/UserService';
+import AuthenticationUtils from '../../utils/AuthenticationUtils';
 
 export interface ILogin {
     nationalId: string;
@@ -14,7 +15,6 @@ export interface ILogin {
 @Injectable
 class AuthController {
     public readonly LOGIN_PAGE = 'login';
-    public readonly REGISTER_PAGE = 'register';
 
     /**
      * @route /auth/login
@@ -27,7 +27,7 @@ class AuthController {
      * @route /auth/register
      * */
     public async registerPage(req: Request, res: Response): Promise<void> {
-        res.render(this.REGISTER_PAGE);
+        res.render('registration');
     }
 
     /**
@@ -41,10 +41,10 @@ class AuthController {
 
             if (user) {
                 if (UserService.isValidPassword(loginInformation.password, user.password)) {
-                    const payload: IJWTPayload = {_id: user._id, nationalId: user.nationalId};
-                    const token = JWTUtils.createToken(payload);
-                    res.cookie(JWTUtils.JWT_COOKIE_NAME, token, JWTUtils.JWT_COOKIE_OPTIONS); // set token in cookies
-                    const body = {success: 1, token};
+                    const jwtPayload: IJWTPayload = {_id: user._id, nationalId: user.nationalId};
+                    AuthenticationUtils.setAuthCookies(res, jwtPayload);
+
+                    const body = {success: 1, user};
                     res.json(body);
                 } else {
                     const body = {success: 0, message: 'Invalid password'};
@@ -69,15 +69,15 @@ class AuthController {
      * */
     public async register(req: Request, res: Response): Promise<void> {
         try {
+            console.log('test')
             const userInfo: IUser = req.body;
             const user = await UserService.createUser(userInfo);
 
             // create and set token in cookie
-            const payload: IJWTPayload = {_id: user._id, nationalId: user.nationalId}; // token payload
-            const token = JWTUtils.createToken(payload); // create JWT token
-            res.cookie(JWTUtils.JWT_COOKIE_NAME, token, JWTUtils.JWT_COOKIE_OPTIONS); // set token in cookies
+            const jwtPayload: IJWTPayload = {_id: user._id, nationalId: user.nationalId}; // token payload
+            AuthenticationUtils.setAuthCookies(res, jwtPayload);
 
-            const body = {success: 1, token};
+            const body = {success: 1, user};
             res.json(body);
         } catch (e) {
             const body = {success: 0, message: e.message};
