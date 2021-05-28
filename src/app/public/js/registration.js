@@ -85,7 +85,7 @@ function handleSignInClickAction(e) {
 window.getCookie = (name) => {
     const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
     if (match) return match[2];
-}
+};
 
 // if logged in redirect
 window.getCookie('isLoggedIn') && (window.location.href = '/');

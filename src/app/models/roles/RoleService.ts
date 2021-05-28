@@ -2,6 +2,8 @@ import { DocumentType } from '@typegoose/typegoose';
 import IRole, { Status } from './IRole';
 import RoleFactory from './RoleFactory';
 import RoleUtils from './RoleUtils';
+import { QueryUpdateOptions } from 'mongoose';
+import { ACTIVE, INACTIVE } from '../../helpers/constants';
 
 class RoleService {
     public static readonly USER_PROJECTION = '-password -createdAt -updatedAt -__v';
@@ -24,12 +26,12 @@ class RoleService {
 
     public static async getActiveByRoleName(roleName: string): Promise<DocumentType<IRole>[]> {
         const roleModel = RoleUtils.getModelByRoleName(roleName);
-        return roleModel.find({active: true}).populate('userId', this.USER_PROJECTION);
+        return roleModel.find({active: ACTIVE}).populate('userId', this.USER_PROJECTION);
     }
 
     public static async getInActiveByRoleName(roleName: string): Promise<DocumentType<IRole>[]> {
         const roleModel = RoleUtils.getModelByRoleName(roleName);
-        return roleModel.find({active: false}).populate('userId', this.USER_PROJECTION);
+        return roleModel.find({active: INACTIVE}).populate('userId', this.USER_PROJECTION);
     }
 
     public static async getAcceptedByRoleName(roleName: string): Promise<DocumentType<IRole>[]> {
@@ -49,12 +51,40 @@ class RoleService {
 
     public static acceptByRoleName(roleName: string, userId: string): Promise<DocumentType<IRole>> {
         const roleModel = RoleUtils.getModelByRoleName(roleName);
-        return roleModel.updateOne({userId}, {status: Status.ACCEPTED, active: true});
+        const pipeline = [
+            {
+                $set: {
+                    active: ACTIVE,
+                    status: Status.ACCEPTED,
+                },
+            },
+        ];
+
+        const options: QueryUpdateOptions = {
+            runValidators: true,
+            multi: true,
+        };
+
+        return roleModel.updateOne({userId}, pipeline, options);
     }
 
     public static rejectByRoleName(roleName: string, userId: string): Promise<DocumentType<IRole>> {
         const roleModel = RoleUtils.getModelByRoleName(roleName);
-        return roleModel.updateOne({userId}, {status: Status.REJECTED, active: false});
+        const pipeline = [
+            {
+                $set: {
+                    active: INACTIVE,
+                    status: Status.REJECTED,
+                },
+            },
+        ];
+
+        return roleModel.updateOne({userId}, pipeline, {runValidators: true});
+    }
+
+    public static async getUserRole(roleName: string, userId: string): Promise<DocumentType<IRole>> {
+        const roleModel = RoleUtils.getModelByRoleName(roleName);
+        return await roleModel.findOne({userId});
     }
 }
 

@@ -1,16 +1,17 @@
 import { SchemaOptions } from 'mongoose';
 import { ArrayPropOptions, BasePropOptions, IModelOptions, PropOptionsForString } from '@typegoose/typegoose/lib/types';
-import { getModelForClass, Index, ModelOptions, mongoose, Pre, Prop } from '@typegoose/typegoose';
-import UserModelHooks from './UserModelHooks';
+import { getModelForClass, Index, ModelOptions, mongoose, Prop, Severity } from '@typegoose/typegoose';
 import UserValidator from './UserValidator';
+import { UNIQUE } from '../../helpers/constants';
 
-const enum RoleName {
+export const enum RoleName {
     PATIENT = 'patient',
     MONITOR = 'monitor',
     DOCTOR = 'doctor',
+    NO_ROLE = 'no role',
 }
 
-const enum Gender {
+export const enum Gender {
     MALE = 'male',
     FEMALE = 'female',
 }
@@ -19,6 +20,7 @@ const userIdTypeOptions: PropOptionsForString = {
     type: String,
     required: true,
     trim: true,
+    immutable: true,
 };
 
 const nationalIdTypeOptions: PropOptionsForString = {
@@ -26,7 +28,7 @@ const nationalIdTypeOptions: PropOptionsForString = {
     required: true,
     trim: true,
     validate: {
-        validator: UserValidator.nationalIdValidator, // only 10 chars is allowed
+        validator: UserValidator.nationalIdValidator,
         message: 'Invalid national id',
     },
 };
@@ -93,7 +95,7 @@ const passwordTypeOptions: PropOptionsForString = {
 };
 
 const rolesTypeOptions: ArrayPropOptions = {
-    type: [mongoose.Schema.Types.Mixed],
+    type: mongoose.Schema.Types.Mixed,
     validate: {
         validator: UserValidator.rolesValidator,
         message: 'Unknown role',
@@ -109,14 +111,13 @@ const modelOptions: IModelOptions = {
     schemaOptions,
     options: {
         customName: 'user',
+        allowMixed: Severity.ALLOW,
     },
 };
 
-@Pre<User>('validate', UserModelHooks.preValidate)
-@Pre<User>('save', UserModelHooks.preSave)
-@Index({nationalId: 1}, {unique: true})
+@Index({nationalId: 1}, {unique: UNIQUE})
 @ModelOptions(modelOptions)
-class User {
+export class User {
     @Prop(userIdTypeOptions) public _id!: string;
     @Prop(nationalIdTypeOptions) public nationalId!: string;
     @Prop(emailTypeOptions) public email!: string;
@@ -143,7 +144,7 @@ class User {
     }
 }
 
-interface IUser {
+export interface IUser {
     _id?: string;
     nationalId: string;
     email: string;
@@ -164,10 +165,6 @@ UserModel.createIndexes().catch((err) => {
     process.exit(0);
 });
 
-export {
-    User,
-    IUser,
-    RoleName,
-    Gender,
-};
+export type roleType = RoleName.DOCTOR | RoleName.MONITOR | RoleName.PATIENT | RoleName.NO_ROLE | undefined;
+
 export default UserModel;

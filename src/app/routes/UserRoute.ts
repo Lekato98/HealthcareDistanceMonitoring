@@ -15,7 +15,12 @@ class UserRoute implements IRoute {
     }
 
     public initialize(): void {
+        this.initializeMiddlewares();
         this.initializeControllers();
+    }
+
+    public initializeMiddlewares(): void {
+        // this.ROUTE.use();
     }
 
     public initializeControllers(): void {

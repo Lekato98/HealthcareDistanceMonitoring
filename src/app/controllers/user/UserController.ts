@@ -12,7 +12,8 @@ class UserController {
     public async userProfilePage(req: Request, res: Response): Promise<void> {
         try {
             const {nationalId} = req.params;
-            const user = await UserService.findByNationalId(nationalId);
+            const projection = '-password';
+            const user = await UserService.findByNationalId(nationalId, projection);
             res.render('profile', {user});
         } catch (e) {
             res.status(HttpStatusCode.SERVER_ERROR).send('Server Error');
@@ -21,7 +22,7 @@ class UserController {
 
     public async registrationPage(req: Request, res: Response): Promise<void> {
         try {
-            if (res.locals.jwt) {
+            if (req.app.locals.jwt) {
                 res.redirect('/');
             } else {
                 res.render('registration');
@@ -60,7 +61,7 @@ class UserController {
      * */
     public async updateUser(req: Request, res: Response): Promise<void> {
         try {
-            const {nationalId} = res.locals.jwt;
+            const {nationalId} = req.app.locals.jwt;
             const payload = req.body;
             const user = await UserService.patchOne(nationalId, payload);
             const body = {success: 1, user};
@@ -93,7 +94,7 @@ class UserController {
      * */
     public async deleteUser(req: Request, res: Response): Promise<void> {
         try {
-            const {_id} = res.locals.jwt;
+            const {_id} = req.app.locals.jwt;
             const user = await UserService.deleteOneUser(_id);
             const body = {success: 1, user};
             res.json(body);

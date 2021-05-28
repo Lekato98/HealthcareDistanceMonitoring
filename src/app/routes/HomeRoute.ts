@@ -10,6 +10,7 @@ class HomeRoute implements IRoute {
     public readonly ROUTE: Router = Router();
     public readonly ROUTE_PREFIX_URL: string = '/';
     public readonly HOME_PAGE_URL: string = '/';
+    public readonly ADMIN_PAGE_URL: string = '/admin';
     public readonly DEFAULT_PAGE_URL: string = '/**';
 
     constructor() {
@@ -17,11 +18,17 @@ class HomeRoute implements IRoute {
     }
 
     public initialize(): void {
+        this.initializeMiddleWares();
         this.initializeControllers();
+    }
+
+    public initializeMiddleWares(): void {
+        // this.ROUTE.use();
     }
 
     public initializeControllers(): void {
         this.ROUTE.get(this.HOME_PAGE_URL, HomeRoute.homeController.homePage);
+        this.ROUTE.get(this.ADMIN_PAGE_URL, HomeRoute.homeController.adminPage);
         this.ROUTE.get(this.DEFAULT_PAGE_URL, HomeRoute.homeController.defaultPage);
     }
 }

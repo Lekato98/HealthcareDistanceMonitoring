@@ -1,5 +1,5 @@
 import { SchemaOptions } from 'mongoose';
-import { getModelForClass, ModelOptions, mongoose, Pre, Prop } from '@typegoose/typegoose';
+import { getModelForClass, ModelOptions, Pre, Prop } from '@typegoose/typegoose';
 import {
     ArrayPropOptions,
     BasePropOptions,
@@ -65,8 +65,9 @@ class Monitor implements IRole {
     @Prop(activeTypeOptions) public active: boolean;
     @Prop(statusTypeOptions) public status: string;
 
-    constructor(payload: IRole) {
+    constructor(payload?: IRole) {
         if (payload) {
+            this._id = payload._id;
             this.userId = payload.userId;
         }
     }

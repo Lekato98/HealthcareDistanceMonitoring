@@ -3,6 +3,7 @@ import IRoute from '../../../IRoute';
 import DailyReportController from '../../../../controllers/report/DailyReportController';
 import AuthMiddleware from '../../../../middlewares/AuthMiddleware';
 import { Inject } from 'dependency-injection-v1';
+import PatientMiddleware from '../../../../middlewares/PatientMiddleware';
 
 class DailyReportApiRoute implements IRoute {
     public readonly ROUTE: Router = Router();
@@ -14,6 +15,7 @@ class DailyReportApiRoute implements IRoute {
     public readonly GET_REPORTS = '/reports';
     public readonly GET_USER_REPORTS_BY_NATIONAL_ID = '/user/national/:nationalId';
     @Inject(AuthMiddleware) private readonly authMiddleware: AuthMiddleware;
+    @Inject(PatientMiddleware) private readonly patientMiddleware: PatientMiddleware;
     @Inject(DailyReportController) private readonly dailyReportController: DailyReportController;
 
     constructor() {
@@ -21,7 +23,12 @@ class DailyReportApiRoute implements IRoute {
     }
 
     public initialize(): void {
+        this.initializeMiddlewares();
         this.initializeControllers();
+    }
+
+    public initializeMiddlewares() {
+        this.ROUTE.use(this.patientMiddleware.isDailyReportAvailable);
     }
 
     public initializeControllers(): void {

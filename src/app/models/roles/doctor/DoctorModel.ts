@@ -1,7 +1,7 @@
 import { SchemaOptions } from 'mongoose';
 import { BasePropOptions, IModelOptions, PropOptionsForString } from '@typegoose/typegoose/lib/types';
-import { getDiscriminatorModelForClass, getModelForClass, ModelOptions, Pre, Prop } from '@typegoose/typegoose';
-import UserModel, { RoleName, User } from '../../user/UserModel';
+import { getModelForClass, ModelOptions, Pre, Prop } from '@typegoose/typegoose';
+import { RoleName, User } from '../../user/UserModel';
 import DoctorModelUtils from './DoctorModelUtils';
 import IRole, { Status } from '../IRole';
 

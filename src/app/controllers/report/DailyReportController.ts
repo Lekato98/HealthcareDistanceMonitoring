@@ -12,7 +12,7 @@ class DailyReportController {
      * */
     public async submitReport(req: Request, res: Response): Promise<void> {
         try {
-            const userId = res.locals.jwt._id;
+            const userId = req.app.locals.jwt._id;
             const payload: IDailyReport = {...req.body, userId};
             const report = await DailyReportService.createReport(payload);
             const body = {success: 1, report};

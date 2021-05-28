@@ -2,7 +2,7 @@ import { RoleName } from './UserModel';
 import PhoneUtils from '../../utils/PhoneUtils';
 
 class UserValidator {
-    public static jordanNationalIdRegex = /^([9][0-9]{2}[12][0][0-9]{5})|([2][0]{2}[0-9]{7})$/;
+    public static readonly jordanNationalIdRegex = /^([9][0-9]{2}[12][0][0-9]{5})|([2][0]{2}[0-9]{7})$/;
 
     public static nationalIdValidator(value: string): boolean {
         return !!value.match(UserValidator.jordanNationalIdRegex);

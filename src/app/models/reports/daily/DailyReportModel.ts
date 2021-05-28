@@ -69,11 +69,6 @@ const positiveContactTypeOptions: BasePropOptions = {
     required: true,
 };
 
-const exCovidContactTypeOptions: BasePropOptions = {
-    type: Boolean,
-    required: true,
-};
-
 const schemaOptions: SchemaOptions = {
     timestamps: true,
 };
@@ -97,7 +92,6 @@ class DailyReport {
     @Prop(fatigueTypeOptions) fatigue: number;
     @Prop(shortnessOfBreathTypeOptions) shortnessOfBreath: number;
     @Prop(positiveContactTypeOptions) positiveContact: boolean;
-    @Prop(exCovidContactTypeOptions) exCovid: boolean;
 
     constructor(report?: DailyReport) {
         this.userId = report?.userId || null;
@@ -108,7 +102,6 @@ class DailyReport {
         this.fatigue = report?.fatigue || 0;
         this.shortnessOfBreath = report?.shortnessOfBreath || 0;
         this.positiveContact = report?.positiveContact || false;
-        this.exCovid = report?.exCovid || false;
     }
 }
 
@@ -122,7 +115,6 @@ interface IDailyReport {
     fatigue: number;
     shortnessOfBreath: number;
     positiveContact: boolean;
-    exCovid: boolean;
 }
 
 const DailyReportModel = getModelForClass(DailyReport);

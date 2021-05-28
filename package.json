@@ -13,12 +13,11 @@
   "dependencies": {
     "@typegoose/typegoose": "^7.4.2",
     "bcrypt": "^5.0.1",
-    "body-parser": "^1.19.0",
     "compression": "^1.7.4",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "csurf": "^1.11.0",
-    "dependency-injection-v1": "^1.0.4",
+    "dependency-injection-v1": "^1.0.6",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
     "express-rate-limit": "^5.2.6",

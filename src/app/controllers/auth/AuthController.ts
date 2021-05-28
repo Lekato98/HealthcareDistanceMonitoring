@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
-import { IUser, User } from '../../models/user/UserModel';
+import { IUser } from '../../models/user/UserModel';
 import JWTUtils, { IJWTPayload } from '../../utils/JWTUtils';
-import { DocumentType } from '@typegoose/typegoose';
 import { HttpStatusCode } from '../../utils/HttpUtils';
 import { Injectable } from 'dependency-injection-v1';
 import UserService from '../../models/user/UserService';
 import AuthenticationUtils from '../../utils/AuthenticationUtils';
+import { SUCCESS, UNSUCCESSFUL } from '../../helpers/constants';
 
 export interface ILogin {
     nationalId: string;
@@ -14,19 +14,10 @@ export interface ILogin {
 
 @Injectable
 class AuthController {
-    public readonly LOGIN_PAGE = 'login';
-
     /**
-     * @route /auth/login
+     * @route /auth/registration
      * */
-    public loginPage(req: Request, res: Response): void {
-        res.render(this.LOGIN_PAGE);
-    }
-
-    /**
-     * @route /auth/register
-     * */
-    public async registerPage(req: Request, res: Response): Promise<void> {
+    public async registrationPage(req: Request, res: Response): Promise<void> {
         res.render('registration');
     }
 
@@ -36,28 +27,22 @@ class AuthController {
      * */
     public async login(req: Request, res: Response): Promise<void> {
         try {
-            const loginInformation: ILogin = req.body;
-            const user: DocumentType<User> = await UserService.findByNationalId(loginInformation.nationalId);
+            const payload: ILogin = req.body;
+            const user = await UserService.login(payload); // will return falsy value if login is invalid
 
             if (user) {
-                if (UserService.isValidPassword(loginInformation.password, user.password)) {
-                    const jwtPayload: IJWTPayload = {_id: user._id, nationalId: user.nationalId};
-                    AuthenticationUtils.setAuthCookies(res, jwtPayload);
-
-                    const body = {success: 1, user};
-                    res.json(body);
-                } else {
-                    const body = {success: 0, message: 'Invalid password'};
-                    res.status(HttpStatusCode.BAD_REQUEST).json(body);
-                }
+                const jwtPayload: IJWTPayload = {_id: user._id, nationalId: user.nationalId};
+                AuthenticationUtils.setAuthCookies(res, jwtPayload);
+                const body = {success: SUCCESS, user};
+                res.json(body);
             } else {
-                const body = {success: 0, message: 'Invalid national id'};
+                const body = {success: UNSUCCESSFUL, message: 'Invalid login'};
                 res.status(HttpStatusCode.BAD_REQUEST).json(body);
             }
 
         } catch (e) {
             console.error(e);
-            const body = {success: 0, message: e.message};
+            const body = {success: UNSUCCESSFUL, message: e.message};
             res.status(HttpStatusCode.SERVER_ERROR).json(body);
         }
     }
@@ -69,7 +54,6 @@ class AuthController {
      * */
     public async register(req: Request, res: Response): Promise<void> {
         try {
-            console.log('test')
             const userInfo: IUser = req.body;
             const user = await UserService.createUser(userInfo);
 
@@ -77,13 +61,12 @@ class AuthController {
             const jwtPayload: IJWTPayload = {_id: user._id, nationalId: user.nationalId}; // token payload
             AuthenticationUtils.setAuthCookies(res, jwtPayload);
 
-            const body = {success: 1, user};
+            const body = {success: SUCCESS, user};
             res.json(body);
         } catch (e) {
-            const body = {success: 0, message: e.message};
+            const body = {success: UNSUCCESSFUL, message: e.message};
             res.status(HttpStatusCode.SERVER_ERROR).json(body);
         }
-
     }
 
     /**
@@ -93,10 +76,10 @@ class AuthController {
     public logout(req: Request, res: Response): void {
         try {
             res.clearCookie(JWTUtils.JWT_COOKIE_NAME);
-            const body = {success: 1};
+            const body = {success: SUCCESS};
             res.json(body);
         } catch (e) {
-            const body = {success: 0};
+            const body = {success: UNSUCCESSFUL};
             res.status(HttpStatusCode.SERVER_ERROR).json(body);
         }
     }

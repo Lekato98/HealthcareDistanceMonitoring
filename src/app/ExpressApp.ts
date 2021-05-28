@@ -2,7 +2,6 @@ import express, { Express } from 'express';
 import HomeRoute from './routes/HomeRoute';
 import path from 'path';
 import cors from 'cors';
-import bodyParser, { OptionsUrlencoded } from 'body-parser';
 import MongooseService from './services/MongooseService';
 import ApiRoute from './routes/apis/v1/ApiRoute';
 import AuthRoute from './routes/AuthRoute';
@@ -15,24 +14,23 @@ const rateLimit = require('express-rate-limit');
 const compression = require('compression');
 
 class ExpressApp {
-    public app: Express = express();
     public readonly PORT: string = process.env.PORT;
     public readonly PUBLIC_FILE_PATH: string = path.join(__dirname, 'public'); // public folder
     public readonly VIEWS_PATH: string = path.join(__dirname, 'public/views'); // views folder
-    public readonly urlencodedOptions: OptionsUrlencoded = {extended: true};
+    public readonly urlencodedOptions = {extended: true};
     public readonly requestLimiter = rateLimit({
         windowMs: 15 * 60 * 1000, // 15 minutes
         max: 100, // limit each IP to 100 requests per windowMs
     });
     public readonly MIDDLEWARES = [
-        bodyParser.json(),
-        bodyParser.urlencoded(this.urlencodedOptions),
         cors(),
-        cookieParser(),
         express.json(),
+        express.urlencoded(this.urlencodedOptions),
         express.static(this.PUBLIC_FILE_PATH),
+        cookieParser(),
         compression(),
     ];
+    private app: Express = express();
     @Inject(AuthMiddleware) private authMiddleware: AuthMiddleware;
 
     constructor() {
@@ -54,9 +52,14 @@ class ExpressApp {
     }
 
     public initializeMiddlewares(): void {
-        this.app.use(this.requestLimiter); // @TOP PRIORITY to avoid DDOS attack and spammer
-        this.app.use(this.MIDDLEWARES); // called before any request
-        this.app.use(this.authMiddleware.setAuth); // should be called before any request
+        // @TOP PRIORITY to avoid DDOS attack and spammer
+        this.app.use(this.requestLimiter);
+        // called before any request
+        this.app.use(this.MIDDLEWARES);
+        // initialize locals for sharing some data between middlewares and controller
+        this.app.use(this.authMiddleware.setRequestAppLocals);
+        // should be called before any request
+        this.app.use(this.authMiddleware.setAuth);
     }
 
     public initializeRoutes(): void {

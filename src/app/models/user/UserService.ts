@@ -2,6 +2,8 @@ import { DocumentType } from '@typegoose/typegoose';
 import UserModelUtils from './UserModelUtils';
 import UserModel, { IUser, User } from './UserModel';
 import RoleService from '../roles/RoleService';
+import UserModelHooks from './UserModelHooks';
+import { ILogin } from '../../controllers/auth/AuthController';
 
 const bcrypt = require('bcrypt');
 
@@ -10,6 +12,7 @@ class UserService {
 
     public static async createUser(payload: IUser): Promise<DocumentType<User>> {
         const user = new User(payload);
+        await UserModelHooks.preCreation(user);
         return UserModel.create(user);
     }
 
@@ -22,8 +25,8 @@ class UserService {
     }
 
     public static async patchOne(nationalId: string, payload: object): Promise<any> {
-        const userObject = UserModelUtils.createUserObjectFromObject(payload);
-        return UserModel.updateOne({nationalId}, {...userObject});
+        const userObject = UserModelUtils.userObjectForUpdate(payload);
+        return UserModel.updateOne({nationalId}, {...userObject}, {runValidators: true});
     }
 
     public static async getAll(pageNumber: number): Promise<DocumentType<User>[]> {
@@ -44,6 +47,12 @@ class UserService {
         const roles = RoleService.deleteAllRoles(userId);
         const user = UserModel.findOneAndDelete({_id: userId});
         return Promise.all([user, roles]);
+    }
+
+    public static async login(payload: ILogin) {
+        const user = await UserService.findByNationalId(payload.nationalId);
+
+        return user ? UserService.isValidPassword(payload.password, user.password) && user : user;
     }
 }
 
