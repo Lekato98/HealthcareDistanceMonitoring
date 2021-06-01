@@ -29,6 +29,39 @@ class HomeRoute implements IRoute {
     public initializeControllers(): void {
         this.ROUTE.get(this.HOME_PAGE_URL, HomeRoute.homeController.homePage);
         this.ROUTE.get(this.ADMIN_PAGE_URL, HomeRoute.homeController.adminPage);
+
+        this.ROUTE.get('/emergency' , (req ,res) =>{
+           res.render("emergency.ejs");
+        });
+
+
+        this.ROUTE.get('/Monitored-Patients' , (req ,res) =>{
+            res.render("monitorPatients.ejs");
+        });
+        this.ROUTE.get('/questionnaire' , (req ,res) =>{
+            res.render("questionnaire.ejs");
+        });
+        this.ROUTE.get('/allPatients' , (req ,res) =>{
+            res.render("allPatients.ejs");
+        });
+
+        this.ROUTE.get('/reportList' , (req ,res) =>{
+            res.render("reportList.ejs");
+        });
+
+            this.ROUTE.get('/hospitalization' , (req ,res) =>{
+            res.render("hospitalization.ejs");
+        });
+
+        this.ROUTE.get('/editProfile' , (req ,res) =>{
+            res.render("editProfile.ejs");
+        });
+
+        this.ROUTE.get('/coordinator' , (req ,res) =>{
+            res.render("coordinator.ejs");
+        });
+
+
         this.ROUTE.get(this.DEFAULT_PAGE_URL, HomeRoute.homeController.defaultPage);
     }
 }
