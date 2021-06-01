@@ -3,6 +3,7 @@ import { IDailyReport } from '../../models/reports/daily/DailyReportModel';
 import { HttpStatusCode } from '../../utils/HttpUtils';
 import { Injectable } from 'dependency-injection-v1';
 import DailyReportService from '../../models/reports/daily/DailyReportService';
+import PatientService from '../../models/roles/patient/PatientService';
 
 @Injectable
 class DailyReportController {
@@ -15,7 +16,8 @@ class DailyReportController {
             const userId = req.app.locals.jwt._id;
             const payload: IDailyReport = {...req.body, userId};
             const report = await DailyReportService.createReport(payload);
-            const body = {success: 1, report};
+            const patchReport = await PatientService.patchNextReportDate(userId);
+            const body = {success: 1, report, patchReport};
             res.json(body);
         } catch (e) {
             const body = {success: 0, message: e.message};

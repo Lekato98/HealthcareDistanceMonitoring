@@ -8,7 +8,7 @@ export const enum RoleName {
     PATIENT = 'patient',
     MONITOR = 'monitor',
     DOCTOR = 'doctor',
-    NO_ROLE = 'no role',
+    NO_ROLE = 'no-role',
 }
 
 export const enum Gender {
@@ -165,6 +165,6 @@ UserModel.createIndexes().catch((err) => {
     process.exit(0);
 });
 
-export type roleType = RoleName.DOCTOR | RoleName.MONITOR | RoleName.PATIENT | RoleName.NO_ROLE | undefined;
+export type roleType = RoleName | undefined;
 
 export default UserModel;

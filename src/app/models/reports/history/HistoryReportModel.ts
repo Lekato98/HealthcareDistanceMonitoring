@@ -1,29 +1,27 @@
 import { SchemaOptions } from 'mongoose';
-import { getModelForClass, ModelOptions, Prop } from '@typegoose/typegoose';
+import { getModelForClass, ModelOptions, Pre, Prop } from '@typegoose/typegoose';
 import { BasePropOptions, IModelOptions, PropOptionsForString, Ref } from '@typegoose/typegoose/lib/types';
 import { Patient } from '../../roles/patient/PatientModel';
+import HistoryReportModelHooks from './HistoryReportModelHooks';
 
-const reportIdTypeOptions: PropOptionsForString = {
+const historyIdTypeOptions: PropOptionsForString = {
     type: String,
     required: true,
-    unique: true,
-    lowercase: true,
     trim: true,
-    maxlength: [50, 'Too large Patient id'],
-    minlength: [6, 'Too short Patient id'],
 };
 
 const patientTypeOptions: BasePropOptions = {
     type: () => String,
     required: true,
     ref: () => Patient,
+    unique: true,
 };
 
 const textTypeOptions: PropOptionsForString = {
     type: String,
     required: true,
-    min: [10, 'Too short report text'],
-    max: [1000, 'Too large report text'],
+    minlength: [10, 'Too short report text'],
+    maxlength: [1000, 'Too large report text'],
 };
 
 const schemaOptions: SchemaOptions = {
@@ -33,15 +31,30 @@ const schemaOptions: SchemaOptions = {
 const modelOptions: IModelOptions = {
     schemaOptions,
     options: {
-        customName: 'report',
+        customName: 'history_report',
     },
 };
 
+@Pre<HistoryReport>('validate', HistoryReportModelHooks.preValidate)
 @ModelOptions(modelOptions)
-class HistoryReport {
-    @Prop(reportIdTypeOptions) historyId: string;
+export class HistoryReport {
+    @Prop(historyIdTypeOptions) _id: string;
     @Prop(patientTypeOptions) patient: Ref<Patient, string>;
     @Prop(textTypeOptions) text: string;
+
+    constructor(payload: IHistory) {
+        if (payload.patient) {
+            this.patient = payload.patient;
+        }
+
+        this.text = payload.text;
+    }
+}
+
+export interface IHistory {
+    _id?: string;
+    patient: string;
+    text: string;
 }
 
 const HistoryReportModel = getModelForClass(HistoryReport);

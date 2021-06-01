@@ -1,8 +1,9 @@
 import mongoose from 'mongoose';
+import { config } from '../../config/config';
 
 abstract class MongooseService {
     public static db: typeof mongoose;
-    public static readonly MONGODB_URI: string = process.env.MONGODB_URI;
+    public static readonly MONGODB_URI: string = config.MONGODB_URI;
 
     public static async connect(): Promise<void> {
         const connectionOptions = {

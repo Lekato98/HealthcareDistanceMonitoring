@@ -2,17 +2,17 @@ import { Injectable } from 'dependency-injection-v1';
 import { NextFunction, Request, Response } from 'express';
 import { UNSUCCESSFUL } from '../helpers/constants';
 import { HttpStatusCode } from '../utils/HttpUtils';
-import PatientService from '../models/roles/patient/PatientService';
+import MonitorService from '../models/roles/monitor/MonitorService';
 
 @Injectable
-class PatientMiddleware {
-    public static async isPatient(req: Request, res: Response, next: NextFunction): Promise<void> {
+class MonitorMiddleware {
+    public static async isMonitor(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
             const userId: string = req.app.locals.jwt._id;
-            if (await PatientService.isExistByUserId(userId)) {
+            if (await MonitorService.isExistByUserId(userId)) {
                 next();
             } else {
-                const body = {success: UNSUCCESSFUL, message: 'Invalid action, looks like you are not a patient!'};
+                const body = {success: UNSUCCESSFUL, message: 'Invalid action, looks like you are not a monitor!'};
                 res.status(HttpStatusCode.FORBIDDEN).json(body);
             }
         } catch (e) {
@@ -22,4 +22,4 @@ class PatientMiddleware {
     }
 }
 
-export default PatientMiddleware;
+export default MonitorMiddleware;

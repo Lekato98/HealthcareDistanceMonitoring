@@ -23,6 +23,7 @@ class AuthMiddleware {
                 req.app.locals.jwt = decodedToken;
             } else {
                 AuthenticationUtils.removeAuthCookies(res);
+                delete req.app.locals.jwt;
             }
         } catch (e) {
             AuthenticationUtils.removeAuthCookies(res);
