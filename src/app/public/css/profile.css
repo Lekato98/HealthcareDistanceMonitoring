@@ -6,27 +6,7 @@ body {
 
 .navbar-brand {
     padding-left: 15%;
-    font-size: 1.8rem;
-    display: inline-block;
 }
-
-.logo {
-    background: url("../../../../../../Desktop/GP2/GP#2/images/favicon.ico");
-    height: 1.2rem;
-    width: 1.2rem;
-    display: inline-block;
-    background-size: contain;
-    padding-right: 10px;
-}
-
-.ul-nav {
-    padding-right: 11%;
-}
-
-.nav-ico {
-    margin-top: 10px;
-}
-
 /*body*/
 .container {
     background: aliceblue;
@@ -38,7 +18,7 @@ body {
 
 .emp-profile {
     padding: 3%;
-    margin-top: 3%;
+    margin-top: 7%;
     margin-bottom: 3%;
     border-radius: 0.5rem;
     background: aliceblue;
@@ -51,7 +31,7 @@ body {
 .profile-img img {
     width: 200px;
     height: 200px;
-    border-radius: 100%;
+    /*border-radius: 100%;*/
 }
 
 .profile-img .file {
@@ -147,9 +127,3 @@ body {
     font-weight: 600;
     color: #0062cc;
 }
-
-/*.pro-img{*/
-/*    width: 150px;*/
-/*    height: 150px;*/
-/*    border-radius: 50%;*/
-/*}*/

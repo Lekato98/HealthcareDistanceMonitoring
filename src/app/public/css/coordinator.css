@@ -1,13 +1,21 @@
-body{
+body {
     margin:0;
     padding:0;
     font-family: 'Montserrat', sans-serif;
 }
 
 .navbar-brand{
-    margin-left:14% ;
+    margin-left: 14%;
 }
 
+.heading{
+    margin-top: 50px;
+    margin-left:15% ;
+}
+
+.paraHeading{
+    margin-left:15% ;
+}
 /*home page content */
 
 .home-page-content {
@@ -31,67 +39,40 @@ body{
     width: 100%;
 }
 
-
-/* features */
-
-#Features{
-    padding: 1% 10%;
-}
-
-.Features-item-l{
-    text-align: center;
-    background-color:#f0f8ff;
-    padding: 2%;
-
-}
-
-.Features-item-r{
-    text-align: center;
-    background-color:#D7ECFF;
-    padding: 2%;
-}
-
-.icon {
-    margin-bottom: 10px;
-    color: black;
-}
 /*more*/
-#more{
-    margin: 5% 15%;
+#patients-list{
+    padding: 1% 9%;
+    margin-top: 70px;
+}
+.patients-list-text{
+    margin-top: 5%;
 }
 
-.more-img{
-    width: 100%;
-    height: 100%;
+.table-container{
+    margin: 7% 4%;
 }
 
-.first-more-img{
-    width:100%;
-    height: 100%;
-
+.table{
+    border-collapse: collapse;
+}
+.table td,.table th {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+.table td{
+    font-size: 16px;
+}
+.table th {
+    background-color: darkblue;
+    color: #FFFFFF;
+    font-size: 20px;
 }
 
-.main-text{
-    size:5.25rem;
+.table tbody tr:nth-child(even){
+    background-color: #f5f5f5;
 }
 
-.firstPara{
-    margin-bottom:5%;
-}
-.secondPara{
-    margin-top:5%;
-}
-.HrLine{
-    border-style:dotted none none;
-    border-width: 10px;
-    background: none;
-    width: 20%;
-    border-color:#807676;
-}
-.info{
-    line-height: 2;
-    font-size: 1.1rem;
-}
 /* testimonials */
 
 #testimonials{
@@ -103,7 +84,7 @@ body{
 }
 
 .carousel-item{
-    padding: 4% 15%  0;
+    padding: 4% 15%  7%;
 }
 .light{
     font-weight: 300;
@@ -138,6 +119,10 @@ body{
     display: flex;
     align-items: center;
     justify-content: center;
+    position: static;
+    bottom: 50px;
+    left: 35%;
+
 }
 
 .sm a{
@@ -179,7 +164,6 @@ body{
     border-bottom: 4px solid;
     transform:skewy(-20deg) ;
 }
-
 
 .serv-btn {
     -webkit-border-radius: 20px;
@@ -223,16 +207,12 @@ body{
     }
 }
 
-.j-animate{
+.j-animate {
+
     margin: 10px;
 }
 
-
-
-
 /*Questionnaire Page*/
-
-
 
 .questionnaire-body{
     background-color: #b18821;
