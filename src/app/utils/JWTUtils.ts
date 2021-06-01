@@ -1,5 +1,6 @@
 import { CookieOptions } from 'express';
 import { RoleName, roleType } from '../models/user/UserModel';
+import { config } from '../../config/config';
 
 const jwt = require('jsonwebtoken');
 
@@ -29,9 +30,9 @@ export class JWTPayload implements IJWTPayload {
 }
 
 abstract class JWTUtils {
-    public static readonly JWT_SECRET = process.env.JWT_SECRET;
+    public static readonly JWT_SECRET = config.JWT_SECRET;
     public static readonly JWT_COOKIE_NAME = 'jwt';
-    public static readonly JWT_OPTIONS: IJWTOptions = {expiresIn: '1h'};
+    public static readonly JWT_OPTIONS: IJWTOptions = {expiresIn: '1d'};
     public static readonly JWT_COOKIE_OPTIONS: CookieOptions = {
         maxAge: 60 * 60 * 60 * 1000,
         httpOnly: true,

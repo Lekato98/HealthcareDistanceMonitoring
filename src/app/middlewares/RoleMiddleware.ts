@@ -5,18 +5,6 @@ import { HttpStatusCode } from '../utils/HttpUtils';
 
 @Injectable
 class RoleMiddleware {
-    public isPatient(req: Request, res: Response, next: NextFunction): void {
-
-    }
-
-    public isMonitor(req: Request, res: Response, next: NextFunction): void {
-
-    }
-
-    public isDoctor(req: Request, res: Response, next: NextFunction): void {
-
-    }
-
     public async isValidRole(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
 

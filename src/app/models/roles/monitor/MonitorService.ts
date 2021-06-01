@@ -14,6 +14,14 @@ class MonitorService {
     public static async deleteOneByUserId(userId: string): Promise<DocumentType<Monitor>> {
         return MonitorModel.findOneAndDelete({userId});
     }
+
+    public static async findMonitorByUserId(userId: string): Promise<DocumentType<Monitor>> {
+        return MonitorModel.findOne({userId});
+    }
+
+    public static async isExistByUserId(userId: string): Promise<boolean> {
+        return MonitorModel.exists({userId});
+    }
 }
 
 export default MonitorService;

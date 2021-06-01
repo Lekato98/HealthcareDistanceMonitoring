@@ -8,13 +8,14 @@ import AuthRoute from './routes/AuthRoute';
 import AuthMiddleware from './middlewares/AuthMiddleware';
 import { Inject } from 'dependency-injection-v1';
 import UserRoute from './routes/UserRoute';
+import { config } from '../config/config';
 
 const cookieParser = require('cookie-parser');
 const rateLimit = require('express-rate-limit');
 const compression = require('compression');
 
 class ExpressApp {
-    public readonly PORT: string = process.env.PORT;
+    public readonly PORT: string = config.PORT;
     public readonly PUBLIC_FILE_PATH: string = path.join(__dirname, 'public'); // public folder
     public readonly VIEWS_PATH: string = path.join(__dirname, 'public/views'); // views folder
     public readonly urlencodedOptions = {extended: true};
