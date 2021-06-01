@@ -26,6 +26,7 @@ class RoleApiRoute implements IRoute {
     }
 
     public initialize(): void {
+        this.initializeMiddlewares();
         this.initializeControllers();
     }
 

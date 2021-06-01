@@ -28,6 +28,6 @@ class UserRoute implements IRoute {
     }
 }
 
-const profileRoute = new UserRoute();
+const userRoute = new UserRoute();
 
-export default profileRoute;
+export default userRoute;

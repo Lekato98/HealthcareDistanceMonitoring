@@ -17,7 +17,7 @@ class ReportApiRoute implements IRoute {
 
     public initializeRoutes(): void {
         this.ROUTE.use(DailyReportApiRoute.ROUTE_PREFIX_URL, DailyReportApiRoute.ROUTE);
-        this.ROUTE.use(HistoryReportApiRoute.ROUTE_PREFIX_URL, DailyReportApiRoute.ROUTE);
+        this.ROUTE.use(HistoryReportApiRoute.ROUTE_PREFIX_URL, HistoryReportApiRoute.ROUTE);
     }
 
 }

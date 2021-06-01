@@ -14,6 +14,14 @@ class DoctorService {
     public static async deleteOneByUserId(userId: string): Promise<DocumentType<Doctor>> {
         return DoctorModel.findOneAndDelete({userId});
     }
+
+    public static async findDoctorByUserId(userId: string): Promise<DocumentType<Doctor>> {
+        return DoctorModel.findOne({userId});
+    }
+
+    public static async isExistByUserId(userId: string): Promise<boolean> {
+        return DoctorModel.exists({userId});
+    }
 }
 
 export default DoctorService;

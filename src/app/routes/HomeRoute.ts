@@ -5,7 +5,7 @@ import { Inject, Injectable } from 'dependency-injection-v1';
 
 @Injectable
 class HomeRoute implements IRoute {
-    @Inject(HomeController) private static homeController: HomeController;
+    @Inject(HomeController) private homeController: HomeController;
 
     public readonly ROUTE: Router = Router();
     public readonly ROUTE_PREFIX_URL: string = '/';
@@ -27,9 +27,9 @@ class HomeRoute implements IRoute {
     }
 
     public initializeControllers(): void {
-        this.ROUTE.get(this.HOME_PAGE_URL, HomeRoute.homeController.homePage);
-        this.ROUTE.get(this.ADMIN_PAGE_URL, HomeRoute.homeController.adminPage);
-        this.ROUTE.get(this.DEFAULT_PAGE_URL, HomeRoute.homeController.defaultPage);
+        this.ROUTE.get(this.HOME_PAGE_URL, this.homeController.homePage);
+        this.ROUTE.get(this.ADMIN_PAGE_URL, this.homeController.adminPage);
+        this.ROUTE.get(this.DEFAULT_PAGE_URL, this.homeController.defaultPage);
     }
 }
 

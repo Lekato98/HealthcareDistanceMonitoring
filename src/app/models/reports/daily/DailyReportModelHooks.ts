@@ -3,7 +3,9 @@ import { nanoid } from 'nanoid';
 
 class DailyReportModelHooks {
     public static preValidate(this: DailyReport) {
-        this._id = `daily~${ nanoid() }`;
+        if (!this._id) {
+            this._id = `daily~${ nanoid() }`;
+        }
     }
 }
 
