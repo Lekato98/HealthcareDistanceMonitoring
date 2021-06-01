@@ -54,7 +54,7 @@ class ExpressApp {
 
     public initializeMiddlewares(): void {
         // @TOP PRIORITY to avoid DDOS attack and spammer
-        // this.app.use(this.requestLimiter);
+        this.app.use(this.requestLimiter);
         // called before any request
         this.app.use(this.MIDDLEWARES);
         // initialize locals for sharing some data between middlewares and controller
