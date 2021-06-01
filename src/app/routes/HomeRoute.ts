@@ -29,7 +29,6 @@ class HomeRoute implements IRoute {
     public initializeControllers(): void {
         this.ROUTE.get(this.HOME_PAGE_URL, this.homeController.homePage);
         this.ROUTE.get(this.ADMIN_PAGE_URL, this.homeController.adminPage);
-        this.ROUTE.get(this.DEFAULT_PAGE_URL, this.homeController.defaultPage);
 
         this.ROUTE.get('/emergency' , (req ,res) =>{
             res.render("emergency.ejs");
@@ -61,6 +60,7 @@ class HomeRoute implements IRoute {
         this.ROUTE.get('/coordinator' , (req ,res) =>{
             res.render("coordinator.ejs");
         });
+        this.ROUTE.get(this.DEFAULT_PAGE_URL, this.homeController.defaultPage);
     }
 }
 
