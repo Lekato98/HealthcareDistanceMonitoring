@@ -13,31 +13,31 @@
 <%-include('./partials/navbar.ejs')%>
 
 <div class="testbox">
-    <form action="/">
+    <form id="edit-profile">
         <h2 class="header" >Edit Profile</h2>
         <div class="item">
             <p>Name</p>
             <div class="name-item">
-                <input type="text" name="name" placeholder="First"/>
-                <input type="text" name="name" placeholder="Last"/>
+                <input type="text" name="firstName" placeholder="First" value=""/>
+                <input type="text" name="lastName" placeholder="Last"/>
             </div>
         </div>
         <div class="item">
             <p>Phone</p>
-            <input type="text" name="name"/>
+            <input type="text" name="phoneNumber"/>
         </div>
         <div class="item">
             <p>Birthdate</p>
-            <input type="date" name="bdate"/>
+            <input type="date" name="birthdate"/>
             <i class="fas fa-calendar-alt"></i>
         </div>
         <div class="item">
             <p>Email</p>
-            <input type="text" name="name"/>
+            <input type="text" name="email"/>
         </div>
         <div class="item">
             <p>Address</p>
-            <input type="text" name="name" placeholder="Home address" />
+            <input type="text" name="homeAddress" placeholder="Home address" />
         </div>
 
         <button class="btn-block" type="submit">save Changes</button>
@@ -55,6 +55,6 @@
 </footer>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
-<script src="../js/editProfile.js.js" ></script>
+<script src="../js/editProfile.js" ></script>
 </body>
 </html>

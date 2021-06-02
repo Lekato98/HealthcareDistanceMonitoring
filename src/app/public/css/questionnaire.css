@@ -127,28 +127,6 @@ body {
     color: white;
 }
 
-.form .button {
-    font: inherit;
-    line-height: normal;
-    cursor: pointer;
-    background: #E8474C;
-    color: white;
-    font-weight: bold;
-    width: auto;
-    margin-left: auto;
-    font-weight: bold;
-    padding-left: 2em;
-    padding-right: 2em;
-}
-.form .button:hover, .form .button:focus, .form .button:active {
-    color: white;
-    border-color: white;
-}
-.form .button:active {
-    position: relative;
-    top: 1px;
-    left: 1px;
-}
 
 body {
     padding: 2em;
@@ -156,7 +134,7 @@ body {
 
 .form {
     max-width: 40em;
-    margin: 0 auto;
+    margin: 0 15%;
     position: relative;
     display: flex;
     flex-flow: row wrap;
@@ -228,4 +206,15 @@ body {
     transform-style: preserve-3d;
     will-change: top, left, width;
     transform-origin: 0 0;
+}
+
+.btn{
+    margin-left: 75%;
+}
+.btn-lg {
+    padding: 0.7rem 4rem;
+}
+
+.line{
+    margin-left:15%;
 }
