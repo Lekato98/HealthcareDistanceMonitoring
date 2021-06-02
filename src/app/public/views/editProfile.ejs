@@ -14,6 +14,15 @@
 <%- include('./partials/navbar.ejs') %>
 
 <div class="testbox">
+<<<<<<< HEAD
+    <form id="edit-profile">
+        <h2 class="header" >Edit Profile</h2>
+        <div class="item">
+            <p>Name</p>
+            <div class="name-item">
+                <input type="text" name="firstName" placeholder="First" value=""/>
+                <input type="text" name="lastName" placeholder="Last"/>
+=======
     <form action="/">
         <h2 class="header">Edit Profile</h2>
         <div class="item">
@@ -21,24 +30,41 @@
             <div class="name-item">
                 <input type="text" name="name" placeholder="First" value="<%= me.firstName %>"/>
                 <input type="text" name="name" placeholder="Last" value="<%= me.lastName %>"/>
+>>>>>>> refs/remotes/origin/client
             </div>
         </div>
         <div class="item">
             <p>Phone</p>
+<<<<<<< HEAD
+            <input type="text" name="phoneNumber"/>
+        </div>
+        <div class="item">
+            <p>Birthdate</p>
+            <input type="date" name="birthdate"/>
+=======
             <input type="text" name="phoneNumber" value="<%= me.phoneNumber %>"/>
         </div>
         <div class="item">
             <p>Birthdate</p>
             <input type="date" name="birthdate" value="<%= me.birthdate.toISOString().substr(0, 10) %>"/>
+>>>>>>> refs/remotes/origin/client
             <i class="fas fa-calendar-alt"></i>
         </div>
         <div class="item">
             <p>Email</p>
+<<<<<<< HEAD
+            <input type="text" name="email"/>
+        </div>
+        <div class="item">
+            <p>Address</p>
+            <input type="text" name="homeAddress" placeholder="Home address" />
+=======
             <input type="text" name="email" value="<%= me.email %>"/>
         </div>
         <div class="item">
             <p>Address</p>
             <input type="text" name="name" placeholder="Home Address" value="<%= me.homeAddress %>"/>
+>>>>>>> refs/remotes/origin/client
         </div>
 
         <button class="btn-block" type="submit">Save Changes</button>
@@ -56,6 +82,10 @@
 </footer>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
+<<<<<<< HEAD
+<script src="../js/editProfile.js" ></script>
+=======
 <script src="../js/editProfile.js"></script>
+>>>>>>> refs/remotes/origin/client
 </body>
 </html>

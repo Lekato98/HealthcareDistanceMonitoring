@@ -33,5 +33,9 @@ async function submitHandler(e) {
     } catch (e) {
         console.error(e);
     }
+<<<<<<< HEAD
+}
+=======
 }
 
+>>>>>>> refs/remotes/origin/client

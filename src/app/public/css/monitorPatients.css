@@ -1,7 +1,9 @@
 html {
     -webkit-font-smoothing: antialiased;
 }
-
+.line{
+    margin-left:15%;
+}
 .flex{
     display:flex;
 }
@@ -160,7 +162,7 @@ body {
 
 .form {
     max-width: 40em;
-    margin: 0 auto;
+    margin: 0 15%;
     position: relative;
     display: flex;
     flex-flow: row wrap;
