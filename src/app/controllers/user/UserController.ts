@@ -1,8 +1,8 @@
-import { Request, Response } from 'express';
-import { HttpStatusCode } from '../../utils/HttpUtils';
-import { Injectable } from 'dependency-injection-v1';
+import {Request, Response} from 'express';
+import {HttpStatusCode} from '../../utils/HttpUtils';
+import {Injectable} from 'dependency-injection-v1';
 import UserService from '../../models/user/UserService';
-import { SUCCESS, UNSUCCESSFUL } from '../../helpers/constants';
+import {SUCCESS, UNSUCCESSFUL} from '../../helpers/constants';
 
 @Injectable
 class UserController {
@@ -12,7 +12,10 @@ class UserController {
      * */
     public async profilePage(req: Request, res: Response): Promise<void> {
         try {
-            const {nationalId} = req.params;
+            const nationalId = (req.params.nationalId === 'me' ?
+                req.app.locals.jwt.nationalId :
+                req.params.nationalId
+            );
             const projection = '-password';
             const user = await UserService.findByNationalId(nationalId, projection);
             res.render('profile', {user});

@@ -45,10 +45,11 @@
     <h1 class="heading" id="big">Request Emergency Check/Hospitalization</h1>
     <p class="paraHeading">If you are feeling like you need an emergency request fill the bellow and submit your request</p>
     <hr class="line" noshade size="2">
-    <form action='' class='form'>
+
+    <form class='form' id="form">
         <div class='field required'>
             <label class='label required'>Reason of request?</label>
-            <textarea rows="10" cols="50" id='reason' placeholder="Reason?" required></textarea>
+            <textarea rows="10" cols="50" id='reason' placeholder="Reason?" name="reason" required></textarea>
         </div>
         <p class='field half'>
             <input class='button' type='submit' value='Send Request'>

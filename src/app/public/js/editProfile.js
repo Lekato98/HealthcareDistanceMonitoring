@@ -28,7 +28,7 @@ async function submitHandler(e) {
         const body = await response.json();
         console.log(body);
         if (body.success) {
-            location.href = '/';
+            location.href = '/profile/me';
         } else {
             alert(body.message);
         }
