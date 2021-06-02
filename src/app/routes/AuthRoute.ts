@@ -4,7 +4,7 @@ import IRoute from './IRoute';
 import { Inject } from 'dependency-injection-v1';
 
 class AuthRoute implements IRoute {
-    @Inject(AuthController) private static authController: AuthController;
+    @Inject(AuthController) private authController: AuthController;
 
     public readonly ROUTE: Router = Router();
     public readonly ROUTE_PREFIX_URL: string = '/auth';
@@ -19,7 +19,7 @@ class AuthRoute implements IRoute {
     }
 
     public initializeControllers(): void {
-        this.ROUTE.get(this.REGISTRATION_URL, AuthRoute.authController.registrationPage);
+        this.ROUTE.get(this.REGISTRATION_URL, this.authController.registrationPage);
     }
 }
 

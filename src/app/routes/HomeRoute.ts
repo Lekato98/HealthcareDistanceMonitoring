@@ -2,6 +2,8 @@ import { Router } from 'express';
 import HomeController from '../controllers/home/HomeController';
 import IRoute from './IRoute';
 import { Inject, Injectable } from 'dependency-injection-v1';
+import RoleService from '../models/roles/RoleService';
+import { RoleName } from '../models/user/UserModel';
 
 @Injectable
 class HomeRoute implements IRoute {
@@ -31,6 +33,7 @@ class HomeRoute implements IRoute {
         this.ROUTE.get(this.ADMIN_PAGE_URL, this.homeController.adminPage);
 
         this.ROUTE.get('/emergency' , (req ,res) =>{
+
             res.render("emergency.ejs");
         });
 
@@ -57,9 +60,15 @@ class HomeRoute implements IRoute {
             res.render("editProfile.ejs");
         });
 
-        this.ROUTE.get('/coordinator' , (req ,res) =>{
-            res.render("coordinator.ejs");
+        this.ROUTE.get('/coordinator' , async (req ,res) =>{
+            const doctors = await RoleService.getActiveByRoleName(RoleName.DOCTOR);
+            const monitors = await RoleService.getActiveByRoleName(RoleName.MONITOR);
+            const pendingDoctors = await RoleService.getPendingByRoleName(RoleName.DOCTOR);
+            const pendingMonitors = await RoleService.getPendingByRoleName(RoleName.MONITOR);
+
+            res.render("coordinator.ejs", {doctors, monitors, pendingDoctors, pendingMonitors});
         });
+
         this.ROUTE.get(this.DEFAULT_PAGE_URL, this.homeController.defaultPage);
     }
 }

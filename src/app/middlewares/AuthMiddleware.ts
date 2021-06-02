@@ -20,7 +20,8 @@ class AuthMiddleware {
             const user = await UserService.findByNationalId(decodedToken.nationalId, projection);
 
             if (user && user._id === decodedToken._id && user.nationalId === decodedToken.nationalId) {
-                req.app.locals.jwt = decodedToken;
+                req.app.locals.jwt = {...decodedToken, user};
+                res.locals.me = user;
             } else {
                 AuthenticationUtils.removeAuthCookies(res);
                 delete req.app.locals.jwt;

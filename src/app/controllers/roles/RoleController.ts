@@ -26,11 +26,17 @@ class RoleController {
 
     public async deleteOneRole(req: Request, res: Response): Promise<void> {
         try {
-            const {roleName} = req.params;
-            const userId = req.app.locals.jwt._id;
-            const role = await RoleService.deleteOneRole(roleName, userId);
-            const body = {success: SUCCESS, role};
-            res.json(body);
+            const {roleName, userId} = req.params;
+            const {isAdmin = false} = req.app.locals;
+
+            if (!isAdmin && userId !== req.app.locals.jwt._id) {
+                const body = {success: UNSUCCESSFUL, message: 'Trying to delete another user role'};
+                res.status(HttpStatusCode.FORBIDDEN).json(body);
+            } else {
+                const role = await RoleService.deleteOneRole(roleName, userId);
+                const body = {success: SUCCESS, role};
+                res.json(body);
+            }
         } catch (e) {
             const body = {success: UNSUCCESSFUL, message: e.message};
             res.status(HttpStatusCode.SERVER_ERROR).json(body);
@@ -39,10 +45,17 @@ class RoleController {
 
     public async deleteAllRoles(req: Request, res: Response): Promise<void> {
         try {
-            const userId = req.app.locals.jwt._id;
-            const roles = await RoleService.deleteAllRoles(userId);
-            const body = {success: SUCCESS, roles};
-            res.json(body);
+            const {userId} = req.params;
+            const {isAdmin = false} = req.app.locals;
+
+            if (!isAdmin && userId !== req.app.locals.jwt._id) {
+                const body = {success: UNSUCCESSFUL, message: 'Trying to delete another user role'};
+                res.status(HttpStatusCode.FORBIDDEN).json(body);
+            } else {
+                const roles = await RoleService.deleteAllRoles(userId);
+                const body = {success: SUCCESS, roles};
+                res.json(body);
+            }
         } catch (e) {
             const body = {success: UNSUCCESSFUL, message: e.message};
             res.status(HttpStatusCode.SERVER_ERROR).json(body);

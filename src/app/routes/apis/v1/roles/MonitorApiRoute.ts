@@ -2,10 +2,9 @@ import IRoute from '../../../IRoute';
 import { Router } from 'express';
 import { Inject } from 'dependency-injection-v1';
 
-class DoctorApiRoute implements IRoute {
+class MonitorApiRoute implements IRoute {
     public readonly ROUTE: Router = Router();
-    public readonly ROUTE_PREFIX_URL: string = '/doctor';
-
+    public readonly ROUTE_PREFIX_URL: string = '/monitor';
 
     constructor() {
         this.initialize();
@@ -17,7 +16,6 @@ class DoctorApiRoute implements IRoute {
     }
 
     initializeMiddlewares(): void {
-
     }
 
     initializeControllers(): void {
@@ -25,6 +23,6 @@ class DoctorApiRoute implements IRoute {
 
 }
 
-const doctorApiRoute = new DoctorApiRoute();
+const monitorApiRoute = new MonitorApiRoute();
 
-export default doctorApiRoute;
+export default monitorApiRoute;
