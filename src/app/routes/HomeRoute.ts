@@ -4,6 +4,7 @@ import IRoute from './IRoute';
 import { Inject, Injectable } from 'dependency-injection-v1';
 import RoleService from '../models/roles/RoleService';
 import { RoleName } from '../models/user/UserModel';
+import PatientService from '../models/roles/patient/PatientService';
 
 @Injectable
 class HomeRoute implements IRoute {
@@ -44,8 +45,9 @@ class HomeRoute implements IRoute {
         this.ROUTE.get('/questionnaire' , (req ,res) =>{
             res.render("questionnaire.ejs");
         });
-        this.ROUTE.get('/allPatients' , (req ,res) =>{
-            res.render("allPatients.ejs");
+        this.ROUTE.get('/allPatients' , async (req ,res) =>{
+            const allPatients = await PatientService.getPatientsByPageNumber(0);
+            res.render("allPatients.ejs", {allPatients});
         });
 
         this.ROUTE.get('/reportList' , (req ,res) =>{

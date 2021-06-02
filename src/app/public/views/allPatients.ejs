@@ -40,7 +40,7 @@
 <body>
 <section id="title">
 
-    <%-include('./partials/navbar.ejs')%>
+    <%- include('./partials/navbar.ejs') %>
 </section>
 
 <!--more-->
@@ -53,7 +53,7 @@
 
         <div class="col-lg-12 col-md-6 table-container">
             <table class="table table-fixed">
-                <caption style="caption-side: top" >All patients</caption>
+                <caption style="caption-side: top">All patients</caption>
                 <thead>
                 <tr>
                     <th>Patient Name</th>
@@ -65,13 +65,25 @@
                 </tr>
                 </thead>
                 <tbody>
+                <% for (let {_id, user} of allPatients) { %>
                 <tr>
-                    <td data-label="Name">Hamza</td>
-                    <td data-label="Age">21</td>
-                    <td data-label="National_ID">199916618</td>
-                    <td data-label="Phone-number">0776572329</td>
-                    <td  data-label="Health Status">Bad</td>
+                    <td data-label="Name"><%= user.firstName %> <%= user.lastName %></td>
+                    <td data-label="Age"><%= user.birthdate.toLocaleDateString() %></td>
+                    <td data-label="National_ID"><%= user.nationalId %></td>
+                    <td data-label="Phone-number"><%= user.phoneNumber %></td>
+                    <td data-label="Health Status">Bad</td>
                     <td>
+<<<<<<< HEAD
+                        <a href=''>
+                            <button value="<%=_id%>">Contact</button>
+                        </a>
+                        <a href=''>
+                            <button value="<%=_id%>">Add Patient</button>
+                        </a>
+                    </td>
+                </tr>
+                <% } %>
+=======
                         <a href=''><button class="btn btn-lg btn-dark">Contact</button></a>
                         <a href=''><button class="btn btn-lg btn-primary" >Add Patient</button></a>
                     </td>
@@ -242,6 +254,7 @@
                     </td>
                 </tr>
 
+>>>>>>> f24a95a319ffff4fd814916f2550400d54cf0737
                 </tbody>
 
             </table>
@@ -249,7 +262,6 @@
     </div>
 
 </section>
-
 
 
 <!-- Footer -->
@@ -266,7 +278,7 @@
 </footer>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="../js/allPatients.js" ></script>
+<script src="../js/allPatients.js"></script>
 
 </body>
 </html>
