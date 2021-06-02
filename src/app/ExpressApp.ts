@@ -31,12 +31,11 @@ class ExpressApp {
         cookieParser(),
         compression(),
     ];
-    private app: Express = express();
+
+    private readonly app: Express = express();
     @Inject(AuthMiddleware) private authMiddleware: AuthMiddleware;
 
     constructor() {
-        this.app.listen(this.PORT, () => console.log(`Server listening to ${ this.PORT }`));
-
         this.initializeViewEngine();
         this.initializeMiddlewares();
         this.initializeRoutes();
@@ -68,6 +67,10 @@ class ExpressApp {
         this.app.use(AuthRoute.ROUTE_PREFIX_URL, AuthRoute.ROUTE); // /auth @auth
         this.app.use(UserRoute.ROUTE_PREFIX_URL, UserRoute.ROUTE);
         this.app.use(HomeRoute.ROUTE_PREFIX_URL, HomeRoute.ROUTE); // / @default
+    }
+
+    public getApp(): Express {
+        return this.app;
     }
 }
 

@@ -23,6 +23,23 @@ class MonitorController {
         }
     }
 
+    /**
+     * @Route /api/v1/monitor/remove-patient
+     * @PATCH
+     * */
+    public async removePatient(req: Request, res: Response): Promise<void> {
+        try {
+            const monitorId = req.app.locals.jwt.roleId;
+            const patientId = req.body.patientId;
+            const removedPatient = await MonitorService.removePatient(monitorId, patientId);
+            const body = {success: SUCCESS, removedPatient};
+            res.json(body);
+        } catch (e) {
+            const body = {success: UNSUCCESSFUL, message: e.message};
+            res.status(HttpStatusCode.SERVER_ERROR).json(body);
+        }
+    }
+
 }
 
 export default MonitorController;

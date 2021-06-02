@@ -2,16 +2,13 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="/images/favicon.ico">
-    <title>COVID-19 Healthcare system</title>
-    <link rel="stylesheet" href="/css/index.css">
+    <%- include('./partials/head.ejs') %>
 
+    <link rel="stylesheet" href="../css/index.css">
 </head>
 
 <body>
-
+<%- include('./partials/notification.ejs') %>
 <div class="container" id="container">
     <div class="form-container sign-up-container">
         <form id="sign-up" action="/api/v1/auth/register" method="post">
@@ -68,7 +65,8 @@
         Your Trust COVID-19 Healthcare Distance Monitoring System
     </p>
 </footer>
-<script src="/js/registration.js"></script>
+<script src="../js/registration.js"></script>
+<script src="../js/socket.js"></script>
 </body>
 
 </html>

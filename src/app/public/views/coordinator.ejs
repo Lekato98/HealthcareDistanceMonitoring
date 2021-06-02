@@ -2,12 +2,11 @@
 <html lang="en">
 <head>
     <%- include('./partials/head.ejs') %>
-    <title>Home distance monitoring</title>
-    <link rel="stylesheet" href="../css/coordinator.css">
-    <link rel="stylesheet" href="../css/nav.css">
 
+    <link rel="stylesheet" href="../css/coordinator.css">
 </head>
 <body>
+<%- include('./partials/notification.ejs') %>
 <%- include('./partials/navbar.ejs') %>
 
 <div class="row">
@@ -138,5 +137,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 <script src="../js/coordinator.js"></script>
+<script src="../js/socket.js"></script>
 </body>
 </html>

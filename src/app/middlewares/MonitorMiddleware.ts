@@ -6,9 +6,10 @@ import MonitorService from '../models/roles/monitor/MonitorService';
 
 @Injectable
 class MonitorMiddleware {
-    public static async isMonitor(req: Request, res: Response, next: NextFunction): Promise<void> {
+    public async isMonitor(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
             const userId: string = req.app.locals.jwt._id;
+
             if (await MonitorService.isExistByUserId(userId)) {
                 next();
             } else {

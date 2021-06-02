@@ -25,6 +25,8 @@ class AuthenticationUtils {
     public static removeAuthCookies(res: Response): void {
         res.clearCookie(JWTUtils.JWT_COOKIE_NAME);
         res.clearCookie(this.IS_LOGGED_IN);
+        res.clearCookie(this.IS_ADMIN);
+        res.clearCookie(this.ROLE_NAME);
     }
 }
 

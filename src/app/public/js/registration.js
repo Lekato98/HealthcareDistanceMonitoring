@@ -30,6 +30,19 @@ async function fetchLogin(payload) {
     return await response.json();
 }
 
+async function fetchAdminLogin(payload) {
+    const options = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+    };
+
+    const response = await fetch('/api/v1/auth/admin-login', options);
+    return await response.json();
+}
+
 async function fetchRegistration(payload) {
     const options = {
         method: 'POST',
@@ -54,11 +67,23 @@ async function handleSignInSubmitAction(e) {
     e.preventDefault();
     const elements = Array.from(e.target.elements);
     const body = elements.reduce(setFormBody, {});
-    const payload = await fetchLogin(body);
-    if (payload.success) {
-        window.location.href = '/';
+    const nationalId = body.nationalId;
+
+    if (nationalId.startsWith('@')) {
+        body.nationalId = nationalId.slice(1);
+        const payload = await fetchAdminLogin(body);
+        if (payload.success) {
+            location.href = '/coordinator';
+        } else {
+            signInErrors.textContent = payload.message;
+        }
     } else {
-        signInErrors.textContent = payload.message;
+        const payload = await fetchLogin(body);
+        if (payload.success) {
+            location.href = '/';
+        } else {
+            signInErrors.textContent = payload.message;
+        }
     }
 }
 
@@ -68,7 +93,7 @@ async function handleSignUpSubmitAction(e) {
     const body = elements.reduce(setFormBody, {});
     const payload = await fetchRegistration(body);
     if (payload.success) {
-        window.location.href = '/';
+        location.href = '/';
     } else {
         signUpErrors.textContent = payload.message;
     }

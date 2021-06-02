@@ -30,7 +30,23 @@ class DailyReportService {
     }
 
     public static async getReportsByUserId(userId: string): Promise<DocumentType<DailyReport>[]> {
-        return DailyReportModel.find({userId});
+        const matchStage = {$match: {userId}};
+        const lookupStage = {
+            $lookup: {
+                from: UserModel.collection.name,
+                localField: 'userId',
+                foreignField: '_id',
+                as: 'user',
+            },
+        };
+        const unwindStage = {$unwind: '$user'};
+        const projectionStage = {$project: {'user.password': 0}};
+        const pipeline = [matchStage, lookupStage, unwindStage, projectionStage];
+        return DailyReportModel.aggregate(pipeline);
+    }
+
+    public static async getReportsByPatientId(patientId: string): Promise<any> {
+        return DailyReportModel.find({patient: patientId});
     }
 
     public static async getReportsByNationalId(nationalId: string): Promise<DocumentType<DailyReport>[]> {

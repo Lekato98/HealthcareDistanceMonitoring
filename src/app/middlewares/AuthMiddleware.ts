@@ -13,15 +13,16 @@ class AuthMiddleware {
     // global middleware
     public async setAuth(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
+            res.locals.isAdmin = true;
             const token = req.cookies[JWTUtils.JWT_COOKIE_NAME];
             const decodedToken = jwt.verify(token, JWTUtils.JWT_SECRET);
 
             const projection = '-password';
             const user = await UserService.findByNationalId(decodedToken.nationalId, projection);
-
             if (user && user._id === decodedToken._id && user.nationalId === decodedToken.nationalId) {
                 req.app.locals.jwt = {...decodedToken, user};
                 res.locals.me = user;
+                res.locals.isAdmin = false;
             } else {
                 AuthenticationUtils.removeAuthCookies(res);
                 delete req.app.locals.jwt;

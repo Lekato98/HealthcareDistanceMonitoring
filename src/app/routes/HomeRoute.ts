@@ -5,6 +5,8 @@ import { Inject, Injectable } from 'dependency-injection-v1';
 import RoleService from '../models/roles/RoleService';
 import { RoleName } from '../models/user/UserModel';
 import PatientService from '../models/roles/patient/PatientService';
+import DailyReportService from '../models/reports/daily/DailyReportService';
+import EmergencyService from '../models/emergency/EmergencyService';
 
 @Injectable
 class HomeRoute implements IRoute {
@@ -49,12 +51,15 @@ class HomeRoute implements IRoute {
             res.render("allPatients.ejs", {allPatients});
         });
 
-        this.ROUTE.get('/reportList' , (req ,res) =>{
-            res.render("reportList.ejs");
+        this.ROUTE.get('/reportList' , async (req ,res) =>{
+            // const reports = await DailyReportService.getReportsByPatientId();
+            const reports = await DailyReportService.getReportsByUserId(req.app.locals.jwt._id);
+            res.render("reportList.ejs", {reports});
         });
 
-        this.ROUTE.get('/hospitalization' , (req ,res) =>{
-            res.render("hospitalization.ejs");
+        this.ROUTE.get('/hospitalization' , async (req ,res) =>{
+            const emergencyCases = await EmergencyService.getAll();
+            res.render("hospitalization.ejs", {emergencyCases});
         });
 
         this.ROUTE.get('/editProfile' , (req ,res) =>{
@@ -66,7 +71,6 @@ class HomeRoute implements IRoute {
             const monitors = await RoleService.getActiveByRoleName(RoleName.MONITOR);
             const pendingDoctors = await RoleService.getPendingByRoleName(RoleName.DOCTOR);
             const pendingMonitors = await RoleService.getPendingByRoleName(RoleName.MONITOR);
-
             res.render("coordinator.ejs", {doctors, monitors, pendingDoctors, pendingMonitors});
         });
 

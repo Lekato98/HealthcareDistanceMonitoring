@@ -85,8 +85,9 @@ class AuthController {
      * */
     public async adminLogin(req: Request, res: Response): Promise<void> {
         try {
-            const {username, password} = req.body;
-            const admin = await AdminModel.findOne({adminId: username, password});
+            const {nationalId, password} = req.body;
+            console.log(nationalId, password);
+            const admin = await AdminModel.findOne({adminId: nationalId, password});
 
             if (admin) {
                 const jwtPayload: IJWTPayload = {isAdmin: true, _id: admin._id};
