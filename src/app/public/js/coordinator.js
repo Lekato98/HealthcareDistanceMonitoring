@@ -12,6 +12,7 @@ async function deleteHandler(e, userId, roleName, id) {
 
     if (payload.success) {
         document.getElementById(id).remove();
+        location.reload();
     } else {
         alert(payload.message);
     }
@@ -33,6 +34,7 @@ async function acceptOrRejectHandler(roleName, userId, id, actionType) {
 
     if (payload.success) {
         document.getElementById(id).remove();
+        location.reload();
     } else {
         alert(payload.message);
     }

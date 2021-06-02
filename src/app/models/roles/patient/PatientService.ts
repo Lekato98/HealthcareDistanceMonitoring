@@ -44,7 +44,25 @@ class PatientService {
         const sortStage = {$sort: {createdAt: 1}};
         const skipStage = {$skip: page * this.PATIENTS_PAIR_PAGE};
         const limitStage = {$limit: this.PATIENTS_PAIR_PAGE};
-        const pipeline = [sortStage, skipStage, limitStage];
+        const lookupStage = {
+            $lookup: {
+                from: UserModel.collection.name,
+                localField: 'userId',
+                foreignField: '_id',
+                as: 'user',
+            },
+        };
+        const unwindStage = {$unwind: '$user'};
+        const projectionStage = {
+            $project: {
+                'user.password': 0,
+                'user.__v': 0,
+                'user.createdAt': 0,
+                'user.updatedAt': 0,
+            },
+        };
+
+        const pipeline = [sortStage, skipStage, limitStage, lookupStage, unwindStage, projectionStage];
         return PatientModel.aggregate(pipeline);
     }
 
