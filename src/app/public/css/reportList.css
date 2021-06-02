@@ -20,53 +20,7 @@ body{
 .paraHeading{
     margin-left:15% ;
 }
-/*home page content */
 
-.home-page-content {
-    background-color: aliceblue;
-}
-
-.covid-header{
-    color: #2554a1;
-    font-weight: 900;
-    font-size: 3.5rem;
-    font-family: 'Montserrat', sans-serif;
-}
-
-.left-contant {
-    margin-left: 15% ;
-    margin-top: 10%;
-    text-align: left;
-
-}
-.pat-img{
-    width: 100%;
-}
-
-
-/* features */
-
-#Features{
-    padding: 1% 10%;
-}
-
-.Features-item-l{
-    text-align: center;
-    background-color:#f0f8ff;
-    padding: 2%;
-
-}
-
-.Features-item-r{
-    text-align: center;
-    background-color:#D7ECFF;
-    padding: 2%;
-}
-
-.icon {
-    margin-bottom: 10px;
-    color: black;
-}
 /*more*/
 
 #patients-list{
@@ -78,7 +32,6 @@ body{
 }
 
 .table-container{
-    height: 350px;
     width: 70%;
 }
 
@@ -92,10 +45,10 @@ body{
     text-align: center;
 }
 .table td{
-    font-size: 16px;
+    font-size: 18px;
 }
 .table th {
-    background-color: darkblue;
+    background-color: #285BAD;
     color: #FFFFFF;
     font-size: 20px;
 }

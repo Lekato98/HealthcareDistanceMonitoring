@@ -1,11 +1,20 @@
 body{
     margin:0;
     padding:0;
-    font-family: 'Montserrat', sans-serif;
 }
 
 .btn-lg{
     padding:0.4rem 0.5rem;
+}
+
+.btn-primary{
+    background-color:#426c88 !important;
+    border : none !important;
+}
+
+.btn-dark{
+    background-color:#426c88 !important;
+    border : none !important;
 }
 
 .patients-table{
@@ -29,6 +38,7 @@ body{
 #patients-list{
     padding: 1% 9%;
     margin-top: 70px;
+    min-height: 90%;
 }
 .patients-list-text{
     margin-top: 5%;
@@ -42,11 +52,13 @@ body{
     border: 1px solid #ddd;
     text-align: center;
 }
+
 .table td{
     font-size: 18px;
 }
+
 .table th {
-    background-color: darkblue;
+    background-color: #285BAD;
     color: #FFFFFF;
     font-size: 20px;
 }
@@ -63,6 +75,7 @@ body{
     display: flex;
     align-items: center;
     justify-content: center;
+
 }
 
 .sm a{

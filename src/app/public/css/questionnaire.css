@@ -19,11 +19,7 @@ body {
     background-color: #89CFF0;
     font-family: "Titillium Web", sans-serif;
 }
-@media screen and (min-width: 40em) {
-    body {
-        font-size: 1.25em;
-    }
-}
+
 
 .form .button, .form .message, .customSelect, .form .select, .form .textarea, .form .text-input, .form .option-input + label, .form .checkbox-input + label, .form .label {
     padding: 0.75em 1em;
@@ -39,51 +35,12 @@ body {
 
 }
 
-.form .label {
-    font-weight: bold;
-    color: white;
-    padding-top: 0;
-    padding-left: 0;
-    letter-spacing: 0.025em;
-    font-size: 1.125em;
-    line-height: 1.25;
-    position: relative;
-    z-index: 100;
-}
 .required .form .label:after, .form .required .label:after {
     content: " *";
     color: #E8474C;
     font-weight: normal;
     font-size: 0.75em;
     vertical-align: top;
-}
-
-.customSelect, .form .select, .form .textarea, .form .text-input, .form .option-input + label, .form .checkbox-input + label {
-    font: inherit;
-    line-height: normal;
-    width: 100%;
-    box-sizing: border-box;
-    background: white;
-    color: black;
-    position: relative;
-}
-.customSelect::placeholder, .form .select::placeholder, .form .textarea::placeholder, .form .text-input::placeholder, .form .option-input + label::placeholder, .form .checkbox-input + label::placeholder {
-    color: white;
-}
-.customSelect:-webkit-autofill, .form .select:-webkit-autofill, .form .textarea:-webkit-autofill, .form .text-input:-webkit-autofill, .form .option-input + label:-webkit-autofill, .form .checkbox-input + label:-webkit-autofill {
-    box-shadow: 0 0 0px 1000px #111111 inset;
-    -webkit-text-fill-color: white;
-    border-top-color: #111111;
-    border-left-color: #111111;
-    border-right-color: #111111;
-}
-.customSelect:not(:focus):not(:active).error, .form .select:not(:focus):not(:active).error, .form .textarea:not(:focus):not(:active).error, .form .text-input:not(:focus):not(:active).error, .form .option-input + label:not(:focus):not(:active).error, .form .checkbox-input + label:not(:focus):not(:active).error, .error .customSelect:not(:focus):not(:active), .error .form .select:not(:focus):not(:active), .form .error .select:not(:focus):not(:active), .error .form .textarea:not(:focus):not(:active), .form .error .textarea:not(:focus):not(:active), .error .form .text-input:not(:focus):not(:active), .form .error .text-input:not(:focus):not(:active), .error .form .option-input + label:not(:focus):not(:active), .form .error .option-input + label:not(:focus):not(:active), .error .form .checkbox-input + label:not(:focus):not(:active), .form .error .checkbox-input + label:not(:focus):not(:active) {
-    background-size: 8px 8px;
-    background-image: linear-gradient(135deg, rgba(232, 71, 76, 0.5), rgba(232, 71, 76, 0.5) 25%, transparent 25%, transparent 50%, rgba(232, 71, 76, 0.5) 50%, rgba(232, 71, 76, 0.5) 75%, transparent 75%, transparent);
-    background-repeat: repeat;
-}
-.form:not(.has-magic-focus) .customSelect.customSelectFocus, .form:not(.has-magic-focus) .customSelect:active, .form:not(.has-magic-focus) .select:active, .form:not(.has-magic-focus) .textarea:active, .form:not(.has-magic-focus) .text-input:active, .form:not(.has-magic-focus) .option-input + label:active, .form:not(.has-magic-focus) .checkbox-input + label:active, .form:not(.has-magic-focus) .customSelect:focus, .form:not(.has-magic-focus) .select:focus, .form:not(.has-magic-focus) .textarea:focus, .form:not(.has-magic-focus) .text-input:focus, .form:not(.has-magic-focus) .option-input + label:focus, .form:not(.has-magic-focus) .checkbox-input + label:focus {
-    background: #4E4E4E;
 }
 
 .form .message {
@@ -106,6 +63,7 @@ body {
     position: absolute;
     width: 1px;
 }
+
 .form .option-input + label, .form .checkbox-input + label {
     background-color: white;
     display: inline-block;
@@ -118,10 +76,12 @@ body {
     user-select: none;
     cursor: pointer;
 }
+
 .form .option-input:focus + label, .form .checkbox-input:focus + label, .form .option-input:active + label, .form .checkbox-input:active + label {
 
     color: #4E4E4E;
 }
+
 .form .option-input:checked + label, .form .checkbox-input:checked + label {
     background-color: black;
     color: white;
@@ -141,6 +101,7 @@ body {
     justify-content: space-between;
     align-items: flex-end;
 }
+
 .form .field {
     width: 100%;
     margin: 0 0 1.5em 0;
@@ -217,4 +178,15 @@ body {
 
 .line{
     margin-left:15%;
+}
+
+.option-input{
+    text-align: center !important;
+    margin: auto !important;
+}
+
+@media screen and (min-width: 40em) {
+    body {
+        font-size: 1.25em;
+    }
 }

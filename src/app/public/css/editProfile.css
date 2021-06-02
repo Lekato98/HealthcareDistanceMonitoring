@@ -1,6 +1,7 @@
 html, body {
     min-height: 100%;
 }
+
 body, div, form, input, select, p {
     padding: 0;
     margin: 0;

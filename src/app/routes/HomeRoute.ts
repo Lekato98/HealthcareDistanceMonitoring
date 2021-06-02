@@ -34,7 +34,6 @@ class HomeRoute implements IRoute {
         this.ROUTE.get(this.ADMIN_PAGE_URL, this.homeController.adminPage);
 
         this.ROUTE.get('/emergency' , (req ,res) =>{
-
             res.render("emergency.ejs");
         });
 
