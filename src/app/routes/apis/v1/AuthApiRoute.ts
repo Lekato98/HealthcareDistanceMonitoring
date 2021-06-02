@@ -11,6 +11,7 @@ class AuthApiRoute implements IRoute {
     public readonly ROUTE: Router = Router();
     public readonly ROUTE_PREFIX_URL: string = '/auth';
     public readonly LOGIN_URL: string = '/login';
+    public readonly ADMIN_LOGIN: string = '/admin-login';
     public readonly REGISTER_URL: string = '/register';
     public readonly LOGOUT_URL: string = '/logout';
 
@@ -25,6 +26,7 @@ class AuthApiRoute implements IRoute {
     public initializeControllers(): void {
         this.ROUTE.post(this.LOGIN_URL, this.authController.login);
         this.ROUTE.post(this.REGISTER_URL, this.authController.register);
+        this.ROUTE.post(this.ADMIN_LOGIN, this.authController.adminLogin);
         this.ROUTE.get(this.LOGOUT_URL, this.authMiddleware.isAuth, this.authController.logout);
     }
 }

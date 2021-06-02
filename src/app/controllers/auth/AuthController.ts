@@ -6,6 +6,7 @@ import { Injectable } from 'dependency-injection-v1';
 import UserService from '../../models/user/UserService';
 import AuthenticationUtils from '../../utils/AuthenticationUtils';
 import { SUCCESS, UNSUCCESSFUL } from '../../helpers/constants';
+import AdminModel from '../../models/admin/AdminModel';
 
 export interface ILogin {
     nationalId: string;
@@ -14,10 +15,9 @@ export interface ILogin {
 
 @Injectable
 class AuthController {
-
     /**
      * @Route /auth/registration
-     * @Post
+     * @POST
      * */
     public async registrationPage(req: Request, res: Response): Promise<void> {
         try {
@@ -32,8 +32,8 @@ class AuthController {
     }
 
     /**
-     * @route /api/v1/auth/login
-     * @body ILogin
+     * @Route /api/v1/auth/login
+     * @POST
      * */
     public async login(req: Request, res: Response): Promise<void> {
         try {
@@ -58,9 +58,9 @@ class AuthController {
     }
 
     /**
-     * @description creates user and token
-     * @body IUser
-     * @route /api/v1/auth/register
+     * @Desc creates user and token
+     * @Route /api/v1/auth/register
+     * @POST
      * */
     public async register(req: Request, res: Response): Promise<void> {
         try {
@@ -80,8 +80,32 @@ class AuthController {
     }
 
     /**
-     * @route /api/v1/logout
-     * @request DELETE
+     * @Route /api/v1/admin-login
+     * @POST
+     * */
+    public async adminLogin(req: Request, res: Response): Promise<void> {
+        try {
+            const {username, password} = req.body;
+            const admin = await AdminModel.findOne({adminId: username, password});
+
+            if (admin) {
+                const jwtPayload: IJWTPayload = {isAdmin: true, _id: admin._id};
+                AuthenticationUtils.setAuthCookies(res, jwtPayload);
+                const body = {success: SUCCESS, message: 'Welcome admin!'};
+                res.json(body);
+            } else {
+                const body = {success: UNSUCCESSFUL, message: 'Invalid login'};
+                res.status(HttpStatusCode.BAD_REQUEST).json(body);
+            }
+        } catch (e) {
+            const body = {success: UNSUCCESSFUL, message: e.message};
+            res.status(HttpStatusCode.SERVER_ERROR).json(body);
+        }
+    }
+
+    /**
+     * @Route /api/v1/logout
+     * @DELETE
      * */
     public logout(req: Request, res: Response): void {
         try {
@@ -89,7 +113,7 @@ class AuthController {
             const body = {success: SUCCESS};
             res.json(body);
         } catch (e) {
-            const body = {success: UNSUCCESSFUL};
+            const body = {success: UNSUCCESSFUL, message: e.message};
             res.status(HttpStatusCode.SERVER_ERROR).json(body);
         }
     }

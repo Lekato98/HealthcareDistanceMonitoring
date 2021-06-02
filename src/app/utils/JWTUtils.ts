@@ -6,9 +6,10 @@ const jwt = require('jsonwebtoken');
 
 export interface IJWTPayload {
     _id: string;
-    nationalId: string;
+    nationalId?: string;
     roleId?: string;
     roleName?: roleType;
+    isAdmin?: boolean;
 }
 
 export interface IJWTOptions {
