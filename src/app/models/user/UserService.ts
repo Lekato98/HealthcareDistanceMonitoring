@@ -4,6 +4,7 @@ import UserModel, { IUser, User } from './UserModel';
 import RoleService from '../roles/RoleService';
 import UserModelHooks from './UserModelHooks';
 import { ILogin } from '../../controllers/auth/AuthController';
+import { QueryUpdateOptions } from 'mongoose';
 
 const bcrypt = require('bcrypt');
 
@@ -26,7 +27,8 @@ class UserService {
 
     public static async patchOne(nationalId: string, payload: object): Promise<any> {
         const userObject = UserModelUtils.userObjectForUpdate(payload);
-        return UserModel.updateOne({nationalId}, {...userObject}, {runValidators: true});
+        const options: QueryUpdateOptions = {runValidators: true};
+        return UserModel.updateOne({nationalId}, {...userObject}, options);
     }
 
     public static async getAll(pageNumber: number): Promise<DocumentType<User>[]> {
@@ -51,8 +53,7 @@ class UserService {
 
     public static async login(payload: ILogin) {
         const user = await UserService.findByNationalId(payload.nationalId);
-
-        return user ? UserService.isValidPassword(payload.password, user.password) && user : user;
+        return UserService.isValidPassword(payload.password, user?.password) && user;
     }
 }
 

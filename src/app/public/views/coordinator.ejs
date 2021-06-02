@@ -1,397 +1,139 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <%-include('./partials/head.ejs')%>
-  <title>Home distance monitoring</title>
-  <link rel="stylesheet" href="../css/coordinator.css">
-  <link rel="stylesheet" href="../css/nav.css">
+    <%- include('./partials/head.ejs') %>
+    <title>Home distance monitoring</title>
+    <link rel="stylesheet" href="../css/coordinator.css">
+    <link rel="stylesheet" href="../css/nav.css">
 
 </head>
 <body>
-<%-include('./partials/navbar.ejs')%>
+<%- include('./partials/navbar.ejs') %>
 
 <div class="row">
-  <div class="col-lg-5 col-md-6 table-container">
-    <table class="table table-fixed">
-      <caption style="caption-side: top" >List Of Doctors : </caption>
-      <thead>
-      <tr>
-        <th>Patient Name</th>
-        <th>Age</th>
-        <th>National ID</th>
-        <th>Phone Number</th>
-        <th>Options</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr>
-        <td data-label="Name">Hamza</td>
-        <td data-label="Age">21</td>
-        <td data-label="National_ID">199916618</td>
-        <td data-label="Phone-number">0776572329</td>
-        <td>
-          <a href=''><button class="delete-btn">Delete</button></a>
-        </td>
-      </tr>
-      <tr>
-        <td data-label="Name">Hamza</td>
-        <td data-label="Age">21</td>
-        <td data-label="National_ID">199916618</td>
-        <td data-label="Phone-number">0776572329</td>
-        <td>
-          <a href=''><button class="delete-btn">Delete</button></a>
-        </td>
-      </tr>
-      <tr>
-        <td data-label="Name">Hamza</td>
-        <td data-label="Age">21</td>
-        <td data-label="National_ID">199916618</td>
-        <td data-label="Phone-number">0776572329</td>
-        <td>
-          <a href=''><button class="delete-btn">Delete</button></a>
-        </td>
-      </tr>
-      <tr>
-        <td data-label="Name">Hamza</td>
-        <td data-label="Age">21</td>
-        <td data-label="National_ID">199916618</td>
-        <td data-label="Phone-number">0776572329</td>
-        <td>
-          <a href=''><button class="delete-btn">Delete</button></a>
-        </td>
-      </tr>
-      <tr>
-        <td data-label="Name">Hamza</td>
-        <td data-label="Age">21</td>
-        <td data-label="National_ID">199916618</td>
-        <td data-label="Phone-number">0776572329</td>
-        <td>
-          <a href=''><button class="delete-btn">Delete</button></a>
-        </td>
-      </tr>
-      <tr>
-        <td data-label="Name">Hamza</td>
-        <td data-label="Age">21</td>
-        <td data-label="National_ID">199916618</td>
-        <td data-label="Phone-number">0776572329</td>
-        <td>
-          <a href=''><button class="delete-btn">Delete</button></a>
-        </td>
-      </tr>
-      <tr>
-        <td data-label="Name">Hamza</td>
-        <td data-label="Age">21</td>
-        <td data-label="National_ID">199916618</td>
-        <td data-label="Phone-number">0776572329</td>
-        <td>
-          <a href=''><button class="delete-btn">Delete</button></a>
-        </td>
-      </tr>
-      <tr>
-        <td data-label="Name">Hamza</td>
-        <td data-label="Age">21</td>
-        <td data-label="National_ID">199916618</td>
-        <td data-label="Phone-number">0776572329</td>
-        <td>
-          <a href=''><button class="delete-btn">Delete</button></a>
-        </td>
-      </tr>
+    <div class="col-lg-5 col-md-6 table-container">
+        <table class="table table-fixed">
+            <caption style="caption-side: top">List Of Doctors :</caption>
+            <thead>
+            <tr>
+                <th>Patient Name</th>
+                <th>Birthdate</th>
+                <th>National ID</th>
+                <th>Phone Number</th>
+                <th>Options</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% for(let {_id, userId: user} of doctors) { %>
+                <tr id="<%= _id %>">
+                    <td data-label="Name"><%= user.firstName %> <%= user.lastName %></td>
+                    <td data-label="Age"><%= user.birthdate.toLocaleDateString() %></td>
+                    <td data-label="National_ID"><%= user.nationalId %></td>
+                    <td data-label="Phone-number"><%= user.phoneNumber %></td>
+                    <td>
+                        <button class="delete-btn"
+                                onclick="deleteHandler(this, '<%= user._id %>', 'doctor', '<%= _id %>')">Delete
+                        </button>
+                    </td>
+                </tr>
+            <% } %>
+            </tbody>
 
-      </tbody>
+        </table>
+    </div>
+    <div class="col-lg-5 col-md-6 table-container">
+        <table class="table table-fixed">
+            <caption style="caption-side: top">List Of Monitors :</caption>
+            <thead>
+            <tr>
+                <th>Patient Name</th>
+                <th>Birthdate</th>
+                <th>National ID</th>
+                <th>Phone Number</th>
+                <th>Options</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% for(let {_id, userId: user} of monitors) { %>
+                <tr id="<%= _id %>">
+                    <td data-label="Name"><%= user.firstName %> <%= user.lastName %></td>
+                    <td data-label="Age"><%= user.birthdate.toLocaleDateString() %></td>
+                    <td data-label="National_ID"><%= user.nationalId %></td>
+                    <td data-label="Phone-number"><%= user.phoneNumber %></td>
+                    <td>
+                        <button class="delete-btn"
+                                onclick="deleteHandler(this, '<%= user._id %>', 'monitor', '<%= _id %>')">Delete
+                        </button>
+                    </td>
+                </tr>
+            <% } %>
+            </tbody>
 
-    </table>
-  </div>
-  <div class="col-lg-5 col-md-6 table-container">
-    <table class="table table-fixed">
-      <caption style="caption-side: top" >List Of Monitors : </caption>
-      <thead>
-      <tr>
-        <th>Patient Name</th>
-        <th>Age</th>
-        <th>National ID</th>
-        <th>Phone Number</th>
-        <th>Options</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr>
-        <td data-label="Name">Hamza</td>
-        <td data-label="Age">21</td>
-        <td data-label="National_ID">199916618</td>
-        <td data-label="Phone-number">0776572329</td>
-        <td>
-          <a href=''><button class="delete-btn">Delete</button></a>
-        </td>
-      </tr>
-      <tr>
-        <td data-label="Name">Hamza</td>
-        <td data-label="Age">21</td>
-        <td data-label="National_ID">199916618</td>
-        <td data-label="Phone-number">0776572329</td>
-        <td>
-          <a href=''><button class="delete-btn">Delete</button></a>
-        </td>
-      </tr>
-      <tr>
-        <td data-label="Name">Hamza</td>
-        <td data-label="Age">21</td>
-        <td data-label="National_ID">199916618</td>
-        <td data-label="Phone-number">0776572329</td>
-        <td>
-          <a href=''><button class="delete-btn">Delete</button></a>
-        </td>
-      </tr>
-      <tr>
-        <td data-label="Name">Hamza</td>
-        <td data-label="Age">21</td>
-        <td data-label="National_ID">199916618</td>
-        <td data-label="Phone-number">0776572329</td>
-        <td>
-          <a href=''><button class="delete-btn">Delete</button></a>
-        </td>
-      </tr>
-      <tr>
-        <td data-label="Name">Hamza</td>
-        <td data-label="Age">21</td>
-        <td data-label="National_ID">199916618</td>
-        <td data-label="Phone-number">0776572329</td>
-        <td>
-          <a href=''><button class="delete-btn">Delete</button></a>
-        </td>
-      </tr>
-      <tr>
-        <td data-label="Name">Hamza</td>
-        <td data-label="Age">21</td>
-        <td data-label="National_ID">199916618</td>
-        <td data-label="Phone-number">0776572329</td>
-        <td>
-          <a href=''><button class="delete-btn">Delete</button></a>
-        </td>
-      </tr>
-      <tr>
-        <td data-label="Name">Hamza</td>
-        <td data-label="Age">21</td>
-        <td data-label="National_ID">199916618</td>
-        <td data-label="Phone-number">0776572329</td>
-        <td>
-          <a href=''><button class="delete-btn">Delete</button></a>
-        </td>
-      </tr>
-      <tr>
-        <td data-label="Name">Hamza</td>
-        <td data-label="Age">21</td>
-        <td data-label="National_ID">199916618</td>
-        <td data-label="Phone-number">0776572329</td>
-        <td>
-          <a href=''><button class="delete-btn">Delete</button></a>
-        </td>
-      </tr>
-
-      </tbody>
-
-    </table>
-  </div>
+        </table>
+    </div>
 </div>
 
 <hr>
 
 <div class="row">
-  <div class="col-lg-5 col-md-6 table-container">
-    <table class="table table-fixed">
-      <caption style="caption-side: top" >List Of Doctors : </caption>
-      <thead>
-      <tr>
-        <th>Patient Name</th>
-        <th>Age</th>
-        <th>National ID</th>
-        <th>Phone Number</th>
-        <th>Options</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr>
-        <td data-label="Name">Hamza</td>
-        <td data-label="Age">21</td>
-        <td data-label="National_ID">199916618</td>
-        <td data-label="Phone-number">0776572329</td>
-        <td>
-          <button class="accept-btn">Accept</button>
-          <button class="reject-btn">Reject</button>
-        </td>
-      </tr>
-      <tr>
-        <td data-label="Name">Hamza</td>
-        <td data-label="Age">21</td>
-        <td data-label="National_ID">199916618</td>
-        <td data-label="Phone-number">0776572329</td>
-        <td>
-          <button class="accept-btn">Accept</button>
-          <button class="reject-btn">Reject</button>
-        </td>
-      </tr>
-      <tr>
-        <td data-label="Name">Hamza</td>
-        <td data-label="Age">21</td>
-        <td data-label="National_ID">199916618</td>
-        <td data-label="Phone-number">0776572329</td>
-        <td>
-          <button class="accept-btn">Accept</button>
-          <button class="reject-btn">Reject</button>
-        </td>
-      </tr>
-      <tr>
-        <td data-label="Name">Hamza</td>
-        <td data-label="Age">21</td>
-        <td data-label="National_ID">199916618</td>
-        <td data-label="Phone-number">0776572329</td>
-        <td>
-          <button class="accept-btn">Accept</button>
-          <button class="reject-btn">Reject</button>
-        </td>
-      </tr>
-      <tr>
-        <td data-label="Name">Hamza</td>
-        <td data-label="Age">21</td>
-        <td data-label="National_ID">199916618</td>
-        <td data-label="Phone-number">0776572329</td>
-        <td>
-          <button class="accept-btn">Accept</button>
-          <button class="reject-btn">Reject</button>
-        </td>
-      </tr>
-      <tr>
-        <td data-label="Name">Hamza</td>
-        <td data-label="Age">21</td>
-        <td data-label="National_ID">199916618</td>
-        <td data-label="Phone-number">0776572329</td>
-        <td>
-          <button class="accept-btn">Accept</button>
-          <button class="reject-btn">Reject</button>
-        </td>
-      </tr>
-      <tr>
-        <td data-label="Name">Hamza</td>
-        <td data-label="Age">21</td>
-        <td data-label="National_ID">199916618</td>
-        <td data-label="Phone-number">0776572329</td>
-        <td>
-          <button class="accept-btn">Accept</button>
-          <button class="reject-btn">Reject</button>
-        </td>
-      </tr>
-      <tr>
-        <td data-label="Name">Hamza</td>
-        <td data-label="Age">21</td>
-        <td data-label="National_ID">199916618</td>
-        <td data-label="Phone-number">0776572329</td>
-        <td>
-          <button class="accept-btn">Accept</button>
-          <button class="reject-btn">Reject</button>
-        </td>
-      </tr>
+    <div class="col-lg-5 col-md-6 table-container">
+        <table class="table table-fixed">
+            <caption style="caption-side: top">List Of Doctors :</caption>
+            <thead>
+            <tr>
+                <th>Patient Name</th>
+                <th>Birthdate</th>
+                <th>National ID</th>
+                <th>Phone Number</th>
+                <th>Options</th>
+            </tr>
+            </thead>
+            <tbody>
+            <%for (let {_id, userId: user} of pendingDoctors) {%>
+            <tr id="<%=_id%>">
+                <td data-label="Name"><%= user.firstName %> <%= user.lastName %></td>
+                <td data-label="Age"><%= user.birthdate.toLocaleDateString() %></td>
+                <td data-label="National_ID"><%= user.nationalId %></td>
+                <td data-label="Phone-number"><%= user.phoneNumber %></td>
+                <td>
+                    <button class="accept-btn" onclick="acceptOrRejectHandler('monitor', '<%=user._id%>', '<%=_id%>', 'accept')">Accept</button>
+                    <button class="reject-btn" onclick="acceptOrRejectHandler('monitor', '<%=user._id%>', '<%=_id%>', 'reject')">Reject</button>
+                </td>
+            </tr>
+            <%}%>
+            </tbody>
 
-      </tbody>
+        </table>
+    </div>
+    <div class="col-lg-5 col-md-6 table-container">
+        <table class="table table-fixed">
+            <caption style="caption-side: top">List Of Monitors :</caption>
+            <thead>
+            <tr>
+                <th>Patient Name</th>
+                <th>Birthdate</th>
+                <th>National ID</th>
+                <th>Phone Number</th>
+                <th>Options</th>
+            </tr>
+            </thead>
+            <tbody>
+            <%for (let {_id, userId: user} of pendingMonitors) {%>
+            <tr id="<%=_id%>">
+                <td data-label="Name"><%= user.firstName %> <%= user.lastName %></td>
+                <td data-label="Age"><%= user.birthdate.toLocaleDateString() %></td>
+                <td data-label="National_ID"><%= user.nationalId %></td>
+                <td data-label="Phone-number"><%= user.phoneNumber %></td>
+                <td>
+                    <button class="accept-btn" onclick="acceptOrRejectHandler('monitor', '<%=user._id%>', '<%=_id%>', 'accept')">Accept</button>
+                    <button class="reject-btn" onclick="acceptOrRejectHandler('monitor', '<%=user._id%>', '<%=_id%>', 'reject')">Reject</button>
+                </td>
+            </tr>
+            <%}%>
+            </tbody>
 
-    </table>
-  </div>
-  <div class="col-lg-5 col-md-6 table-container">
-    <table class="table table-fixed">
-      <caption style="caption-side: top" >List Of Monitors : </caption>
-      <thead>
-      <tr>
-        <th>Patient Name</th>
-        <th>Age</th>
-        <th>National ID</th>
-        <th>Phone Number</th>
-        <th>Options</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr>
-        <td data-label="Name">Hamza</td>
-        <td data-label="Age">21</td>
-        <td data-label="National_ID">199916618</td>
-        <td data-label="Phone-number">0776572329</td>
-        <td>
-          <button class="accept-btn">Accept</button>
-          <button class="reject-btn">Reject</button>
-        </td>
-      </tr>
-      <tr>
-        <td data-label="Name">Hamza</td>
-        <td data-label="Age">21</td>
-        <td data-label="National_ID">199916618</td>
-        <td data-label="Phone-number">0776572329</td>
-        <td>
-          <button class="accept-btn">Accept</button>
-          <button class="reject-btn">Reject</button>
-        </td>
-      </tr>
-      <tr>
-        <td data-label="Name">Hamza</td>
-        <td data-label="Age">21</td>
-        <td data-label="National_ID">199916618</td>
-        <td data-label="Phone-number">0776572329</td>
-        <td>
-          <button class="accept-btn">Accept</button>
-          <button class="reject-btn">Reject</button>
-        </td>
-      </tr>
-      <tr>
-        <td data-label="Name">Hamza</td>
-        <td data-label="Age">21</td>
-        <td data-label="National_ID">199916618</td>
-        <td data-label="Phone-number">0776572329</td>
-        <td>
-          <button class="accept-btn">Accept</button>
-          <button class="reject-btn">Reject</button>
-        </td>
-      </tr>
-      <tr>
-        <td data-label="Name">Hamza</td>
-        <td data-label="Age">21</td>
-        <td data-label="National_ID">199916618</td>
-        <td data-label="Phone-number">0776572329</td>
-        <td>
-          <button class="accept-btn">Accept</button>
-          <button class="reject-btn">Reject</button>
-        </td>
-      </tr>
-      <tr>
-        <td data-label="Name">Hamza</td>
-        <td data-label="Age">21</td>
-        <td data-label="National_ID">199916618</td>
-        <td data-label="Phone-number">0776572329</td>
-        <td>
-          <button class="accept-btn">Accept</button>
-          <button class="reject-btn">Reject</button>
-        </td>
-      </tr>
-      <tr>
-        <td data-label="Name">Hamza</td>
-        <td data-label="Age">21</td>
-        <td data-label="National_ID">199916618</td>
-        <td data-label="Phone-number">0776572329</td>
-        <td>
-          <button class="accept-btn">Accept</button>
-          <button class="reject-btn">Reject</button>
-        </td>
-      </tr>
-      <tr>
-        <td data-label="Name">Hamza</td>
-        <td data-label="Age">21</td>
-        <td data-label="National_ID">199916618</td>
-        <td data-label="Phone-number">0776572329</td>
-        <td>
-          <button class="accept-btn">Accept</button>
-          <button class="reject-btn">Reject</button>
-        </td>
-      </tr>
-
-      </tbody>
-
-    </table>
-  </div>
+        </table>
+    </div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 

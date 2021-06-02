@@ -6,7 +6,7 @@ import PatientService from '../models/roles/patient/PatientService';
 
 @Injectable
 class PatientMiddleware {
-    public static async isPatient(req: Request, res: Response, next: NextFunction): Promise<void> {
+    public async isPatient(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
             const userId: string = req.app.locals.jwt._id;
             if (await PatientService.isExistByUserId(userId)) {

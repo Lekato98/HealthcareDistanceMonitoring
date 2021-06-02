@@ -8,8 +8,8 @@ class RoleApiRoute implements IRoute {
     public readonly ROUTE: Router = Router();
     public readonly ROUTE_PREFIX_URL: string = '/role';
     public readonly CREATE_ROLE: string = '/';
-    public readonly DELETE_ROLE: string = '/:roleName';
-    public readonly DELETE_ALL_ROLES: string = '/all';
+    public readonly DELETE_ROLE: string = '/:roleName/:userId';
+    public readonly DELETE_ALL_ROLES: string = '/all/:userId';
     public readonly GET_ACTIVE_ROLES: string = '/active/:roleName';
     public readonly GET_IN_ACTIVE_ROLES: string = '/in-active/:roleName';
     public readonly GET_PENDING_ROLES: string = '/pending/:roleName';

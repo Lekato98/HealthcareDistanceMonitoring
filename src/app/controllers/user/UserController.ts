@@ -2,14 +2,15 @@ import { Request, Response } from 'express';
 import { HttpStatusCode } from '../../utils/HttpUtils';
 import { Injectable } from 'dependency-injection-v1';
 import UserService from '../../models/user/UserService';
+import { SUCCESS, UNSUCCESSFUL } from '../../helpers/constants';
 
 @Injectable
 class UserController {
     /**
-     * @route /profile/:nationalId
-     * @request GET
+     * @Route /profile/:nationalId
+     * @GET
      * */
-    public async userProfilePage(req: Request, res: Response): Promise<void> {
+    public async profilePage(req: Request, res: Response): Promise<void> {
         try {
             const {nationalId} = req.params;
             const projection = '-password';
@@ -20,20 +21,21 @@ class UserController {
         }
     }
 
-    public async registrationPage(req: Request, res: Response): Promise<void> {
+    /**
+     * @Route /profile/edit
+     * @GET
+     * */
+    public async editProfilePage(req: Request, res: Response): Promise<void> {
         try {
-            if (req.app.locals.jwt) {
-                res.redirect('/');
-            } else {
-                res.render('registration');
-            }
+            res.render('editProfile.ejs');
         } catch (e) {
             res.status(HttpStatusCode.SERVER_ERROR).send('Server Error');
         }
     }
 
     /**
-     * @route /api/v1/user/:nationalId
+     * @Route /api/v1/user/:nationalId
+     * @GET
      * */
     public async getUser(req: Request, res: Response): Promise<void> {
         try {
@@ -42,64 +44,64 @@ class UserController {
             const user = await UserService.findByNationalId(nationalId, projection);
 
             if (user) {
-                const body = {success: 1, user};
+                const body = {success: SUCCESS, user};
                 res.json(body);
             } else {
-                const body = {success: 0, message: 'User not found'};
+                const body = {success: UNSUCCESSFUL, message: 'User not found'};
                 res.status(HttpStatusCode.NOT_FOUND).json(body);
             }
 
         } catch (e) {
-            const body = {success: 0, message: e.message};
+            const body = {success: UNSUCCESSFUL, message: e.message};
             res.json(body);
         }
     }
 
     /**
-     * @route /api/v1/user
-     * @request PATCH
+     * @Route /api/v1/user
+     * @PATCH
      * */
     public async updateUser(req: Request, res: Response): Promise<void> {
         try {
             const {nationalId} = req.app.locals.jwt;
             const payload = req.body;
             const user = await UserService.patchOne(nationalId, payload);
-            const body = {success: 1, user};
+            const body = {success: SUCCESS, user};
             res.json(body);
         } catch (e) {
-            const body = {success: 0, message: e.message};
+            const body = {success: UNSUCCESSFUL, message: e.message};
             res.status(HttpStatusCode.SERVER_ERROR).json(body);
         }
     }
 
     /**
-     * @route /api/v1/user/users?page=
-     * @request GET
+     * @Route /api/v1/user/users?page=
+     * @GET
      * */
     public async getUsersByPageNumber(req: Request, res: Response): Promise<void> {
         try {
             const pageNumber = Number(req.query.page) || 1; // 1 for default
             const users = await UserService.getAll(pageNumber);
-            const body = {success: 1, users};
+            const body = {success: SUCCESS, users};
             res.json(body);
         } catch (e) {
-            const body = {success: 0, message: e.message};
+            const body = {success: UNSUCCESSFUL, message: e.message};
             res.status(HttpStatusCode.SERVER_ERROR).json(body);
         }
     }
 
     /**
-     * @route /api/v1/user
-     * @request DELETE
+     * @Route /api/v1/user
+     * @DELETE
      * */
     public async deleteUser(req: Request, res: Response): Promise<void> {
         try {
             const {_id} = req.app.locals.jwt;
             const user = await UserService.deleteOneUser(_id);
-            const body = {success: 1, user};
+            const body = {success: SUCCESS, user};
             res.json(body);
         } catch (e) {
-            const body = {success: 0, message: e.message};
+            const body = {success: UNSUCCESSFUL, message: e.message};
             res.status(HttpStatusCode.SERVER_ERROR).json(body);
         }
     }

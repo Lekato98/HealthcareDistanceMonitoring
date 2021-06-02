@@ -16,6 +16,10 @@ body {
     font-size: 20px;
 }
 
+.cap {
+    text-transform: capitalize;
+}
+
 .emp-profile {
     padding: 3%;
     margin-top: 7%;

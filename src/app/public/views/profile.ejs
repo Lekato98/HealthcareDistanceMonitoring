@@ -62,12 +62,11 @@
                     <h3>
                         Patient
                     </h3>
-                    <p class="proile-rating">AGE : <span>20</span></p>
                     <hr>
                 </div>
             </div>
             <div class="col-md-2">
-                <a href="/editProfile"><button type="button" class="profile-edit-btn" name="btnAddMore"> Edit Profile </button></a>
+                <a href="/profile/edit"><button type="button" class="profile-edit-btn" name="btnAddMore"> Edit Profile </button></a>
             </div>
         </div>
         <div class="row">
@@ -80,26 +79,24 @@
                                 <label class="big">National Id</label>
                             </div>
                             <div class="col-md-6">
-                                <p class="big">naser112</p>
+                                <p class="big"><%=user.nationalId%></p>
                             </div>
                         </div>
 
                         <div class="row">
                         <div class="col-md-6">
-                            <label class="big">BirthDate</label>
+                            <label class="big">Birthdate</label>
                         </div>
                         <div class="col-md-6">
-                            <p class="big">12/12/12</p>
+                            <p class="big"><%=user.birthdate.toLocaleDateString()%></p>
                         </div>
                     </div>
-
-
                         <div class="row">
                             <div class="col-md-6">
-                                <label class="big">Name</label>
+                                <label class="big">Gender</label>
                             </div>
                             <div class="col-md-6">
-                                <p class="big">hamza Farhan</p>
+                                <p class="big cap"><%=user.gender%></p>
                             </div>
                         </div>
 
@@ -109,7 +106,7 @@
                                 <label class="big">Email</label>
                             </div>
                             <div class="col-md-6">
-                                <p class="big">naser112@gmail.com</p>
+                                <p class="big"><%=user.email%></p>
                             </div>
                         </div>
 
@@ -119,7 +116,7 @@
                                 <label class="big">Phone</label>
                             </div>
                             <div class="col-md-6">
-                                <p class="big">123 456 7890</p>
+                                <p class="big"><%=user.phoneNumber%></p>
                             </div>
                         </div>
 
@@ -128,7 +125,7 @@
                                 <label class="big">Address</label>
                             </div>
                             <div class="col-md-6">
-                                <p class="big">amman / tabarbour</p>
+                                <p class="big"><%=user.homeAddress%></p>
                             </div>
                         </div>
                         </div>

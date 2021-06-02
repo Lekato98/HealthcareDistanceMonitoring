@@ -14,11 +14,21 @@ export interface ILogin {
 
 @Injectable
 class AuthController {
+
     /**
-     * @route /auth/registration
+     * @Route /auth/registration
+     * @Post
      * */
     public async registrationPage(req: Request, res: Response): Promise<void> {
-        res.render('registration');
+        try {
+            if (req.app.locals.jwt) {
+                res.redirect('/');
+            } else {
+                res.render('registration');
+            }
+        } catch (e) {
+            res.status(HttpStatusCode.SERVER_ERROR).send('Server Error');
+        }
     }
 
     /**
