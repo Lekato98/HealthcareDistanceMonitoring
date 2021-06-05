@@ -23,9 +23,7 @@ h2 {
     font-weight: 400;
 }
 
-.navbar-brand{
-    margin-left:14%;
-}
+
 
 .testbox {
     position: relative;
@@ -60,6 +58,7 @@ input {
     box-shadow: 0 0 6px 0 #095484;
     color: #095484;
 }
+
 .item {
     position: relative;
     margin: 10px 0;

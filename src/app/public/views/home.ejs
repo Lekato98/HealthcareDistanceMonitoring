@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <%-include('./partials/head.ejs')%>
+
 
     <!--CSS linking-->
     <link rel="stylesheet" href="../css/style.css">
+    <%-include('./partials/head.ejs')%>
 </head>
 <body>
+<%-include('./partials/navbar.ejs')%>
+<%- include('./partials/notification.ejs') %>
+<!--                         Navbar                                         -->
+
 <section id="title">
-
-    <!--                         Navbar                                         -->
-    <%- include('./partials/notification.ejs') %>
-
-    <%-include('./partials/navbar.ejs')%>
 
     <!--home page content-->
     <div class="home-page-content container-fluid">

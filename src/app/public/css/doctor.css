@@ -3,11 +3,7 @@ body{
     padding:0;
     font-family: 'Montserrat', sans-serif;
 }
-.navbar-brand{
-    padding-left: 15%;
-    font-size: 1.8rem;
-    display: inline-block;
-}
+
 
 .logo {
     background: url("../images/favicon.ico");

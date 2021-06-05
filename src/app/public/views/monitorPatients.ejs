@@ -4,6 +4,8 @@
     <%- include('./partials/head.ejs') %>
 
     <link rel="stylesheet" href="../css/monitorPatients.css">
+    <link rel="stylesheet" href="../css/nav.css">
+
 </head>
 <body>
 <%- include('./partials/notification.ejs') %>
@@ -22,7 +24,8 @@
                     <th>National ID</th>
                     <th>Phone Number</th>
                     <th>Health Status</th>
-                    <th></th>
+                    <th>Reason</th>
+                    <th>Options</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -31,45 +34,17 @@
                     <td data-label="Age">21</td>
                     <td data-label="National_ID">199916618</td>
                     <td data-label="Phone-number">0776572329</td>
-                    <td  data-label="Health Status">Bad</td>
-                    <td class="flex">
-                        <a href="#" ><button class = "button" >Hospitalize Patient</button></a>
-                        <br>
-                        <a href="/reportList"><button class = "button flexButton">Report List</button></a>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td data-label="Name">Hamza</td>
-                    <td data-label="Age">21</td>
-                    <td data-label="National_ID">199916618</td>
-                    <td data-label="Phone-number">0776572329</td>
-                    <td  data-label="Health Status">Bad</td>
-                    <td class="flex">
-                        <a href="#" ><button class = "button" >Hospitalize Patient</button></a>
-                        <br>
-                        <a href="/reportList"><button class = "button flexButton">Report List</button></a>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td data-label="Name">Hamza</td>
-                    <td data-label="Age">21</td>
-                    <td data-label="National_ID">199916618</td>
-                    <td data-label="Phone-number">0776572329</td>
-                    <td  data-label="Health Status">Bad</td>
-                    <td class="flex">
-                        <a href="#" ><button class = "button" >Hospitalize Patient</button></a>
-                        <br>
-                        <a href="/reportList"><button class = "button flexButton">Report List</button></a>
+                    <td data-label="Health Status">Bad</td>
+                    <td data-label="Reason">VerySick</td>
+                    <td>
+                        <button class="btn btn-lg btn-dark">Contact</button>
+                        <a href="/reportList"><button class="btn btn-lg btn-primary">Report List</button></a>
                     </td>
                 </tr>
                 </tbody>
-
             </table>
         </div>
     </div>
-
 
 </section>
 

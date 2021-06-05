@@ -1,192 +1,56 @@
-html {
-    -webkit-font-smoothing: antialiased;
-}
-
-.navbar-brand{
-    margin-left: 14%;
-}
-
-.heading{
-    margin-top: 50px;
-    margin-left:15% ;
-}
-
-.paraHeading{
-    margin-left:15% ;
-}
-
-body {
-    background-color: #89CFF0;
-    font-family: "Titillium Web", sans-serif;
-}
-
-
-.form .button, .form .message, .customSelect, .form .select, .form .textarea, .form .text-input, .form .option-input + label, .form .checkbox-input + label, .form .label {
-    padding: 0.75em 1em;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    outline: none;
-    line-height: normal;
-    border-radius: 0;
-    border: none;
-    background: none;
-    display: block;
-
-}
-
-.required .form .label:after, .form .required .label:after {
-    content: " *";
-    color: #E8474C;
-    font-weight: normal;
-    font-size: 0.75em;
-    vertical-align: top;
-}
-
-.form .message {
-
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    z-index: 100;
-    font-size: 0.625em;
-    color: white;
-}
-
-.form .option-input, .form .checkbox-input {
-    border: 0;
-    clip: rect(0 0 0 0);
-    height: 1px;
-    margin: -1px;
-    overflow: hidden;
+body{
+    margin: 0;
     padding: 0;
-    position: absolute;
-    width: 1px;
+    background-color: #ecedf3;
 }
 
-.form .option-input + label, .form .checkbox-input + label {
-    background-color: white;
-    display: inline-block;
-    width: auto;
-    color: #4E4E4E;
-    position: relative;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+
+#questionnaire{
+    margin: 7% 15%;
+    width: 60%;
+    background-color: #fff;
+    padding: 50px;
+    box-shadow: 0 0 10px 0 #888888;
+    border-radius: 0.5%;
+
+}
+input[type='radio'] {
+    transform: scale(1.5);
+}
+
+li{
+    list-style: none;
+
+}
+label.label{
+    font-size: 1.3rem;
+}
+.option-label{
+    padding: 0 10px;
+    font-size: 1.2rem;
+    transition: border-color 0.15s ease 0s;
+}
+
+
+.option-input{
     cursor: pointer;
 }
 
-.form .option-input:focus + label, .form .checkbox-input:focus + label, .form .option-input:active + label, .form .checkbox-input:active + label {
-
-    color: #4E4E4E;
+div.field.required{
+    margin-bottom: 5%;
 }
 
-.form .option-input:checked + label, .form .checkbox-input:checked + label {
-    background-color: black;
-    color: white;
+.button{
+    background-color:#426c88 ;
+    border: none;
+    outline: none;
 }
 
-
-body {
-    padding: 2em;
+.option{
+    padding: 13px 2.7rem;
+    display: inline;
 }
 
-.form {
-    max-width: 40em;
-    margin: 0 15%;
-    position: relative;
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: space-between;
-    align-items: flex-end;
-}
-
-.form .field {
-    width: 100%;
-    margin: 0 0 1.5em 0;
-}
-@media screen and (min-width: 40em) {
-    .form .field.half {
-        width: calc(50% - 1px);
-    }
-}
-.form .field.last {
-    margin-left: auto;
-}
-.form .textarea {
-    max-width: 100%;
-}
-.form .select {
-    text-indent: 0.01px;
-    text-overflow: "" !important;
-}
-.form .select::-ms-expand {
-    display: none;
-}
-.form .checkboxes, .form .options {
-    padding: 0;
-    margin: 0;
-    list-style-type: none;
-    overflow: hidden;
-}
-.form .checkbox, .form .option {
-    float: left;
-    margin: 1px;
-}
-.customSelect {
-    pointer-events: none;
-}
-.customSelect:after {
-    content: "";
-    pointer-events: none;
-    width: 0.5em;
-    height: 0.5em;
-    border-style: solid;
-    border-color: white;
-    border-width: 0 3px 3px 0;
-    position: absolute;
-    top: 50%;
-    margin-top: -0.625em;
-    right: 1em;
-    transform-origin: 0 0;
-    transform: rotate(45deg);
-}
-.customSelect.customSelectFocus:after {
-    border-color: white;
-}
-.magic-focus {
-    position: absolute;
-    z-index: 0;
-    width: 0;
-    pointer-events: none;
-    background: rgba(255, 255, 255, 0.15);
-    transition: top 0.2s, left 0.2s, width 0.2s;
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-    transform-style: preserve-3d;
-    will-change: top, left, width;
-    transform-origin: 0 0;
-}
-
-.btn{
-    margin-left: 75%;
-}
-.btn-lg {
-    padding: 0.7rem 4rem;
-}
-
-.line{
-    margin-left:15%;
-}
-
-.option-input{
-    text-align: center !important;
-    margin: auto !important;
-}
-
-@media screen and (min-width: 40em) {
-    body {
-        font-size: 1.25em;
-    }
+.inline{
+    display: inline;
 }

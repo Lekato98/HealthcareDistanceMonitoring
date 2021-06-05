@@ -22,7 +22,7 @@ async function addPatientHandler(e){
          const body = await response.json();
          console.log(body);
          if (body.success) {
-             //location.href = '/';
+             location.reload();
          } else {
              alert(body.message);
          }

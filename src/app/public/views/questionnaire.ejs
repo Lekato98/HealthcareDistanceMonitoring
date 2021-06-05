@@ -1,212 +1,230 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <%- include('./partials/head.ejs') %>
-
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <%-include('./partials/head.ejs')%>
     <link rel="stylesheet" href="../css/questionnaire.css">
+    <link rel="stylesheet" href="../css/nav.css">
 </head>
 <body>
+
 <%- include('./partials/notification.ejs') %>
-<%-include('./partials/navbar.ejs')%>
+<%- include('./partials/navbar.ejs') %>
 
-<div class="questionnaire-body container-fluid">
-    <h1 class="heading" id="big">Covid-19 Daily Reports</h1>
-    <p class="paraHeading">Thank you for taking the time to answer these questions. The following questions are about to know how well
-        is your health</p>
-    <hr class="line" noshade size="2">
-    <form id='report' action='' class='form'>
-        <div class='field required'>
-            <label class='label required'>Been In Contact with a Positive carrier in the past 2 weeks?</label>
-            <ul class='options'>
-                <li class='option'>
-                    <input class='option-input' id='yes-contact' name='positiveContact' type='radio' value= "true" required>
-                    <label class='option-label' for='yes-contact'>Yes</label>
-                </li>
-                <li class='option'>
-                    <input class='option-input' id='no-contact' name='positiveContact' type='radio' value= "false">
-                    <label class='option-label' for='no-contact'>No</label>
-                </li>
-            </ul>
-        </div>
 
-        <div class='field required'>
-            <label class='label required'>Feeling A Sore Throat?</label>
-            <ul class='options'>
-                <li class='option'>
-                    <input class='option-input' id='throat-0' name='throat' type='radio' value= "0" required>
-                    <label class='option-label' for='throat-0'>nothing</label>
-                </li>
 
-                <li class='option'>
-                    <input class='option-input' id='throat-1' name='throat' type='radio' value= "1">
-                    <label class='option-label' for='throat-1'>Barely</label>
-                </li>
+<section id="questionnaire">
 
-                <li class='option'>
-                    <input class='option-input' id='throat-2' name='throat' type='radio' value= "2">
-                    <label class='option-label' for='throat-2'>Good</label>
-                </li>
+    <div class id="header">
+        <h1>Covid-19 Daily Reports</h1>
+    </div>
 
-                <li class='option'>
-                    <input class='option-input' id='throat-3' name='throat' type='radio' value= "3">
-                    <label class='option-label' for='throat-3'>Perfect</label>
-                </li>
+    <div class="description">
+        Thank you for taking the time to answer these questions. The following questions are about to know how well is your health
+    </div>
 
-                <li class='option'>
-                    <input class='option-input' id='throat-4' name='throat' type='radio' value= "4">
-                    <label class='option-label' for='throat-4'>As Always</label>
-                </li>
+    <hr>
 
-            </ul>
-        </div>
+    <div class="form">
+        <form id="report" action="">
+            <div class='field required'>
+                <label class='label required'>Been In Contact with a Positive carrier in the past 2 weeks?</label>
+                <ul class='options'>
+                    <li class='option inline'>
+                        <input class='option-input' id='yes-contact' name='positiveContact' type='radio' value= "true" required>
+                        <label class='option-label' for='yes-contact'>Yes</label>
+                    </li>
+                    <li class='option inline'>
+                        <input class='option-input' id='no-contact' name='positiveContact' type='radio' value= "false">
+                        <label class='option-label' for='no-contact'>No</label>
+                    </li>
+                </ul>
+            </div>
+            <hr>
+            <div class='field required'>
+                <label class='label required'>Feeling A Sore Throat?</label>
+                <ul class='options'>
+                    <li class='option'>
+                        <input class='option-input' id='throat-0' name='throat' type='radio' value= "0" required>
+                        <label class='option-label' for='throat-0'>nothing</label>
+                    </li>
 
-        <div class='field required'>
-            <label class='label required'>Shortness of Breath</label>
+                    <li class='option'>
+                        <input class='option-input' id='throat-1' name='throat' type='radio' value= "1">
+                        <label class='option-label' for='throat-1'>Barely</label>
+                    </li>
 
-            <ul class='options'>
-                <li class='option'>
-                    <input class='option-input' id='Breath-0' name='shortnessOfBreath' type='radio' value= "4" required>
-                    <label class='option-label' for='Breath-0'>Breathing is perfect</label>
-                </li>
+                    <li class='option'>
+                        <input class='option-input' id='throat-2' name='throat' type='radio' value= "2">
+                        <label class='option-label' for='throat-2'>Good</label>
+                    </li>
 
-                <li class='option'>
-                    <input class='option-input' id='Breath-1' name='shortnessOfBreath' type='radio' value= "3">
-                    <label class='option-label' for='Breath-1'>Breathing Fine</label>
-                </li>
+                    <li class='option'>
+                        <input class='option-input' id='throat-3' name='throat' type='radio' value= "3">
+                        <label class='option-label' for='throat-3'>Perfect</label>
+                    </li>
 
-                <li class='option'>
-                    <input class='option-input' id='Breath-2' name='shortnessOfBreath' type='radio' value= "2">
-                    <label class='option-label' for='Breath-2'>Barely Breathing</label>
-                </li>
+                    <li class='option'>
+                        <input class='option-input' id='throat-4' name='throat' type='radio' value= "4">
+                        <label class='option-label' for='throat-4'>As Always</label>
+                    </li>
 
-                <li class='option'>
-                    <input class='option-input' id='Breath-4' name='shortnessOfBreath' type='radio' value= "0">
-                    <label class='option-label' for='Breath-4'>Can't tell</label>
-                </li>
+                </ul>
+            </div>
+            <hr>
+            <div class='field required'>
+                <label class='label required'>Shortness of Breath</label>
 
-            </ul>
-        </div>
+                <ul class='options'>
+                    <li class='option'>
+                        <input class='option-input' id='Breath-0' name='shortnessOfBreath' type='radio' value= "4" required>
+                        <label class='option-label' for='Breath-0'>Perfect</label>
+                    </li>
 
-        <div class='field required'>
-            <label class='label required'>Headache severity</label>
-            <ul class='options'>
-                <li class='option'>
-                    <input class='option-input' id='headache-0' name='headache' type='radio' value='0' required>
-                    <label class='option-label' for='headache-0'>0</label>
-                </li>
-                <li class='option'>
-                    <input class='option-input' id='headache-1' name='headache' type='radio' value='1'>
-                    <label class='option-label' for='headache-1'>1</label>
-                </li>
-                <li class='option'>
-                    <input class='option-input' id='headache-2' name='headache' type='radio' value='2'>
-                    <label class='option-label' for='headache-2'>2</label>
-                </li>
-                <li class='option'>
-                    <input class='option-input' id='headache-3' name='headache' type='radio' value="3">
-                    <label class='option-label' for='headache-3'>3</label>
-                </li>
-                <li class='option'>
-                    <input class='option-input' id='headache-4' name='headache' type='radio' value='4'>
-                    <label class='option-label' for='headache-4'>4</label>
-                </li>
-                <li class='option'>
-                    <input class='option-input' id='headache-5' name='headache' type='radio' value='5'>
-                    <label class='option-label' for='headache-5'>5</label>
-                </li>
-            </ul>
-        </div>
+                    <li class='option'>
+                        <input class='option-input' id='Breath-0' name='shortnessOfBreath' type='radio' value= "4" required>
+                        <label class='option-label' for='Breath-0'>Good</label>
+                    </li>
 
-        <div class='field required'>
-            <label class='label required'>Fatigue severity</label>
-            <ul class='options'>
-                <li class='option'>
-                    <input class='option-input' id='fatigue-0' name='fatigue' type='radio' value='0' required>
-                    <label class='option-label' for='fatigue-0'>0</label>
-                </li>
-                <li class='option'>
-                    <input class='option-input' id='fatigue-1' name='fatigue' type='radio' value='1'>
-                    <label class='option-label' for='fatigue-1'>1</label>
-                </li>
-                <li class='option'>
-                    <input class='option-input' id='fatigue-2' name='fatigue' type='radio' value='2'>
-                    <label class='option-label' for='fatigue-2'>2</label>
-                </li>
-                <li class='option'>
-                    <input class='option-input' id='fatigue-3' name='fatigue' type='radio' value='3'>
-                    <label class='option-label' for='fatigue-3'>3</label>
-                </li>
-                <li class='option'>
-                    <input class='option-input' id='fatigue-4' name='fatigue' type='radio' value='4'>
-                    <label class='option-label' for='fatigue-4'>4</label>
-                </li>
-                <li class='option'>
-                    <input class='option-input' id='fatigue-5' name='fatigue' type='radio' value='5'>
-                    <label class='option-label' for='fatigue-5'>5</label>
-                </li>
-            </ul>
-        </div>
+                    <li class='option'>
+                        <input class='option-input' id='Breath-1' name='shortnessOfBreath' type='radio' value= "3">
+                        <label class='option-label' for='Breath-1'>Fine</label>
+                    </li>
 
-        <div class='field required'>
-            <label class='label required'>Can Taste?</label>
-            <ul class='options'>
-                <li class='option'>
-                    <input class='option-input' id='taste-0' name='taste' type='radio' value='0' required>
-                    <label class='option-label' for='taste-0'>Nothing</label>
-                </li>
-                <li class='option'>
-                    <input class='option-input' id='taste-1' name='taste' type='radio' value='1'>
-                    <label class='option-label' for='taste-1'>Barely</label>
-                </li>
-                <li class='option'>
-                    <input class='option-input' id='taste-2' name='taste' type='radio' value='2'>
-                    <label class='option-label' for='taste-2'>Good</label>
-                </li>
-                <li class='option'>
-                    <input class='option-input' id='taste-3' name='taste' type='radio' value='3'>
-                    <label class='option-label' for='taste-3'>Great</label>
-                </li>
-                <li class='option'>
-                    <input class='option-input' id='taste-4' name='taste' type='radio' value='4'>
-                    <label class='option-label' for='taste-4'>As Always</label>
-                </li>
-            </ul>
-        </div>
-        <div class='field required'>
-            <label class='label required'>Can Smell?</label>
-            <ul class='options'>
-                <li class='option'>
-                    <input class='option-input' id='smell-0' name='smell' type='radio' value='0' required>
-                    <label class='option-label' for='smell-0'>Nothing</label>
-                </li>
-                <li class='option'>
-                    <input class='option-input' id='smell-1' name='smell' type='radio' value='1'>
-                    <label class='option-label' for='smell-1'>Barely</label>
-                </li>
-                <li class='option'>
-                    <input class='option-input' id='smell-2' name='smell' type='radio' value='2'>
-                    <label class='option-label' for='smell-2'>Good</label>
-                </li>
-                <li class='option'>
-                    <input class='option-input' id='smell-3' name='smell' type='radio' value='3'>
-                    <label class='option-label' for='smell-3'>Great</label>
-                </li>
-                <li class='option'>
-                    <input class='option-input' id='smell-4' name='smell' type='radio' value='4'>
-                    <label class='option-label' for='smell-4'>As Always</label>
-                </li>
-            </ul>
-        </div>
-        <p class='field half'>
-            <input class='button' type='submit' value='Send'>
-        </p>
-    </form>
+                    <li class='option'>
+                        <input class='option-input' id='Breath-2' name='shortnessOfBreath' type='radio' value= "2">
+                        <label class='option-label' for='Breath-2'>Barely</label>
+                    </li>
 
-</div>
+                    <li class='option'>
+                        <input class='option-input' id='Breath-4' name='shortnessOfBreath' type='radio' value= "0">
+                        <label class='option-label' for='Breath-4'>Can't Breath</label>
+                    </li>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+                </ul>
+            </div>
+            <hr>
+            <div class='field required'>
+                <label class='label required'>Headache severity</label>
+                <ul class='options'>
+                    <li class='option'>
+                        <input class='option-input' id='headache-0' name='headache' type='radio' value='0' required>
+                        <label class='option-label' for='headache-0'>0</label>
+                    </li>
+                    <li class='option'>
+                        <input class='option-input' id='headache-1' name='headache' type='radio' value='1'>
+                        <label class='option-label' for='headache-1'>1</label>
+                    </li>
+                    <li class='option'>
+                        <input class='option-input' id='headache-2' name='headache' type='radio' value='2'>
+                        <label class='option-label' for='headache-2'>2</label>
+                    </li>
+                    <li class='option'>
+                        <input class='option-input' id='headache-3' name='headache' type='radio' value="3">
+                        <label class='option-label' for='headache-3'>3</label>
+                    </li>
+                    <li class='option'>
+                        <input class='option-input' id='headache-4' name='headache' type='radio' value='4'>
+                        <label class='option-label' for='headache-4'>4</label>
+                    </li>
+                    <li class='option'>
+                        <input class='option-input' id='headache-5' name='headache' type='radio' value='5'>
+                        <label class='option-label' for='headache-5'>5</label>
+                    </li>
+                </ul>
+            </div>
+            <hr>
+            <div class='field required'>
+                <label class='label required'>Fatigue severity</label>
+                <ul class='options'>
+                    <li class='option'>
+                        <input class='option-input' id='fatigue-0' name='fatigue' type='radio' value='0' required>
+                        <label class='option-label' for='fatigue-0'>0</label>
+                    </li>
+                    <li class='option'>
+                        <input class='option-input' id='fatigue-1' name='fatigue' type='radio' value='1'>
+                        <label class='option-label' for='fatigue-1'>1</label>
+                    </li>
+                    <li class='option'>
+                        <input class='option-input' id='fatigue-2' name='fatigue' type='radio' value='2'>
+                        <label class='option-label' for='fatigue-2'>2</label>
+                    </li>
+                    <li class='option'>
+                        <input class='option-input' id='fatigue-3' name='fatigue' type='radio' value='3'>
+                        <label class='option-label' for='fatigue-3'>3</label>
+                    </li>
+                    <li class='option'>
+                        <input class='option-input' id='fatigue-4' name='fatigue' type='radio' value='4'>
+                        <label class='option-label' for='fatigue-4'>4</label>
+                    </li>
+                    <li class='option'>
+                        <input class='option-input' id='fatigue-5' name='fatigue' type='radio' value='5'>
+                        <label class='option-label' for='fatigue-5'>5</label>
+                    </li>
+                </ul>
+            </div>
+            <hr>
+            <div class='field required'>
+                <label class='label required'>Can Taste?</label>
+                <ul class='options'>
+                    <li class='option'>
+                        <input class='option-input' id='taste-0' name='taste' type='radio' value='0' required>
+                        <label class='option-label' for='taste-0'>Nothing</label>
+                    </li>
+                    <li class='option'>
+                        <input class='option-input' id='taste-1' name='taste' type='radio' value='1'>
+                        <label class='option-label' for='taste-1'>Barely</label>
+                    </li>
+                    <li class='option'>
+                        <input class='option-input' id='taste-2' name='taste' type='radio' value='2'>
+                        <label class='option-label' for='taste-2'>Good</label>
+                    </li>
+                    <li class='option'>
+                        <input class='option-input' id='taste-3' name='taste' type='radio' value='3'>
+                        <label class='option-label' for='taste-3'>Great</label>
+                    </li>
+                    <li class='option'>
+                        <input class='option-input' id='taste-4' name='taste' type='radio' value='4'>
+                        <label class='option-label' for='taste-4'>Normal</label>
+                    </li>
+                </ul>
+            </div>
+            <hr>
+            <div class='field required'>
+                <label class='label required'>Can Smell?</label>
+                <ul class='options'>
+                    <li class='option'>
+                        <input class='option-input' id='smell-0' name='smell' type='radio' value='0' required>
+                        <label class='option-label' for='smell-0'>Nothing</label>
+                    </li>
+                    <li class='option'>
+                        <input class='option-input' id='smell-1' name='smell' type='radio' value='1'>
+                        <label class='option-label' for='smell-1'>Barely</label>
+                    </li>
+                    <li class='option'>
+                        <input class='option-input' id='smell-2' name='smell' type='radio' value='2'>
+                        <label class='option-label' for='smell-2'>Good</label>
+                    </li>
+                    <li class='option'>
+                        <input class='option-input' id='smell-3' name='smell' type='radio' value='3'>
+                        <label class='option-label' for='smell-3'>Great</label>
+                    </li>
+                    <li class='option'>
+                        <input class='option-input' id='smell-4' name='smell' type='radio' value='4'>
+                        <label class='option-label' for='smell-4'>Normal</label>
+                    </li>
+                </ul>
+            </div>
+            <p class='field half'>
+                <input  class='button btn btn-lg btn-primary btn-block' type='submit' value='Send'>
+            </p>
+        </form>
+    </div>
 
-<script src="../js/questionnaire.js"></script>
+</section>
+
 <script src="../js/socket.js"></script>
+<script src="../js/questionnaire.js" ></script>
 </body>
 </html>
