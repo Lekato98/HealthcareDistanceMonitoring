@@ -1,7 +1,8 @@
 <nav class="navbar navbar-expand-lg navbar-styling fixed-top">
-    <a class="navbar-brand" href="/"><img class="logo" src="../../images/white.png" alt="white-logo"> Home Distance
-        Monitoring</a>
-
+    <a class="navbar-brand" href="/">
+        <img class="logo" src="../../images/white.png" alt="white-logo">
+        Home Distance Monitoring
+    </a>
     <button
             class="navbar-toggler"
             type="button"
@@ -18,75 +19,74 @@
 
         <ul class="navbar-nav ml-auto mr-5">
             <% if (!isAdmin) { %>
-            <li class="nav-item active">
-                <a class="nav-link primary-item" href="/profile/<%= me.nationalId %>"><img class="profile-icon"
-                                                                                           src="../../images/10748.jpg"
-                                                                                           alt=""> <%= me.firstName %>
-                </a>
-            </li>
-
-            <li class="nav-item active dropdown nav-item-container">
-                <a
-                        class="nav-link dropdown-toggle my-dropdown-toggle"
-                        href="#"
-                        id="navbarDropdownMenuLink2"
-                        data-toggle="dropdown"
-                        aria-haspopup="true"
-                        aria-expanded="false"
-                ><i class="fas fa-bell"></i></a>
-                <div class="dropdown-menu dropdown-menu-right noti-container" aria-labelledby="navbarDropdownMenuLink2">
-                    <a class="dropdown-item secondary-item noti-item" href="#">
-                        <div class="inner-noti-item">
-                            <h6 class="inner-noti-header">Doctor name</h6>
-                            <p class="inner-noti-text">This is a notification This is a notification This is a
-                                notification This is a notification This is a notification This is a notification</p>
-                            <p class="inner-noti-time"><i class="far fa-clock"></i> 15 Hours ago..</p>
-                        </div>
+                <li class="nav-item active">
+                    <a class="nav-link primary-item" href="/profile/<%= me.nationalId %>"><img class="profile-icon"
+                                                                                               src="../../images/10748.jpg"
+                                                                                               alt=""> <%= me.firstName %>
                     </a>
-                    <a class="dropdown-item secondary-item noti-item" href="#">
-                        <div class="inner-noti-item">
-                            <h6 class="inner-noti-header">Doctor name</h6>
-                            <p class="inner-noti-text">This is a notification This is a notification This is a
-                                notification This is a notification This is a notification This is a notification</p>
-                            <p class="inner-noti-time"><i class="far fa-clock"></i> 15 Hours ago..</p>
-                        </div>
-                    </a>
+                </li>
 
-                </div>
-            </li>
+                <li class="nav-item active dropdown nav-item-container">
+                    <a
+                            class="nav-link dropdown-toggle my-dropdown-toggle"
+                            href="#"
+                            id="navbarDropdownMenuLink2"
+                            data-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="false"
+                    ><i class="fas fa-bell"></i></a>
+                    <div class="dropdown-menu dropdown-menu-right noti-container"
+                         aria-labelledby="navbarDropdownMenuLink2">
+                        <% for (const {title, body, time} of me.notifications) { %>
+                            <div class="dropdown-item secondary-item noti-item">
+                                <div class="inner-noti-item">
+                                    <div class="noti-remove"><i class="far fa-times"></i>
+                                    </div>
+                                    <h6 class="inner-noti-header"><%= title %></h6>
+                                    <p class="inner-noti-text"><%= body %></p>
+                                    <p class="inner-noti-time"><i class="far fa-clock"></i> <%= time.toLocaleString() %>
+                                    </p>
+                                </div>
+                            </div>
+                        <% } %>
+                    </div>
+                </li>
 
-            <li class="nav-item active dropdown nav-item-container">
-                <a
-                        class="nav-link dropdown-toggle my-dropdown-toggle"
-                        href="#"
-                        id="navbarDropdownMenuLink2"
-                        data-toggle="dropdown"
-                        aria-haspopup="true"
-                        aria-expanded="false"
-                ><i class="fad fa-inbox"></i></a>
-                <div class="dropdown-menu dropdown-menu-right noti-container" aria-labelledby="navbarDropdownMenuLink2">
-                    <a class="dropdown-item secondary-item noti-item" href="#">
-                        <div class="inner-noti-item">
-                            <img class="message-image" src="/images/3485230f.jpg" alt="profile-image">
-                            <h6 class="inner-noti-header">Doctor name</h6>
-                            <p class="inner-noti-text">This is a Message, This is a Message, This is a Message, This is
-                                a Message, This is a Message, This is a Message,This is a Message</p>
-                            <p class="inner-noti-time"><i class="far fa-clock"></i> 15 Hours ago..</p>
-                        </div>
-                    </a>
-                    <a class="dropdown-item secondary-item noti-item" href="#">
-                        <div class="inner-noti-item">
-                            <img class="message-image" src="/images/3485230f.jpg" alt="profile-image">
-                            <h6 class="inner-noti-header">Doctor name</h6>
-                            <p class="inner-noti-text">This is a Message, This is a Message, This is a Message, This is
-                                a Message, This is a Message, This is a Message,This is a Message</p>
-                            <p class="inner-noti-time"><i class="far fa-clock"></i> 15 Hours ago..</p>
-                        </div>
-                    </a>
+                <li class="nav-item active dropdown nav-item-container">
+                    <a
+                            class="nav-link dropdown-toggle my-dropdown-toggle"
+                            href="#"
+                            id="navbarDropdownMenuLink2"
+                            data-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="false"
+                    ><i class="fad fa-inbox"></i></a>
+                    <div class="dropdown-menu dropdown-menu-right noti-container"
+                         aria-labelledby="navbarDropdownMenuLink2">
+                        <a class="dropdown-item secondary-item noti-item" href="#">
+                            <div class="inner-noti-item">
+                                <img class="message-image" src="/images/3485230f.jpg" alt="profile-image">
+                                <h6 class="inner-noti-header">Doctor name</h6>
+                                <p class="inner-noti-text">This is a Message, This is a Message, This is a Message, This
+                                    is
+                                    a Message, This is a Message, This is a Message,This is a Message</p>
+                                <p class="inner-noti-time"><i class="far fa-clock"></i> 15 Hours ago..</p>
+                            </div>
+                        </a>
+                        <a class="dropdown-item secondary-item noti-item" href="#">
+                            <div class="inner-noti-item">
+                                <img class="message-image" src="/images/3485230f.jpg" alt="profile-image">
+                                <h6 class="inner-noti-header">Doctor name</h6>
+                                <p class="inner-noti-text">This is a Message, This is a Message, This is a Message, This
+                                    is
+                                    a Message, This is a Message, This is a Message,This is a Message</p>
+                                <p class="inner-noti-time"><i class="far fa-clock"></i> 15 Hours ago..</p>
+                            </div>
+                        </a>
 
 
-                </div>
-            </li>
+                    </div>
+                </li>
             <% } %>
 
             <li class="nav-item active dropdown nav-item-container">
@@ -130,5 +130,5 @@
 </nav>
 
 
-<script src="../../js/nav.js"></script>
+<script src="../js/nav.js"></script>
 

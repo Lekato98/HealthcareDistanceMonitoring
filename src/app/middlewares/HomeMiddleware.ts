@@ -2,11 +2,13 @@ import { Injectable } from 'dependency-injection-v1';
 import { NextFunction, Request, Response } from 'express';
 import { HttpStatusCode } from '../utils/HttpUtils';
 import UserService from '../models/user/UserService';
+import { RoleName } from '../models/user/UserModel';
 
 @Injectable
 class HomeMiddleware {
     public async isAuth(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
+            res.locals.role = RoleName.NO_ROLE;
             const userId: string = req.app.locals.jwt?._id;
             const nationalId: string = req.app.locals.jwt?.nationalId;
             const user = await UserService.findByNationalId(nationalId);

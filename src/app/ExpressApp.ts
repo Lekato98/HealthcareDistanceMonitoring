@@ -9,6 +9,8 @@ import AuthMiddleware from './middlewares/AuthMiddleware';
 import { Inject } from 'dependency-injection-v1';
 import UserRoute from './routes/UserRoute';
 import { config } from '../config/config';
+import DateUtils from './utils/DateUtils';
+import PatientService from './models/roles/patient/PatientService';
 
 const cookieParser = require('cookie-parser');
 const rateLimit = require('express-rate-limit');
@@ -18,6 +20,7 @@ class ExpressApp {
     public readonly PORT: string = config.PORT;
     public readonly PUBLIC_FILE_PATH: string = path.join(__dirname, 'public'); // public folder
     public readonly VIEWS_PATH: string = path.join(__dirname, 'public/views'); // views folder
+    public readonly _12H: number = 43200000;
     public readonly urlencodedOptions = {extended: true};
     public readonly requestLimiter = rateLimit({
         windowMs: 15 * 60 * 1000, // 15 minutes
@@ -33,12 +36,15 @@ class ExpressApp {
     ];
 
     private readonly app: Express = express();
+    private reminderInterval: NodeJS.Timeout;
+
     @Inject(AuthMiddleware) private authMiddleware: AuthMiddleware;
 
     constructor() {
         this.initializeViewEngine();
         this.initializeMiddlewares();
         this.initializeRoutes();
+        this.initializeReminders();
         // this.app.set('trust proxy', 1);
 
         // connect to mongoDB
@@ -67,6 +73,21 @@ class ExpressApp {
         this.app.use(AuthRoute.ROUTE_PREFIX_URL, AuthRoute.ROUTE); // /auth @auth
         this.app.use(UserRoute.ROUTE_PREFIX_URL, UserRoute.ROUTE);
         this.app.use(HomeRoute.ROUTE_PREFIX_URL, HomeRoute.ROUTE); // / @default
+    }
+
+    public initializeReminders(): void {
+        this.reminderInterval = setInterval(() => PatientService.notifyPatients({
+            title: 'Reminder',
+            body: 'don\'t miss your report!',
+            time: new Date(),
+        }), this.getTimeoutReminder());
+    }
+
+    public getTimeoutReminder(): number {
+        const now = new Date(Date.now());
+        const next8 = DateUtils.getDayReportTimeAfterNDays(0);
+
+        return Math.abs(next8.getTime() - now.getTime());
     }
 
     public getApp(): Express {

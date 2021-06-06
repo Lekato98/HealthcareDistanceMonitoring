@@ -14,8 +14,8 @@ class MonitorMiddleware {
             const monitor = roleName === RoleName.MONITOR && await MonitorService.findOneByUserId(userId);
 
             if (monitor?.active) {
-                req.app.locals.jwt.roleName = RoleName.MONITOR;
                 req.app.locals.jwt.roleId = monitor._id;
+                res.locals.role = RoleName.MONITOR;
                 next();
             } else {
                 const body = {success: UNSUCCESSFUL, message: 'Invalid action, looks like you are not a monitor!'};

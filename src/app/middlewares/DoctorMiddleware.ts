@@ -14,8 +14,8 @@ class DoctorMiddleware {
             const doctor = roleName === RoleName.DOCTOR && await DoctorService.findOneByUserId(userId);
 
             if (doctor?.active) {
-                req.app.locals.jwt.roleName = RoleName.DOCTOR;
                 req.app.locals.jwt.roleId = doctor._id;
+                res.locals.role = RoleName.DOCTOR;
                 next();
             } else {
                 const body = {success: UNSUCCESSFUL, message: 'Invalid action, looks like you are not a doctor!'};

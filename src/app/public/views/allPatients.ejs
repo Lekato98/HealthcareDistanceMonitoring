@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <%-include('./partials/head.ejs')%>
+    <%- include('./partials/head.ejs') %>
     <title>HDM | Patients</title>
     <link rel="stylesheet" href="../css/allPatients.css">
 </head>
@@ -29,7 +29,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <% for (let {_id, user} of allPatients) { %>
+                <% for (let {_id, user, isMine} of allPatients) { %>
                     <tr>
                         <td data-label="Name"><%= user.firstName %> <%= user.lastName %></td>
                         <td data-label="Age"><%= user.birthdate.toLocaleDateString() %></td>
@@ -38,7 +38,15 @@
                         <td data-label="Health Status">Bad</td>
                         <td>
                             <button class="btn btn-lg btn-dark" value="<%= _id %>">Contact</button>
-                            <button class="btn btn-lg btn-primary" id="add-patient" value="<%= _id %>">Add Patient</button>
+                            <% if (!isMine) { %>
+                                <button class="btn btn-lg btn-primary add-patient" value="<%= _id %>">
+                                    Add Patient
+                                </button>
+                            <% } else { %>
+                                <button class="btn btn-lg btn-primary remove-patient" value="<%= _id %>">
+                                    Remove Patient
+                                </button>
+                            <%}%>
                         </td>
                     </tr>
                 <% } %>
@@ -66,6 +74,5 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="../js/allPatients.js"></script>
-
 </body>
 </html>

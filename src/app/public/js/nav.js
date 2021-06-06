@@ -2,11 +2,15 @@ const logout = document.querySelector('#logout');
 const patient = document.querySelector('#patient-role');
 const monitor = document.querySelector('#monitor-role');
 const doctor = document.querySelector('#doctor-role');
+const removeNotifications = document.querySelectorAll('.noti-remove');
 
 logout.addEventListener('click', logoutHandler);
 patient.addEventListener('click', (e) => switchRoleHandler(e, 'patient'));
 monitor.addEventListener('click', (e) => switchRoleHandler(e, 'monitor'));
 doctor.addEventListener('click', (e) => switchRoleHandler(e, 'doctor'));
+removeNotifications.forEach((notification, index) =>
+    notification.addEventListener('click', () => removeHandler(index)),
+);
 
 async function switchRoleHandler(e, roleName) {
     const headers = {
@@ -28,6 +32,23 @@ async function switchRoleHandler(e, roleName) {
             location.href = '/';
         } else {
             alert(payload.message);
+        }
+    } catch (e) {
+        alert(e.message);
+    }
+}
+
+async function removeHandler(index) {
+    try {
+        const options = {
+            'method': 'DELETE',
+        };
+        const response = await fetch(`/api/v1/user/remove-notification/${index}`, options);
+        const body = await response.json();
+        if (body.success) {
+            location.reload();
+        } else {
+            alert(body.message);
         }
     } catch (e) {
         alert(e.message);

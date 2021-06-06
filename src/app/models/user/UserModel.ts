@@ -3,6 +3,7 @@ import { ArrayPropOptions, BasePropOptions, IModelOptions, PropOptionsForString 
 import { arrayProp, getModelForClass, Index, ModelOptions, Prop, Severity } from '@typegoose/typegoose';
 import UserValidator from './UserValidator';
 import { UNIQUE } from '../../helpers/constants';
+import * as mongoose from 'mongoose';
 
 export const enum RoleName {
     PATIENT = 'patient',
@@ -104,6 +105,11 @@ const rolesTypeOptions: ArrayPropOptions = {
     required: true,
 };
 
+const notificationsTypeOptions: ArrayPropOptions = {
+    type: [mongoose.Schema.Types.Mixed],
+    default: [],
+};
+
 const schemaOptions: SchemaOptions = {
     timestamps: true,
     discriminatorKey: '', // used in inheritance as collection name for the childes
@@ -131,6 +137,7 @@ export class User {
     @Prop(homeAddressTypeOptions) public homeAddress!: string;
     @Prop(phoneNumberTypeOptions) public phoneNumber!: string;
     @arrayProp(rolesTypeOptions) public roles?: string[];
+    @arrayProp(notificationsTypeOptions) public notifications?: object[];
 
     constructor(user?: IUser) {
         this.nationalId = user?.nationalId || '';

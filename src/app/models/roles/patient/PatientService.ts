@@ -6,9 +6,18 @@ import DateUtils from '../../../utils/DateUtils';
 import { QueryUpdateOptions } from 'mongoose';
 import MonitorModel from '../monitor/MonitorModel';
 import UserModel from '../../user/UserModel';
+import UserService from '../../user/UserService';
 
 class PatientService {
     private static readonly PATIENTS_PAIR_PAGE = 20;
+
+    public static async notifyPatients(payload: any): Promise<any> {
+        const patients = await PatientModel.find({});
+        const currentDate = new Date();
+
+        return await patients.forEach(patient => patient.nextDailyReportDate <= currentDate &&
+            UserService.addNotification(patient.userId, payload));
+    }
 
     public static async getPatientByUserId(userId: string): Promise<DocumentType<Patient>> {
         return PatientModel.findOne({userId});
@@ -58,8 +67,8 @@ class PatientService {
         return PatientModel.exists({userId});
     }
 
-    public static async getPatientsByPageNumber(page: number = 0): Promise<any[]> {
-        const sortStage = {$sort: {createdAt: 1}};
+    public static async getPatientsByPageNumber(page: number = 0, monitorId?: string): Promise<any[]> {
+        const sortStage = {$sort: {firstName: 1, lastName: 1}};
         const skipStage = {$skip: page * this.PATIENTS_PAIR_PAGE};
         const limitStage = {$limit: this.PATIENTS_PAIR_PAGE};
         const lookupStage = {
@@ -81,11 +90,13 @@ class PatientService {
         };
 
         const pipeline = [sortStage, skipStage, limitStage, lookupStage, unwindStage, projectionStage];
-        return PatientModel.aggregate(pipeline);
+        const patients = await PatientModel.aggregate(pipeline);
+        const monitor = monitorId && await MonitorModel.findById(monitorId);
+        return patients.map(patient => ({...patient, isMine: monitor.patients.includes(patient._id)}));
     }
 
     public static async getMonitoredPatientsByPageNumber(page: number = 0): Promise<any[]> {
-        const sortStage = {$sort: {createdAt: 1}};
+        const sortStage = {$sort: {firstName: 1, lastName: 1}};
         const skipStage = {$skip: page * this.PATIENTS_PAIR_PAGE};
         const limitStage = {$limit: this.PATIENTS_PAIR_PAGE};
         const lookupStage = {
@@ -104,7 +115,7 @@ class PatientService {
     }
 
     public static async getUnmonitoredPatientsByPageNumber(page: number = 0): Promise<any[]> {
-        const sortStage = {$sort: {createdAt: 1}};
+        const sortStage = {$sort: {firstName: 1, lastName: 1}};
         const skipStage = {$skip: page * this.PATIENTS_PAIR_PAGE};
         const limitStage = {$limit: this.PATIENTS_PAIR_PAGE};
         const lookupStage = {

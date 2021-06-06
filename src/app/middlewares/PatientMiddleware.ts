@@ -15,6 +15,7 @@ class PatientMiddleware {
 
             if (patient?.active) {
                 req.app.locals.jwt.roleId = patient._id;
+                res.locals.role = RoleName.PATIENT;
                 next();
             } else {
                 const body = {success: UNSUCCESSFUL, message: 'Invalid action, looks like you are not a patient!'};

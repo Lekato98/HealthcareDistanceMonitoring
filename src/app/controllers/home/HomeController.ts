@@ -39,7 +39,8 @@ class HomeController {
     public async allPatientsPage(req: Request, res: Response): Promise<void> {
         try {
             const page = Number(req.query.page) || 0;
-            const allPatients = await PatientService.getPatientsByPageNumber(page);
+            const monitorId = req.app.locals.jwt.roleId;
+            const allPatients = await PatientService.getPatientsByPageNumber(page, monitorId);
             res.render('allPatients.ejs', {allPatients});
         } catch (e) {
             res.redirect('/500');
@@ -66,10 +67,6 @@ class HomeController {
         }
     }
 
-    public async editProfilePage(req: Request, res: Response): Promise<void> {
-        res.render('editProfile.ejs');
-    }
-
     public async coordinatorPage(req: Request, res: Response): Promise<void> {
         try {
             const [doctors, monitors, pendingDoctors, pendingMonitors] = await Promise.all([
@@ -90,6 +87,10 @@ class HomeController {
 
     public async serverErrorPage(req: Request, res: Response): Promise<void> {
         res.render('500');
+    }
+
+    public async unknownRouteRedirect(req: Request, res: Response): Promise<void> {
+        res.redirect('404');
     }
 }
 

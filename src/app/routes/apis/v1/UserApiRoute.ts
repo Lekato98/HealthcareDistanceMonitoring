@@ -14,6 +14,8 @@ class UserApiRoute implements IRoute {
     public readonly GET_USER = '/:nationalId';
     public readonly PATCH_USER = '/';
     public readonly DELETE_USER = '/';
+    public readonly ADD_NOTIFICATION = '/add-notification';
+    public readonly REMOVE_NOTIFICATION = '/remove-notification/:index';
 
     constructor() {
         this.initialize();
@@ -28,6 +30,8 @@ class UserApiRoute implements IRoute {
         this.ROUTE.get(this.GET_USER, this.userController.getUser);
         this.ROUTE.patch(this.PATCH_USER, this.authMiddleware.isAuth, this.userController.updateUser);
         this.ROUTE.delete(this.DELETE_USER, this.authMiddleware.isAuth, this.userController.deleteUser);
+        this.ROUTE.post(this.ADD_NOTIFICATION, this.authMiddleware.isAuth, this.userController.addNotification);
+        this.ROUTE.delete(this.REMOVE_NOTIFICATION, this.authMiddleware.isAuth, this.userController.removeNotification);
     }
 }
 

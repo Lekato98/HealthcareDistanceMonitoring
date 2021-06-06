@@ -4,6 +4,15 @@ body {
     font-family: 'Montserrat', sans-serif;
 }
 
+input[type='file']{
+    opacity: 0;
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+    font-size: 0;
+    position: absolute;
+}
+
 .profile-image {
     border-radius: 20%;
 }
@@ -52,10 +61,13 @@ body {
 }
 
 .profile-img .file input {
-    position: relative;
-    left: -75px;
     width: 50px;
     border-radius: 20%;
+    position: absolute;
+    left: 0px;
+    bottom: 3px;
+    opacity: 0;
+    height: 35px;
 }
 
 .file {

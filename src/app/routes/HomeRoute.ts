@@ -19,7 +19,6 @@ class HomeRoute implements IRoute {
     public readonly ALL_PATIENTS_PAGE: string = '/all-patients';
     public readonly REPORT_LIST_PAGE: string = '/report-list';
     public readonly EMERGENCY_CASES_PAGE: string = '/emergency-cases';
-    public readonly EDIT_PROFILE_PAGE: string = '/edit-profile';
     public readonly COORDINATOR_PAGE: string = '/coordinator';
     public readonly DEFAULT_PAGE_URL: string = '/**';
 
@@ -44,14 +43,13 @@ class HomeRoute implements IRoute {
         this.ROUTE.get(this.EMERGENCY_CASES_PAGE, this.homeController.emergencyCasesPage);
         this.ROUTE.get(this.QUESTIONNAIRE_PAGE, this.homeController.questionnairePage);
         this.ROUTE.get(this.REPORT_LIST_PAGE, this.homeController.reportListPage);
-        this.ROUTE.get(this.EDIT_PROFILE_PAGE, this.homeController.editProfilePage);
         this.ROUTE.get(this.MY_MONITORED_PATIENTS_PAGE, this.homeController.monitoredPatientsPage);
         this.ROUTE.get(this.EMERGENCY_PAGE, this.homeController.emergencyPage);
         this.ROUTE.get(this.COORDINATOR_PAGE, this.homeController.coordinatorPage);
 
         this.ROUTE.get(this.NOT_FOUND_PAGE, this.homeController.notFoundPage);
         this.ROUTE.get(this.SERVER_ERROR_PAGE, this.homeController.serverErrorPage);
-        this.ROUTE.get(this.DEFAULT_PAGE_URL, this.homeController.notFoundPage);
+        this.ROUTE.get(this.DEFAULT_PAGE_URL, this.homeController.unknownRouteRedirect);
     }
 }
 

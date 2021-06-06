@@ -15,7 +15,7 @@ class DailyReportService {
     }
 
     public static async getAll(pageNumber: number): Promise<DocumentType<DailyReport>[]> {
-        const sortStage = {$sort: {createdAt: 1}}; // stage 1 sort by created time
+        const sortStage = {$sort: {firstName: 1, lastName: 1}}; // stage 1 sort by created time
         const skipStage = {$skip: (pageNumber - 1) * this.REPORTS_LIMIT_PER_PAGE}; // stage 2 skip previous pages
         const limitStage = {$limit: this.REPORTS_LIMIT_PER_PAGE}; // stage 3 limitation users number
         return DailyReportModel.aggregate([
