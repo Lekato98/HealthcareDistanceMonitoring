@@ -40,6 +40,22 @@ class MonitorController {
         }
     }
 
+    /**
+     * @Route /api/v1/monitor/my-patients
+     * @GET
+     * */
+    public async getMyPatients(req: Request, res: Response): Promise<void> {
+        try {
+            const monitorId = req.app.locals.jwt.roleId;
+            const patients = await MonitorService.getMyPatients(monitorId);
+            const body = {success: SUCCESS, patients};
+            res.json(body);
+        } catch (e) {
+            const body = {success: UNSUCCESSFUL, message: e.message};
+            res.status(HttpStatusCode.SERVER_ERROR).json(body);
+        }
+    }
+
 }
 
 export default MonitorController;

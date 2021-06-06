@@ -13,7 +13,7 @@ class PatientController {
     public async getPatientByUserId(req: Request, res: Response): Promise<void> {
         try {
             const {userId} = req.params;
-            const patient = await PatientService.findPatientByUserId(userId);
+            const patient = await PatientService.findOneByUserId(userId);
             if (patient) {
                 const body = {success: SUCCESS, patient};
                 res.json(body);

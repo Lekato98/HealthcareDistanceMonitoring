@@ -3,22 +3,23 @@ const notificationAudio = document.querySelector('#notification-audio');
 notificationAudio.muted = false;
 
 const client = io('http://localhost:3333');
+let isDisconnected = false;
 
 client.on('connect', () => {
-    notify('Connected', 'success');
-});
-
-client.io.on('reconnect', () => {
-    notify('Reconnecting', 'warning');
+    if (isDisconnected) {
+        notify('Connected', 'success');
+        isDisconnected = false;
+    }
 });
 
 client.on('disconnect', () => {
-    notify('Disconnected', 'danger');
+    notify('Disconnected', 'danger', false);
+    isDisconnected = true;
 });
 
 client.on('notification', notify);
 
-function notify(message, messageType) {
+function notify(message, messageType, withAudio = true) {
     const notificationItem = document.createElement('div');
     const notificationBody = document.createElement('div');
     const exitIcon = document.createElement('i');
@@ -37,7 +38,9 @@ function notify(message, messageType) {
     notificationItem.append(notificationBody);
 
     notification.append(notificationItem);
-    notificationAudio.play();
+    if (withAudio) {
+        notificationAudio.play();
+    }
 }
 
 function removeNotificationHandler(e, notificationItem, notificationTimeOut) {

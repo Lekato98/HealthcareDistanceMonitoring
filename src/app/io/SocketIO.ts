@@ -10,33 +10,33 @@ enum Event {
 }
 
 class SocketIO {
-    public readonly io: Socket;
+    public static io: Socket;
 
-    constructor(server: any) {
+    public static initialize(server: any) {
         this.io = io(server);
         this.initializeListeners();
         this.initializeMiddlewares();
     }
 
-    public initializeMiddlewares() {
+    public static initializeMiddlewares() {
         this.io.use((event, next) => {
-            console.log('socket middleware');
+            // console.log('socket middleware');
             next();
         });
     }
 
-    public initializeListeners() {
+    public static initializeListeners() {
         this.io.on(Event.CONNECTION, (socket) => {
-            setInterval(() => {
+            /*setInterval(() => {
                 socket.emit(Event.NOTIFICATION, 'New Notification');
-            }, 5000);
+            }, 5000);*/
 
             socket.on(Event.RECONNECT, () => {
-                console.log(Event.RECONNECT);
+                // console.log(Event.RECONNECT);
             });
 
             socket.on(Event.DISCONNECT, () => {
-                console.log(Event.DISCONNECT);
+                // console.log(Event.DISCONNECT);
             });
         });
     }

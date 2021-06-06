@@ -6,6 +6,7 @@ import { config } from './config/config';
 const PORT = config.PORT;
 const expressApp = new ExpressApp();
 const server = http.createServer(expressApp.getApp());
-const socketIO = new SocketIO(server);
+
+SocketIO.initialize(server);
 
 server.listen(PORT, () => console.log(`Server listening to ${ PORT }`));

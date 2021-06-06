@@ -10,6 +10,7 @@ class MonitorApiRoute implements IRoute {
     public readonly ROUTE_PREFIX_URL: string = '/monitor';
     public readonly ADD_PATIENT: string = '/add-patient';
     public readonly REMOVE_PATIENT: string = '/remove-patient';
+    public readonly MY_PATIENTS: string = '/my-patients';
 
     @Inject(MonitorController) public readonly monitorController: MonitorController;
     @Inject(MonitorMiddleware) public readonly monitorMiddleware: MonitorMiddleware;
@@ -32,6 +33,7 @@ class MonitorApiRoute implements IRoute {
     initializeControllers(): void {
         this.ROUTE.post(this.ADD_PATIENT, this.monitorController.addPatient);
         this.ROUTE.patch(this.REMOVE_PATIENT, this.monitorController.removePatient);
+        this.ROUTE.get(this.MY_PATIENTS, this.monitorController.getMyPatients);
     }
 
 }

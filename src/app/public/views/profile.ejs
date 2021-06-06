@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <%-include('./partials/head.ejs')%>
-
+    <title>HDM | <%=user.firstName%> <%=user.lastName%></title>
     <link rel="stylesheet" href="../css/profile.css">
 </head>
 
@@ -19,9 +19,9 @@
         <div class="row">
             <div class="col-md-3">
                 <div class="profile-img">
-                    <img class="pro-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS52y5aInsxSm31CvHOFHWujqUx_wWTS9iM6s7BAm21oEN_RiGoog" alt=""/>
+                    <img class="profile-image pro-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS52y5aInsxSm31CvHOFHWujqUx_wWTS9iM6s7BAm21oEN_RiGoog" alt=""/>
                     <div class="file btn btn-lg btn-primary">
-                        Change Photo
+                        <i class="far fa-camera"></i>
                         <input type="file" name="file"/>
                     </div>
                 </div>

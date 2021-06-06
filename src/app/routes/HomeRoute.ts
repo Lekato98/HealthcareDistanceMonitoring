@@ -2,11 +2,7 @@ import { Router } from 'express';
 import HomeController from '../controllers/home/HomeController';
 import IRoute from './IRoute';
 import { Inject, Injectable } from 'dependency-injection-v1';
-import RoleService from '../models/roles/RoleService';
-import { RoleName } from '../models/user/UserModel';
-import PatientService from '../models/roles/patient/PatientService';
-import DailyReportService from '../models/reports/daily/DailyReportService';
-import EmergencyService from '../models/emergency/EmergencyService';
+import HomeMiddleware from '../middlewares/HomeMiddleware';
 
 @Injectable
 class HomeRoute implements IRoute {
@@ -15,8 +11,19 @@ class HomeRoute implements IRoute {
     public readonly ROUTE: Router = Router();
     public readonly ROUTE_PREFIX_URL: string = '/';
     public readonly HOME_PAGE_URL: string = '/';
-    public readonly ADMIN_PAGE_URL: string = '/admin';
+    public readonly NOT_FOUND_PAGE: string = '/404';
+    public readonly SERVER_ERROR_PAGE: string = '/500';
+    public readonly EMERGENCY_PAGE: string = '/emergency';
+    public readonly MY_MONITORED_PATIENTS_PAGE: string = '/my-patients';
+    public readonly QUESTIONNAIRE_PAGE: string = '/questionnaire';
+    public readonly ALL_PATIENTS_PAGE: string = '/all-patients';
+    public readonly REPORT_LIST_PAGE: string = '/report-list';
+    public readonly EMERGENCY_CASES_PAGE: string = '/emergency-cases';
+    public readonly EDIT_PROFILE_PAGE: string = '/edit-profile';
+    public readonly COORDINATOR_PAGE: string = '/coordinator';
     public readonly DEFAULT_PAGE_URL: string = '/**';
+
+    @Inject(HomeMiddleware) homeMiddleware: HomeMiddleware;
 
     constructor() {
         this.initialize();
@@ -28,53 +35,23 @@ class HomeRoute implements IRoute {
     }
 
     public initializeMiddleWares(): void {
-        // this.ROUTE.use();
+        this.ROUTE.use(this.homeMiddleware.isAuth);
     }
 
     public initializeControllers(): void {
         this.ROUTE.get(this.HOME_PAGE_URL, this.homeController.homePage);
-        this.ROUTE.get(this.ADMIN_PAGE_URL, this.homeController.adminPage);
+        this.ROUTE.get(this.ALL_PATIENTS_PAGE, this.homeController.allPatientsPage);
+        this.ROUTE.get(this.EMERGENCY_CASES_PAGE, this.homeController.emergencyCasesPage);
+        this.ROUTE.get(this.QUESTIONNAIRE_PAGE, this.homeController.questionnairePage);
+        this.ROUTE.get(this.REPORT_LIST_PAGE, this.homeController.reportListPage);
+        this.ROUTE.get(this.EDIT_PROFILE_PAGE, this.homeController.editProfilePage);
+        this.ROUTE.get(this.MY_MONITORED_PATIENTS_PAGE, this.homeController.monitoredPatientsPage);
+        this.ROUTE.get(this.EMERGENCY_PAGE, this.homeController.emergencyPage);
+        this.ROUTE.get(this.COORDINATOR_PAGE, this.homeController.coordinatorPage);
 
-        this.ROUTE.get('/emergency' , (req ,res) =>{
-            res.render("emergency.ejs");
-        });
-
-
-        this.ROUTE.get('/Monitored-Patients' , (req ,res) =>{
-            res.render("monitorPatients.ejs");
-        });
-        this.ROUTE.get('/questionnaire' , (req ,res) =>{
-            res.render("questionnaire.ejs");
-        });
-        this.ROUTE.get('/allPatients' , async (req ,res) =>{
-            const allPatients = await PatientService.getPatientsByPageNumber(0);
-            res.render("allPatients.ejs", {allPatients});
-        });
-
-        this.ROUTE.get('/reportList' , async (req ,res) =>{
-            // const reports = await DailyReportService.getReportsByPatientId();
-            const reports = await DailyReportService.getReportsByUserId(req.app.locals.jwt._id);
-            res.render("reportList.ejs", {reports});
-        });
-
-        this.ROUTE.get('/hospitalization' , async (req ,res) =>{
-            const emergencyCases = await EmergencyService.getAll();
-            res.render("hospitalization.ejs", {emergencyCases});
-        });
-
-        this.ROUTE.get('/editProfile' , (req ,res) =>{
-            res.render("editProfile.ejs");
-        });
-
-        this.ROUTE.get('/coordinator' , async (req ,res) =>{
-            const doctors = await RoleService.getActiveByRoleName(RoleName.DOCTOR);
-            const monitors = await RoleService.getActiveByRoleName(RoleName.MONITOR);
-            const pendingDoctors = await RoleService.getPendingByRoleName(RoleName.DOCTOR);
-            const pendingMonitors = await RoleService.getPendingByRoleName(RoleName.MONITOR);
-            res.render("coordinator.ejs", {doctors, monitors, pendingDoctors, pendingMonitors});
-        });
-
-        this.ROUTE.get(this.DEFAULT_PAGE_URL, this.homeController.defaultPage);
+        this.ROUTE.get(this.NOT_FOUND_PAGE, this.homeController.notFoundPage);
+        this.ROUTE.get(this.SERVER_ERROR_PAGE, this.homeController.serverErrorPage);
+        this.ROUTE.get(this.DEFAULT_PAGE_URL, this.homeController.notFoundPage);
     }
 }
 

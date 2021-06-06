@@ -1,6 +1,6 @@
 import { SchemaOptions } from 'mongoose';
 import { ArrayPropOptions, BasePropOptions, IModelOptions, PropOptionsForString } from '@typegoose/typegoose/lib/types';
-import { getModelForClass, Index, ModelOptions, mongoose, Prop, Severity } from '@typegoose/typegoose';
+import { arrayProp, getModelForClass, Index, ModelOptions, Prop, Severity } from '@typegoose/typegoose';
 import UserValidator from './UserValidator';
 import { UNIQUE } from '../../helpers/constants';
 
@@ -95,11 +95,13 @@ const passwordTypeOptions: PropOptionsForString = {
 };
 
 const rolesTypeOptions: ArrayPropOptions = {
-    type: mongoose.Schema.Types.Mixed,
+    type: () => [String],
     validate: {
         validator: UserValidator.rolesValidator,
         message: 'Unknown role',
     },
+    default: [],
+    required: true,
 };
 
 const schemaOptions: SchemaOptions = {
@@ -128,10 +130,9 @@ export class User {
     @Prop(birthdateTypeOptions) public birthdate!: Date;
     @Prop(homeAddressTypeOptions) public homeAddress!: string;
     @Prop(phoneNumberTypeOptions) public phoneNumber!: string;
-    @Prop(rolesTypeOptions) public roles?: string[];
+    @arrayProp(rolesTypeOptions) public roles?: string[];
 
     constructor(user?: IUser) {
-        // null object
         this.nationalId = user?.nationalId || '';
         this.email = user?.email || '';
         this.password = user?.password || '';

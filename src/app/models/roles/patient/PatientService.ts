@@ -25,7 +25,7 @@ class PatientService {
         return PatientModel.findOneAndDelete({userId});
     }
 
-    public static async findPatientByUserId(userId: string): Promise<DocumentType<Patient>> {
+    public static async findOneByUserId(userId: string): Promise<DocumentType<Patient>> {
         return PatientModel.findOne({userId});
     }
 
@@ -34,6 +34,24 @@ class PatientService {
         const options: QueryUpdateOptions = {runValidators: true};
 
         return PatientModel.updateOne({userId}, {nextDailyReportDate}, options);
+    }
+
+    public static async findOneById(patientId: string): Promise<any> {
+        const matchStage = {$match: {_id: patientId}};
+        const lookupStage = {
+            $lookup: {
+                from: UserModel.collection.name,
+                localField: 'userId',
+                foreignField: '_id',
+                as: 'user',
+            },
+        };
+
+        const unwindStage = {$unwind: '$user'};
+        const projectStage = {$project: {'user.password': 0}};
+        const pipeline = [matchStage, lookupStage, unwindStage, projectStage];
+
+        return (await PatientModel.aggregate(pipeline))[0];
     }
 
     public static async isExistByUserId(userId: string): Promise<boolean> {

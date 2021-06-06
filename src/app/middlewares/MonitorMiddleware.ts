@@ -3,14 +3,19 @@ import { NextFunction, Request, Response } from 'express';
 import { UNSUCCESSFUL } from '../helpers/constants';
 import { HttpStatusCode } from '../utils/HttpUtils';
 import MonitorService from '../models/roles/monitor/MonitorService';
+import { RoleName } from '../models/user/UserModel';
 
 @Injectable
 class MonitorMiddleware {
     public async isMonitor(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
             const userId: string = req.app.locals.jwt._id;
+            const roleName: RoleName = req.app.locals.jwt.roleName;
+            const monitor = roleName === RoleName.MONITOR && await MonitorService.findOneByUserId(userId);
 
-            if (await MonitorService.isExistByUserId(userId)) {
+            if (monitor?.active) {
+                req.app.locals.jwt.roleName = RoleName.MONITOR;
+                req.app.locals.jwt.roleId = monitor._id;
                 next();
             } else {
                 const body = {success: UNSUCCESSFUL, message: 'Invalid action, looks like you are not a monitor!'};

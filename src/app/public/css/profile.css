@@ -4,8 +4,11 @@ body {
     font-family: 'Montserrat', sans-serif;
 }
 
+.profile-image {
+    border-radius: 20%;
+}
 
-/*body*/
+    /*body*/
 .container {
     background: aliceblue;
 }
@@ -27,6 +30,7 @@ body {
 }
 
 .profile-img {
+    position: relative;
     text-align: center;
 }
 
@@ -48,10 +52,17 @@ body {
 }
 
 .profile-img .file input {
-    position: absolute;
-    opacity: 0;
-    right: 0;
-    top: 0;
+    position: relative;
+    left: -75px;
+    width: 50px;
+    border-radius: 20%;
+}
+
+.file {
+    width: 50px !important;
+    border-radius: 20% !important;
+    height: 40px !important;
+    left: -75px !important;
 }
 
 .profile-head h5 {
@@ -65,11 +76,10 @@ body {
 .profile-edit-btn {
     border: none;
     border-radius: 1.5rem;
-    width: 70%;
-    padding: 2%;
     font-weight: 600;
     color: #6c757d;
     cursor: pointer;
+    padding: 10px 25px;
 }
 
 .proile-rating {

@@ -15,7 +15,7 @@ class DoctorService {
         return DoctorModel.findOneAndDelete({userId});
     }
 
-    public static async findDoctorByUserId(userId: string): Promise<DocumentType<Doctor>> {
+    public static async findOneByUserId(userId: string): Promise<DocumentType<Doctor>> {
         return DoctorModel.findOne({userId});
     }
 

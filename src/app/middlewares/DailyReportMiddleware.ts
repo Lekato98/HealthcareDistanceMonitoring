@@ -9,7 +9,7 @@ class DailyReportMiddleware {
     public async isDailyReportAvailable(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
             const userId = req.app.locals.jwt._id;
-            const patient = await PatientService.findPatientByUserId(userId);
+            const patient = await PatientService.findOneByUserId(userId);
 
             if (patient?.nextDailyReportDate) {
                 const targetDate = patient.nextDailyReportDate.getTime();

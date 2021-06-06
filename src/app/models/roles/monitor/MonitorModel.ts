@@ -1,5 +1,5 @@
 import { SchemaOptions } from 'mongoose';
-import { getModelForClass, ModelOptions, Pre, Prop } from '@typegoose/typegoose';
+import { arrayProp, getModelForClass, ModelOptions, Pre, Prop } from '@typegoose/typegoose';
 import {
     ArrayPropOptions,
     BasePropOptions,
@@ -34,6 +34,8 @@ const activeTypeOptions: BasePropOptions = {
 const patientsTypeOptions: ArrayPropOptions = {
     type: () => [String],
     ref: () => Patient,
+    default: [],
+    required: true,
 };
 
 const statusTypeOptions: PropOptionsForString = {
@@ -60,7 +62,7 @@ const modelOptions: IModelOptions = {
 @ModelOptions(modelOptions)
 class Monitor implements IRole {
     @Prop(monitorIdTypeOptions) _id: string;
-    @Prop(patientsTypeOptions) patients: Ref<Patient, string>[];
+    @arrayProp(patientsTypeOptions) patients: Ref<Patient>[];
     @Prop(userIdTypeOptions) public userId: string;
     @Prop(activeTypeOptions) public active: boolean;
     @Prop(statusTypeOptions) public status: string;
