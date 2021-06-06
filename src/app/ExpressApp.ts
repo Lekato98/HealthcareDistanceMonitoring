@@ -11,6 +11,8 @@ import UserRoute from './routes/UserRoute';
 import { config } from '../config/config';
 import DateUtils from './utils/DateUtils';
 import PatientService from './models/roles/patient/PatientService';
+import SocketIO from './io/SocketIO';
+import UserService from './models/user/UserService';
 
 const cookieParser = require('cookie-parser');
 const rateLimit = require('express-rate-limit');
@@ -76,11 +78,17 @@ class ExpressApp {
     }
 
     public initializeReminders(): void {
-        this.reminderInterval = setInterval(() => PatientService.notifyPatients({
-            title: 'Reminder',
-            body: 'don\'t miss your report!',
-            time: new Date(),
-        }), this.getTimeoutReminder());
+        this.reminderInterval = setInterval(async () => {
+            const payload = {
+                title: 'Reminder',
+                body: 'don\'t miss your report!',
+                time: new Date(),
+            };
+
+            const patients = await PatientService.getOnWait();
+            await Promise.all(patients.map(patient => UserService.addNotification(patient.userId, payload)));
+            patients.forEach(patient => SocketIO.notifyUser(patient.userId, payload));
+        }, this.getTimeoutReminder());
     }
 
     public getTimeoutReminder(): number {

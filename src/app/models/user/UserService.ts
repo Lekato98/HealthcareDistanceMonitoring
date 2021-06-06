@@ -78,7 +78,7 @@ class UserService {
 
     public static async login(payload: ILogin) {
         const user = await UserService.findByNationalId(payload.nationalId);
-        return UserService.isValidPassword(payload.password, user?.password) && user;
+        return user && UserService.isValidPassword(payload.password, user?.password) && user;
     }
 }
 

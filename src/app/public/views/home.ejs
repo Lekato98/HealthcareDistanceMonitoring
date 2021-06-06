@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <%-include('./partials/head.ejs')%>
-    <title>HDM</title>
+    <title>C19HDM</title>
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
@@ -16,7 +16,7 @@
     <div class="home-page-content container-fluid">
         <div class="row">
             <div class="left-contant col-lg-4">
-                <h3 class="covid-header">COVID-19 HEALTHCARE SYSTEM</h3>
+                <h3 class="covid-header">Covid-19 Home Monitoring System</h3>
 
                 <p>Changing Lives One Smile At A Time</p>
 
@@ -32,6 +32,7 @@
 
 <!--                                  Features                     -->
 
+<%if(role === 'patient') {%>
 <section id="Features">
 
     <div class="row">
@@ -70,7 +71,7 @@
     </div>
 
 </section>
-
+<%}%>
 <!--more-->
 
 <section id="more">
@@ -206,7 +207,7 @@
         <a href="#"><i class="fab fa-facebook-f"></i></a>
         <a href="#"><i class="fab fa-instagram"></i></a>
         <a href="#"><i class="fas fa-envelope"></i></a>
-        <p class="footer-p">&COPY; Copyright 2021 COVID-19 HEALTHCARE DISTANCE SYSTEM</p>
+        <p class="footer-p">&COPY; Copyright 2021 Covid-19 Home Monitoring System</p>
     </div>
 </footer>
 

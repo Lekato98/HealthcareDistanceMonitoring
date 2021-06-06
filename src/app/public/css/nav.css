@@ -16,6 +16,18 @@
     color: whitesmoke;
 }
 
+.text {
+    float: right;
+}
+
+.role {
+    position: relative;
+    left: 25px;
+    color: silver;
+    font-size: 9pt;
+    font-style: normal;
+}
+
 .noti-item:hover{
     color: black;
 }

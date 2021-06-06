@@ -1,16 +1,16 @@
 import { RoleName } from '../user/UserModel';
-import MonitorService from './monitor/MonitorService';
+import MentorService from './mentor/MentorService';
 import DoctorService from './doctor/DoctorService';
 import PatientService from './patient/PatientService';
-import MonitorModel from './monitor/MonitorModel';
+import MentorModel from './mentor/MentorModel';
 import DoctorModel from './doctor/DoctorModel';
 import PatientModel from './patient/PatientModel';
 
 class RoleUtils {
     public static getServiceByRoleName(roleName: string): any {
         switch (roleName) {
-            case RoleName.MONITOR:
-                return MonitorService;
+            case RoleName.MENTOR:
+                return MentorService;
 
             case RoleName.DOCTOR:
                 return DoctorService;
@@ -25,8 +25,8 @@ class RoleUtils {
 
     public static getModelByRoleName(roleName: string): any {
         switch (roleName) {
-            case RoleName.MONITOR:
-                return MonitorModel;
+            case RoleName.MENTOR:
+                return MentorModel;
 
             case RoleName.DOCTOR:
                 return DoctorModel;
@@ -42,7 +42,7 @@ class RoleUtils {
     public static getAllServices() {
         return [
             PatientService,
-            MonitorService,
+            MentorService,
             DoctorService,
         ];
     }

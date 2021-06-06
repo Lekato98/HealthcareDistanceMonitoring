@@ -9,10 +9,10 @@ import {
 } from '@typegoose/typegoose/lib/types';
 import { RoleName, User } from '../../user/UserModel';
 import { Patient } from '../patient/PatientModel';
-import MonitorModelUtils from './MonitorModelUtils';
+import MentorModelUtils from './MentorModelUtils';
 import IRole, { Status } from '../IRole';
 
-const monitorIdTypeOptions: PropOptionsForString = {
+const mentorIdTypeOptions: PropOptionsForString = {
     type: String,
     required: true,
     trim: true,
@@ -54,14 +54,14 @@ const schemaOptions: SchemaOptions = {
 const modelOptions: IModelOptions = {
     schemaOptions,
     options: {
-        customName: RoleName.MONITOR,
+        customName: RoleName.MENTOR,
     },
 };
 
-@Pre<Monitor>('validate', MonitorModelUtils.preValidate)
+@Pre<Mentor>('validate', MentorModelUtils.preValidate)
 @ModelOptions(modelOptions)
-class Monitor implements IRole {
-    @Prop(monitorIdTypeOptions) _id: string;
+class Mentor implements IRole {
+    @Prop(mentorIdTypeOptions) _id: string;
     @arrayProp(patientsTypeOptions) patients: Ref<Patient>[];
     @Prop(userIdTypeOptions) public userId: string;
     @Prop(activeTypeOptions) public active: boolean;
@@ -75,15 +75,15 @@ class Monitor implements IRole {
     }
 }
 
-interface IMonitor extends IRole {
+interface IMentor extends IRole {
     _id: string;
     patients?: string[];
 }
 
-const MonitorModel = getModelForClass(Monitor);
+const MentorModel = getModelForClass(Mentor);
 
 export {
-    Monitor,
-    IMonitor,
+    Mentor,
+    IMentor,
 };
-export default MonitorModel;
+export default MentorModel;

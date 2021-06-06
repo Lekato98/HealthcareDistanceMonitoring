@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { Injectable } from 'dependency-injection-v1';
 import { HttpStatusCode } from '../../utils/HttpUtils';
 import RoleService from '../../models/roles/RoleService';
-import MonitorService from '../../models/roles/monitor/MonitorService';
+import MentorService from '../../models/roles/mentor/MentorService';
 import PatientService from '../../models/roles/patient/PatientService';
 import DailyReportService from '../../models/reports/daily/DailyReportService';
 import EmergencyService from '../../models/emergency/EmergencyService';
@@ -24,8 +24,8 @@ class HomeController {
 
     public async monitoredPatientsPage(req: Request, res: Response): Promise<void> {
         try {
-            const monitorId = req.app.locals.jwt.roleId;
-            const patients = await MonitorService.getMyPatients(monitorId);
+            const mentorId = req.app.locals.jwt.roleId;
+            const patients = await MentorService.getMyPatients(mentorId);
             res.render('monitorPatients.ejs', {patients});
         } catch (e) {
             res.redirect('/500');
@@ -39,8 +39,8 @@ class HomeController {
     public async allPatientsPage(req: Request, res: Response): Promise<void> {
         try {
             const page = Number(req.query.page) || 0;
-            const monitorId = req.app.locals.jwt.roleId;
-            const allPatients = await PatientService.getPatientsByPageNumber(page, monitorId);
+            const mentorId = req.app.locals.jwt.roleId;
+            const allPatients = await PatientService.getPatientsByPageNumber(page, mentorId);
             res.render('allPatients.ejs', {allPatients});
         } catch (e) {
             res.redirect('/500');
@@ -69,13 +69,13 @@ class HomeController {
 
     public async coordinatorPage(req: Request, res: Response): Promise<void> {
         try {
-            const [doctors, monitors, pendingDoctors, pendingMonitors] = await Promise.all([
+            const [doctors, mentors, pendingDoctors, pendingMentors] = await Promise.all([
                 RoleService.getActiveByRoleName(RoleName.DOCTOR),
-                RoleService.getActiveByRoleName(RoleName.MONITOR),
+                RoleService.getActiveByRoleName(RoleName.MENTOR),
                 RoleService.getPendingByRoleName(RoleName.DOCTOR),
-                RoleService.getPendingByRoleName(RoleName.MONITOR),
+                RoleService.getPendingByRoleName(RoleName.MENTOR),
             ]);
-            res.render('coordinator.ejs', {doctors, monitors, pendingDoctors, pendingMonitors});
+            res.render('coordinator.ejs', {doctors, mentors, pendingDoctors, pendingMentors});
         } catch (e) {
             res.redirect('/500');
         }
@@ -90,7 +90,7 @@ class HomeController {
     }
 
     public async unknownRouteRedirect(req: Request, res: Response): Promise<void> {
-        res.redirect('404');
+        res.redirect('/404');
     }
 }
 

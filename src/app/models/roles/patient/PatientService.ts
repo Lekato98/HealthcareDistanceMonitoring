@@ -4,19 +4,18 @@ import { Status } from '../IRole';
 import { ACTIVE } from '../../../helpers/constants';
 import DateUtils from '../../../utils/DateUtils';
 import { QueryUpdateOptions } from 'mongoose';
-import MonitorModel from '../monitor/MonitorModel';
+import MentorModel from '../mentor/MentorModel';
 import UserModel from '../../user/UserModel';
 import UserService from '../../user/UserService';
 
 class PatientService {
     private static readonly PATIENTS_PAIR_PAGE = 20;
 
-    public static async notifyPatients(payload: any): Promise<any> {
+    public static async getOnWait(): Promise<DocumentType<Patient>[]> {
         const patients = await PatientModel.find({});
         const currentDate = new Date();
 
-        return await patients.forEach(patient => patient.nextDailyReportDate <= currentDate &&
-            UserService.addNotification(patient.userId, payload));
+        return patients.filter(patient => patient.nextDailyReportDate <= currentDate);
     }
 
     public static async getPatientByUserId(userId: string): Promise<DocumentType<Patient>> {
@@ -67,7 +66,7 @@ class PatientService {
         return PatientModel.exists({userId});
     }
 
-    public static async getPatientsByPageNumber(page: number = 0, monitorId?: string): Promise<any[]> {
+    public static async getPatientsByPageNumber(page: number = 0, mentorId?: string): Promise<any[]> {
         const sortStage = {$sort: {firstName: 1, lastName: 1}};
         const skipStage = {$skip: page * this.PATIENTS_PAIR_PAGE};
         const limitStage = {$limit: this.PATIENTS_PAIR_PAGE};
@@ -91,8 +90,8 @@ class PatientService {
 
         const pipeline = [sortStage, skipStage, limitStage, lookupStage, unwindStage, projectionStage];
         const patients = await PatientModel.aggregate(pipeline);
-        const monitor = monitorId && await MonitorModel.findById(monitorId);
-        return patients.map(patient => ({...patient, isMine: monitor.patients.includes(patient._id)}));
+        const mentor = mentorId && await MentorModel.findById(mentorId);
+        return patients.map(patient => ({...patient, isMine: mentor.patients.includes(patient._id)}));
     }
 
     public static async getMonitoredPatientsByPageNumber(page: number = 0): Promise<any[]> {
@@ -101,14 +100,14 @@ class PatientService {
         const limitStage = {$limit: this.PATIENTS_PAIR_PAGE};
         const lookupStage = {
             $lookup: {
-                from: MonitorModel.collection.name,
+                from: MentorModel.collection.name,
                 localField: '_id',
                 foreignField: 'patients',
-                as: 'monitor',
+                as: 'mentor',
             },
         };
-        const matchStage = {$match: {monitor: {$exists: true}}};
-        const unwindStage = {$unwind: {path: '$monitor', preserveNullAndEmptyArrays: true}};
+        const matchStage = {$match: {mentor: {$exists: true}}};
+        const unwindStage = {$unwind: {path: '$mentor', preserveNullAndEmptyArrays: true}};
         const pipeline = [lookupStage, unwindStage, matchStage, sortStage, skipStage, limitStage];
 
         return PatientModel.aggregate(pipeline);
@@ -120,14 +119,14 @@ class PatientService {
         const limitStage = {$limit: this.PATIENTS_PAIR_PAGE};
         const lookupStage = {
             $lookup: {
-                from: MonitorModel.collection.name,
+                from: MentorModel.collection.name,
                 localField: '_id',
                 foreignField: 'patients',
-                as: 'monitor',
+                as: 'mentor',
             },
         };
-        const matchStage = {$match: {monitor: {$exists: false}}};
-        const unwindStage = {$unwind: {path: '$monitor', preserveNullAndEmptyArrays: true}};
+        const matchStage = {$match: {mentor: {$exists: false}}};
+        const unwindStage = {$unwind: {path: '$mentor', preserveNullAndEmptyArrays: true}};
         const pipeline = [lookupStage, unwindStage, matchStage, sortStage, skipStage, limitStage];
 
         return PatientModel.aggregate(pipeline);

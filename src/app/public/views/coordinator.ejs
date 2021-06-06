@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <%- include('./partials/head.ejs') %>
-    <title>HDM | Coordinator</title>
+    <title>C19HDM | Coordinator</title>
     <link rel="stylesheet" href="../css/coordinator.css">
 </head>
 <body>
@@ -42,7 +42,7 @@
     </div>
     <div class="col-lg-5 col-md-6 table-container">
         <table class="table table-fixed">
-            <caption style="caption-side: top">List Of Monitors :</caption>
+            <caption style="caption-side: top">List Of Mentors :</caption>
             <thead>
             <tr>
                 <th>Patient Name</th>
@@ -53,7 +53,7 @@
             </tr>
             </thead>
             <tbody>
-            <% for(let {_id, userId: user} of monitors) { %>
+            <% for(let {_id, userId: user} of mentors) { %>
                 <tr id="<%= _id %>">
                     <td data-label="Name"><%= user.firstName %> <%= user.lastName %></td>
                     <td data-label="Age"><%= user.birthdate.toLocaleDateString() %></td>
@@ -61,7 +61,7 @@
                     <td data-label="Phone-number"><%= user.phoneNumber %></td>
                     <td>
                         <button class="delete-btn"
-                                onclick="deleteHandler(this, '<%= user._id %>', 'monitor', '<%= _id %>')">Delete
+                                onclick="deleteHandler(this, '<%= user._id %>', 'mentor', '<%= _id %>')">Delete
                         </button>
                     </td>
                 </tr>
@@ -95,8 +95,8 @@
                 <td data-label="National_ID"><%= user.nationalId %></td>
                 <td data-label="Phone-number"><%= user.phoneNumber %></td>
                 <td>
-                    <button class="accept-btn" onclick="acceptOrRejectHandler('monitor', '<%=user._id%>', '<%=_id%>', 'accept')">Accept</button>
-                    <button class="reject-btn" onclick="acceptOrRejectHandler('monitor', '<%=user._id%>', '<%=_id%>', 'reject')">Reject</button>
+                    <button class="accept-btn" onclick="acceptOrRejectHandler('mentor', '<%=user._id%>', '<%=_id%>', 'accept')">Accept</button>
+                    <button class="reject-btn" onclick="acceptOrRejectHandler('mentor', '<%=user._id%>', '<%=_id%>', 'reject')">Reject</button>
                 </td>
             </tr>
             <%}%>
@@ -106,7 +106,7 @@
     </div>
     <div class="col-lg-5 col-md-6 table-container">
         <table class="table table-fixed">
-            <caption style="caption-side: top">List Of Monitors :</caption>
+            <caption style="caption-side: top">List Of Mentors :</caption>
             <thead>
             <tr>
                 <th>Patient Name</th>
@@ -117,15 +117,15 @@
             </tr>
             </thead>
             <tbody>
-            <%for (let {_id, userId: user} of pendingMonitors) {%>
+            <%for (let {_id, userId: user} of pendingMentors) {%>
             <tr id="<%=_id%>">
                 <td data-label="Name"><%= user.firstName %> <%= user.lastName %></td>
                 <td data-label="Age"><%= user.birthdate.toLocaleDateString() %></td>
                 <td data-label="National_ID"><%= user.nationalId %></td>
                 <td data-label="Phone-number"><%= user.phoneNumber %></td>
                 <td>
-                    <button class="accept-btn" onclick="acceptOrRejectHandler('monitor', '<%=user._id%>', '<%=_id%>', 'accept')">Accept</button>
-                    <button class="reject-btn" onclick="acceptOrRejectHandler('monitor', '<%=user._id%>', '<%=_id%>', 'reject')">Reject</button>
+                    <button class="accept-btn" onclick="acceptOrRejectHandler('mentor', '<%=user._id%>', '<%=_id%>', 'accept')">Accept</button>
+                    <button class="reject-btn" onclick="acceptOrRejectHandler('mentor', '<%=user._id%>', '<%=_id%>', 'reject')">Reject</button>
                 </td>
             </tr>
             <%}%>

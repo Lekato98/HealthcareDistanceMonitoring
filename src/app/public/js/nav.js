@@ -1,12 +1,12 @@
 const logout = document.querySelector('#logout');
 const patient = document.querySelector('#patient-role');
-const monitor = document.querySelector('#monitor-role');
+const mentor = document.querySelector('#mentor-role');
 const doctor = document.querySelector('#doctor-role');
 const removeNotifications = document.querySelectorAll('.noti-remove');
 
 logout.addEventListener('click', logoutHandler);
 patient.addEventListener('click', (e) => switchRoleHandler(e, 'patient'));
-monitor.addEventListener('click', (e) => switchRoleHandler(e, 'monitor'));
+mentor.addEventListener('click', (e) => switchRoleHandler(e, 'mentor'));
 doctor.addEventListener('click', (e) => switchRoleHandler(e, 'doctor'));
 removeNotifications.forEach((notification, index) =>
     notification.addEventListener('click', () => removeHandler(index)),
@@ -28,7 +28,6 @@ async function switchRoleHandler(e, roleName) {
         console.log(response);
         const payload = await response.json();
         if (payload.success) {
-            alert(`switched to ${roleName} successfully`);
             location.href = '/';
         } else {
             alert(payload.message);

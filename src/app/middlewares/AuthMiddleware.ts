@@ -5,6 +5,7 @@ import { Injectable } from 'dependency-injection-v1';
 import UserService from '../models/user/UserService';
 import AuthenticationUtils from '../utils/AuthenticationUtils';
 import { UNSUCCESSFUL } from '../helpers/constants';
+import AdminModel from '../models/admin/AdminModel';
 
 const jwt = require('jsonwebtoken');
 
@@ -13,7 +14,7 @@ class AuthMiddleware {
     // global middleware
     public async setAuth(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
-            res.locals.isAdmin = true;
+            res.locals.isAdmin = false;
             const token = req.cookies[JWTUtils.JWT_COOKIE_NAME];
             const decodedToken = jwt.verify(token, JWTUtils.JWT_SECRET);
 
@@ -22,10 +23,15 @@ class AuthMiddleware {
             if (user && user._id === decodedToken._id && user.nationalId === decodedToken.nationalId) {
                 req.app.locals.jwt = {...decodedToken, user};
                 res.locals.me = user;
-                res.locals.isAdmin = false;
             } else {
-                AuthenticationUtils.removeAuthCookies(res);
-                delete req.app.locals.jwt;
+                const admin = await AdminModel.findOne({_id: decodedToken._id});
+                if (admin) {
+                    req.app.locals.jwt = {...decodedToken, admin, isAdmin: true};
+                    res.locals.isAdmin = true;
+                } else {
+                    AuthenticationUtils.removeAuthCookies(res);
+                    delete req.app.locals.jwt;
+                }
             }
         } catch (e) {
             AuthenticationUtils.removeAuthCookies(res);

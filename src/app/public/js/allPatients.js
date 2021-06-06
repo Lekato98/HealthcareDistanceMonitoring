@@ -18,7 +18,7 @@ async function addPatientHandler(e) {
         },
     };
     try {
-        const response = await fetch('/api/v1/monitor/add-patient', options);
+        const response = await fetch('/api/v1/mentor/add-patient', options);
         const body = await response.json();
         console.log(body);
         if (body.success) {
@@ -43,7 +43,7 @@ async function removePatientHandler(e) {
         },
     };
     try {
-        const response = await fetch('/api/v1/monitor/remove-patient', options);
+        const response = await fetch('/api/v1/mentor/remove-patient', options);
         const body = await response.json();
         console.log(body);
         if (body.success) {
