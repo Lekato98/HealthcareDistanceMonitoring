@@ -27,6 +27,7 @@ class AuthenticationUtils {
         res.clearCookie(this.IS_LOGGED_IN);
         res.clearCookie(this.IS_ADMIN);
         res.clearCookie(this.ROLE_NAME);
+        res.locals.isAdmin = false;
     }
 }
 

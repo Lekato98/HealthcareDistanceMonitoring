@@ -1,16 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Emergency</title>
     <%-include('./partials/head.ejs')%>
+    <title>HDM | Emergency</title>
     <link rel="stylesheet" href="../css/emergency.css">
-    <link rel="stylesheet" href="../css/nav.css">
 </head>
-<body>
 
+<body>
 <%- include('./partials/notification.ejs') %>
-<%- include('./partials/navbar.ejs') %>
+<%-include('./partials/navbar.ejs')%>
 
 
 
@@ -40,6 +38,7 @@
 
 </section>
 
+<script src="../js/emergency.js"></script>
 <script src="../js/socket.js"></script>
 <script src="../js/questionnaire.js" ></script>
 </body>

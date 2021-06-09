@@ -7,6 +7,7 @@ enum Event {
     RECONNECT = 'reconnection',
     DISCONNECT = 'disconnect',
     NOTIFICATION = 'notification',
+    NOTIFY = 'notify'
 }
 
 class SocketIO {
@@ -23,6 +24,10 @@ class SocketIO {
             // console.log('socket middleware');
             next();
         });
+    }
+
+    public static notifyUser(userId: string, message: any): void {
+        this.io.to(userId).emit(Event.NOTIFY, message);
     }
 
     public static initializeListeners() {

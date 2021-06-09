@@ -2,19 +2,19 @@ import { Injectable } from 'dependency-injection-v1';
 import { Request, Response } from 'express';
 import { SUCCESS, UNSUCCESSFUL } from '../../../helpers/constants';
 import { HttpStatusCode } from '../../../utils/HttpUtils';
-import MonitorService from '../../../models/roles/monitor/MonitorService';
+import MentorService from '../../../models/roles/mentor/MentorService';
 
 @Injectable
-class MonitorController {
+class MentorController {
     /**
-     * @Route /api/v1/monitor/add-patient
+     * @Route /api/v1/mentor/add-patient
      * @Post
      * */
     public async addPatient(req: Request, res: Response): Promise<void> {
         try {
-            const monitorId = req.app.locals.jwt.roleId;
+            const mentorId = req.app.locals.jwt.roleId;
             const patientId = req.body.patientId;
-            const monitoredPatient = await MonitorService.addPatient(monitorId, patientId);
+            const monitoredPatient = await MentorService.addPatient(mentorId, patientId);
             const body = {success: SUCCESS, monitoredPatient};
             res.json(body);
         } catch (e) {
@@ -24,14 +24,14 @@ class MonitorController {
     }
 
     /**
-     * @Route /api/v1/monitor/remove-patient
+     * @Route /api/v1/mentor/remove-patient
      * @PATCH
      * */
     public async removePatient(req: Request, res: Response): Promise<void> {
         try {
-            const monitorId = req.app.locals.jwt.roleId;
+            const mentorId = req.app.locals.jwt.roleId;
             const patientId = req.body.patientId;
-            const removedPatient = await MonitorService.removePatient(monitorId, patientId);
+            const removedPatient = await MentorService.removePatient(mentorId, patientId);
             const body = {success: SUCCESS, removedPatient};
             res.json(body);
         } catch (e) {
@@ -41,13 +41,13 @@ class MonitorController {
     }
 
     /**
-     * @Route /api/v1/monitor/my-patients
+     * @Route /api/v1/mentor/my-patients
      * @GET
      * */
     public async getMyPatients(req: Request, res: Response): Promise<void> {
         try {
-            const monitorId = req.app.locals.jwt.roleId;
-            const patients = await MonitorService.getMyPatients(monitorId);
+            const mentorId = req.app.locals.jwt.roleId;
+            const patients = await MentorService.getMyPatients(mentorId);
             const body = {success: SUCCESS, patients};
             res.json(body);
         } catch (e) {
@@ -58,4 +58,4 @@ class MonitorController {
 
 }
 
-export default MonitorController;
+export default MentorController;

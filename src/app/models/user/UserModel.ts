@@ -7,7 +7,7 @@ import * as mongoose from 'mongoose';
 
 export const enum RoleName {
     PATIENT = 'patient',
-    MONITOR = 'monitor',
+    MENTOR = 'mentor',
     DOCTOR = 'doctor',
     NO_ROLE = 'no-role',
 }

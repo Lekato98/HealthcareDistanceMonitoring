@@ -46,7 +46,7 @@ class AuthController {
                 const body = {success: SUCCESS, user};
                 res.json(body);
             } else {
-                const body = {success: UNSUCCESSFUL, message: 'Invalid login'};
+                const body = {success: UNSUCCESSFUL, message: 'Invalid National id or Password'};
                 res.status(HttpStatusCode.BAD_REQUEST).json(body);
             }
 
@@ -86,7 +86,6 @@ class AuthController {
     public async adminLogin(req: Request, res: Response): Promise<void> {
         try {
             const {nationalId, password} = req.body;
-            console.log(nationalId, password);
             const admin = await AdminModel.findOne({adminId: nationalId, password});
 
             if (admin) {
