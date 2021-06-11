@@ -1,35 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <%-include('./partials/head.ejs')%>
-    <title>C19HDM | <%=user.firstName%> <%=user.lastName%></title>
+    <%- include('./partials/head.ejs') %>
+    <title>C19HDM | <%= user.firstName %> <%= user.lastName %></title>
     <link rel="stylesheet" href="../css/profile.css">
 </head>
 
 <body>
 
 <%- include('./partials/notification.ejs') %>
-<%-include('./partials/navbar.ejs')%>
+<%- include('./partials/navbar.ejs') %>
 
 
 <!--content-->
 
 <div class="emp-profile container ">
-    <form method="post">
+    <form id="profile-form" method="POST" action="/api/v1/user/change-photo">
         <div class="row">
             <div class="col-md-3">
-                <div class="profile-img">
-                    <img class="profile-image pro-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS52y5aInsxSm31CvHOFHWujqUx_wWTS9iM6s7BAm21oEN_RiGoog" alt=""/>
-                    <div class="file btn btn-lg btn-primary">
+                <div class="profile-img" style="margin-left: -50px;">
+                    <img id="avatar-av" class="profile-image pro-img" src="<%= user.avatar %>" alt=""/>
+                    <div class="file btn btn-lg btn-primary" style="margin-right: 55px;">
                         <i class="far fa-camera"></i>
-                        <input type="file" name="file"/>
+                        <input id="avatar" type="file" name="file" style="outline: none;border:none;"/>
                     </div>
                 </div>
             </div>
             <div class="col-md-7">
                 <div class="profile-head">
                     <h1 class="display-3">
-                        <%=user.firstName%> <%=user.lastName%>
+                        <%= user.firstName %> <%= user.lastName %>
                     </h1>
                     <h3>
                         Patient
@@ -38,7 +38,9 @@
                 </div>
             </div>
             <div class="col-md-2">
-                <a href="/profile/edit"><button type="button" class="profile-edit-btn" name="btnAddMore"> Edit Profile </button></a>
+                <a href="/profile/edit">
+                    <button type="button" class="profile-edit-btn" name="btnAddMore"> Edit Profile</button>
+                </a>
             </div>
         </div>
         <div class="row">
@@ -51,24 +53,24 @@
                                 <label class="big">National Id</label>
                             </div>
                             <div class="col-md-6">
-                                <p class="big"><%=user.nationalId%></p>
+                                <p class="big"><%= user.nationalId %></p>
                             </div>
                         </div>
 
                         <div class="row">
-                        <div class="col-md-6">
-                            <label class="big">Birthdate</label>
+                            <div class="col-md-6">
+                                <label class="big">Birthdate</label>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="big"><%= user.birthdate.toLocaleDateString() %></p>
+                            </div>
                         </div>
-                        <div class="col-md-6">
-                            <p class="big"><%=user.birthdate.toLocaleDateString()%></p>
-                        </div>
-                    </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <label class="big">Gender</label>
                             </div>
                             <div class="col-md-6">
-                                <p class="big cap"><%=user.gender%></p>
+                                <p class="big cap"><%= user.gender %></p>
                             </div>
                         </div>
 
@@ -78,7 +80,7 @@
                                 <label class="big">Email</label>
                             </div>
                             <div class="col-md-6">
-                                <p class="big"><%=user.email%></p>
+                                <p class="big"><%= user.email %></p>
                             </div>
                         </div>
 
@@ -88,7 +90,7 @@
                                 <label class="big">Phone</label>
                             </div>
                             <div class="col-md-6">
-                                <p class="big"><%=user.phoneNumber%></p>
+                                <p class="big"><%= user.phoneNumber %></p>
                             </div>
                         </div>
 
@@ -97,17 +99,18 @@
                                 <label class="big">Address</label>
                             </div>
                             <div class="col-md-6">
-                                <p class="big"><%=user.homeAddress%></p>
+                                <p class="big"><%= user.homeAddress %></p>
                             </div>
                         </div>
-                        </div>
                     </div>
-
                 </div>
+
             </div>
+        </div>
     </form>
 </div>
 
 <script src="../js/socket.js"></script>
+<script src="../js/profile.js"></script>
 </body>
 </html>

@@ -15,6 +15,7 @@ class AuthMiddleware {
     public async setAuth(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
             res.locals.isAdmin = false;
+            res.locals.me = undefined;
             const token = req.cookies[JWTUtils.JWT_COOKIE_NAME];
             const decodedToken = jwt.verify(token, JWTUtils.JWT_SECRET);
 

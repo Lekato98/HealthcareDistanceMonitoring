@@ -7,11 +7,11 @@ enum Event {
     RECONNECT = 'reconnection',
     DISCONNECT = 'disconnect',
     NOTIFICATION = 'notification',
-    NOTIFY = 'notify'
 }
 
 class SocketIO {
     public static io: Socket;
+    public static sockets: any = {};
 
     public static initialize(server: any) {
         this.io = io(server);
@@ -27,11 +27,15 @@ class SocketIO {
     }
 
     public static notifyUser(userId: string, message: any): void {
-        this.io.to(userId).emit(Event.NOTIFY, message);
+        this.sockets[userId].emit(Event.NOTIFICATION, message);
     }
 
     public static initializeListeners() {
         this.io.on(Event.CONNECTION, (socket) => {
+            if (socket.handshake.query?.userId) {
+                this.sockets[socket.handshake.query.userId] = socket;
+            }
+
             /*setInterval(() => {
                 socket.emit(Event.NOTIFICATION, 'New Notification');
             }, 5000);*/

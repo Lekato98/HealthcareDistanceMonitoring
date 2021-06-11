@@ -14,7 +14,7 @@ input[type='file']{
 }
 
 .profile-image {
-    border-radius: 20%;
+    border-radius: 30% 30% 30% 0;
 }
 
     /*body*/
@@ -36,6 +36,8 @@ input[type='file']{
     margin-bottom: 3%;
     border-radius: 0.5rem;
     background: aliceblue;
+    color: white;
+    background-color: #7EA8ED;
 }
 
 .profile-img {
@@ -44,8 +46,8 @@ input[type='file']{
 }
 
 .profile-img img {
-    width: 200px;
-    height: 200px;
+    width: 250px;
+    height: 250px;
     /*border-radius: 100%;*/
 }
 
@@ -62,7 +64,6 @@ input[type='file']{
 
 .profile-img .file input {
     width: 50px;
-    border-radius: 20%;
     position: absolute;
     left: 0px;
     bottom: 3px;

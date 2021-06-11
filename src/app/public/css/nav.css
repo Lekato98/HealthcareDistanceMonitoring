@@ -134,7 +134,7 @@
 .profile-icon{
     width: 40px;
     height: auto;
-    border-radius: 100px;
+    border-radius: 30% 30% 30% 0;
     margin-right: 7px;
 }
 

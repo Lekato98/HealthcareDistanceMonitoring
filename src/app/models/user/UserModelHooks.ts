@@ -1,7 +1,8 @@
-import { User } from './UserModel';
+import { Gender, User } from './UserModel';
 import PhoneUtils from '../../utils/PhoneUtils';
 import StringUtils from '../../utils/StringUtils';
 import { nanoid } from 'nanoid';
+import UserService from './UserService';
 
 const bcrypt = require('bcrypt');
 
@@ -12,6 +13,7 @@ class UserModelHooks {
         user.password = await bcrypt.hash(user.password, salt); // hash password
         user.phoneNumber = PhoneUtils.formatPhoneNumber(user.phoneNumber); // reformat phone number
         user.homeAddress = StringUtils.capitalize(user.homeAddress); // jordan amman -> Jordan Amman
+        user.avatar = (user.gender === Gender.MALE ? UserService.MALE_DEFAULT_AVATAR : UserService.FEMALE_DEFAULT_AVATAR);
     }
 }
 

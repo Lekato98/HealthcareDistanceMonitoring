@@ -13,6 +13,7 @@ import DateUtils from './utils/DateUtils';
 import PatientService from './models/roles/patient/PatientService';
 import SocketIO from './io/SocketIO';
 import UserService from './models/user/UserService';
+import CloudinaryService from './services/CloudinaryService';
 
 const cookieParser = require('cookie-parser');
 const rateLimit = require('express-rate-limit');
@@ -24,9 +25,10 @@ class ExpressApp {
     public readonly VIEWS_PATH: string = path.join(__dirname, 'public/views'); // views folder
     public readonly _12H: number = 43200000;
     public readonly urlencodedOptions = {extended: true};
+    // limit each IP to 100 requests per windowMs 1 request per 2 seconds
     public readonly requestLimiter = rateLimit({
-        windowMs: 15 * 60 * 1000, // 15 minutes
-        max: 100, // limit each IP to 100 requests per windowMs
+        windowMs: 60 * 1000,
+        max: 30,
     });
     public readonly MIDDLEWARES = [
         cors(),
@@ -47,11 +49,14 @@ class ExpressApp {
         this.initializeMiddlewares();
         this.initializeRoutes();
         this.initializeReminders();
-        // this.app.set('trust proxy', 1);
+        this.app.set('trust proxy', 1);
 
         // connect to mongoDB
         MongooseService.connect()
             .then(() => console.log('~Mongoose Connected'));
+
+        // connect to Cloudinary
+        CloudinaryService.connect();
     }
 
     public initializeViewEngine(): void {
@@ -82,12 +87,13 @@ class ExpressApp {
             const payload = {
                 title: 'Reminder',
                 body: 'don\'t miss your report!',
+                isRead: false,
                 time: new Date(),
             };
 
             const patients = await PatientService.getOnWait();
             await Promise.all(patients.map(patient => UserService.addNotification(patient.userId, payload)));
-            patients.forEach(patient => SocketIO.notifyUser(patient.userId, payload));
+            patients.forEach(patient => SocketIO.notifyUser(patient.userId, {...payload, type: 'warning'}));
         }, this.getTimeoutReminder());
     }
 
