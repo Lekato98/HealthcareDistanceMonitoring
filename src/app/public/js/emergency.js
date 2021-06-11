@@ -1,5 +1,5 @@
 const reason = document.querySelector("#reason");
-const form = document.querySelector("#form");
+const form = document.querySelector("#report");
 
 form.addEventListener('submit' , submitHandler);
 

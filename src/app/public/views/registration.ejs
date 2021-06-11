@@ -16,13 +16,36 @@
             <h1>Create Account</h1>
             <div id="sign-up-errors" style="margin: 5px;padding: 5px;color: red;"></div>
             <br>
-            <input name="firstName" type="text" placeholder="First Name" required/>
-            <input name="lastName" type="text" placeholder="Last Name" required/>
-            <input name="nationalId" type="text" placeholder="National ID" required/>
-            <input name="email" type="email" placeholder="Email" required/>
-            <input name="password" type="password" placeholder="Password" required/>
-            <input name="birthdate" class="date" type="date" placeholder="Birthdate" required/>
-            <select name="gender">
+            <div>
+                <input id="first-name" name="firstName" type="text" placeholder="First Name" required/>
+                <span><i title="Minimum 3 characters Name and maximum 13"  class="fas fa-exclamation-circle"></i></span>
+            </div>
+
+            <div>
+                <input id="last-name" name="lastName" type="text" placeholder="Last Name" required/>
+                <span><i title="Minimum 3 characters Name and maximum 13"  class="fas fa-exclamation-circle"></i></span>
+            </div>
+
+            <div>
+                <input id="national-id" name="nationalId" type="text" placeholder="National ID" required/>
+                <span><i title="Minimum 3 characters Name and maximum 13"  class="fas fa-exclamation-circle"></i></span>
+            </div>
+
+
+            <div>
+                <input id="email" name="email" type="email" placeholder="Email" required/>
+                <span><i title="Minimum 3 characters Name and maximum 13"  class="fas fa-exclamation-circle"></i></span>
+            </div>
+
+            <div>
+                <input id="password" name="password" type="password" placeholder="Password" required/>
+                <span><i title="Minimum 3 characters Name and maximum 13"  class="fas fa-exclamation-circle"></i></span>
+            </div>
+
+
+            <input id="birth-date"  name="birthdate" class="date" type="date" placeholder="Birthdate" min="1900-01-01" max="2015-01-01" required/>
+
+            <select id="gender" name="gender">
                 <option selected disabled style="display: none;">Gender</option>
                 <option value="male">Male</option>
                 <option value="female">Female</option>
@@ -30,8 +53,13 @@
 
 
             <input name="homeAddress" type="home" placeholder="Home Address" required/>
-            <%-include('./partials/phoneNumberCode')%>
-            <input name="phoneNumber" type="phone" placeholder="Phone Number" required/>
+
+
+            <div>
+                <input id="phone-number" name="phoneNumber" type="phone" placeholder="Phone Number" required/>
+                <span><i title="Minimum 3 characters Name and maximum 13"  class="fas fa-exclamation-circle"></i></span>
+            </div>
+
             <br>
             <button type="submit">Sign Up</button>
         </form>
