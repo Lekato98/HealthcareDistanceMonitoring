@@ -6,8 +6,6 @@ import HomeMiddleware from '../middlewares/HomeMiddleware';
 
 @Injectable
 class HomeRoute implements IRoute {
-    @Inject(HomeController) private homeController: HomeController;
-
     public readonly ROUTE: Router = Router();
     public readonly ROUTE_PREFIX_URL: string = '/';
     public readonly HOME_PAGE_URL: string = '/';
@@ -22,7 +20,8 @@ class HomeRoute implements IRoute {
     public readonly COORDINATOR_PAGE: string = '/coordinator';
     public readonly DEFAULT_PAGE_URL: string = '/**';
 
-    @Inject(HomeMiddleware) homeMiddleware: HomeMiddleware;
+    @Inject(HomeController) private homeController: HomeController;
+    @Inject(HomeMiddleware) private homeMiddleware: HomeMiddleware;
 
     constructor() {
         this.initialize();

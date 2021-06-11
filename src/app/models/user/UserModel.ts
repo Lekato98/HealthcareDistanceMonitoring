@@ -66,6 +66,13 @@ const genderTypeOptions: PropOptionsForString = {
     enum: [Gender.MALE, Gender.FEMALE],
 };
 
+const avatarTypeOptions: PropOptionsForString = {
+    type: String,
+    required: true,
+    lowercase: true,
+    trim: true,
+};
+
 const birthdateTypeOptions: BasePropOptions = {
     type: Date,
     required: true,
@@ -133,6 +140,7 @@ export class User {
     @Prop(firstNameTypeOptions) public firstName!: string;
     @Prop(lastNameTypeOptions) public lastName!: string;
     @Prop(genderTypeOptions) public gender!: string;
+    @Prop(avatarTypeOptions) public avatar!: string;
     @Prop(birthdateTypeOptions) public birthdate!: Date;
     @Prop(homeAddressTypeOptions) public homeAddress!: string;
     @Prop(phoneNumberTypeOptions) public phoneNumber!: string;
@@ -149,6 +157,8 @@ export class User {
         this.birthdate = user?.birthdate || new Date();
         this.homeAddress = user?.homeAddress || '';
         this.phoneNumber = user?.phoneNumber || '';
+        this.avatar = user?.avatar || '';
+
     }
 }
 
@@ -159,6 +169,7 @@ export interface IUser {
     firstName: string;
     lastName: string;
     gender: Gender;
+    avatar: string;
     birthdate: Date;
     homeAddress: string;
     phoneNumber: string;

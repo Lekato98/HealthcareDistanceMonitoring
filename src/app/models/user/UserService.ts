@@ -10,6 +10,8 @@ const bcrypt = require('bcrypt');
 
 class UserService {
     public static readonly USERS_LIMIT_PER_PAGE: number = 20; // used for get all users
+    public static readonly MALE_DEFAULT_AVATAR = 'https://res.cloudinary.com/ddk75efat/image/upload/v1623369927/x0meteg69vavr1jbsxwv.jpg';
+    public static readonly FEMALE_DEFAULT_AVATAR = 'https://res.cloudinary.com/ddk75efat/image/upload/v1623369994/bgah0gt6qibsuarqq64p.jpg';
 
     public static async createUser(payload: IUser): Promise<DocumentType<User>> {
         const user = new User(payload);
@@ -21,6 +23,7 @@ class UserService {
         const notification = {
             title: payload?.title,
             body: payload?.body,
+            isRead: false,
             time: new Date(),
         };
 
