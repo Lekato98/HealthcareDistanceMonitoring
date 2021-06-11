@@ -4,6 +4,7 @@ import { arrayProp, getModelForClass, Index, ModelOptions, Prop, Severity } from
 import UserValidator from './UserValidator';
 import { UNIQUE } from '../../helpers/constants';
 import * as mongoose from 'mongoose';
+import PhoneUtils from '../../utils/PhoneUtils';
 
 export const enum RoleName {
     PATIENT = 'patient',
@@ -38,16 +39,16 @@ const firstNameTypeOptions: PropOptionsForString = {
     type: String,
     required: true,
     trim: true,
-    maxlength: [50, 'Too large First Name'],
-    minlength: [1, 'Too short First Name'],
+    maxlength: [20, 'Too large First Name'],
+    minlength: [3, 'Too short First Name'],
 };
 
 const lastNameTypeOptions: PropOptionsForString = {
     type: String,
     required: true,
     trim: true,
-    maxlength: [50, 'Too large Last Name'],
-    minlength: [1, 'Too short Last Name'],
+    maxlength: [20, 'Too large Last Name'],
+    minlength: [3, 'Too short Last Name'],
 };
 
 const emailTypeOptions: PropOptionsForString = {
@@ -89,7 +90,7 @@ const phoneNumberTypeOptions: PropOptionsForString = {
     required: true,
     trim: true,
     validate: {
-        validator: UserValidator.phoneNumberValidator,
+        validator: PhoneUtils.isValidJordanNumber,
         message: 'Invalid phone number',
     },
 };

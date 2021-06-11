@@ -18,8 +18,7 @@ class UserValidator {
     }
 
     public static phoneNumberValidator(phoneNumber: string): boolean {
-        const [, countryAbbreviation] = PhoneUtils.phone(phoneNumber);
-        return PhoneUtils.isSupportedCountry(countryAbbreviation);
+        return PhoneUtils.isValidJordanNumber(phoneNumber);
     }
 
 }

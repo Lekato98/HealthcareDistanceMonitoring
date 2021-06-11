@@ -69,9 +69,14 @@
 }
 
 .my-dropdown-toggle:after {
-    content: none
+    content: none;
 }
-
+#navbarDropdownMenuLink {
+    margin: 5px;
+}
+.my-dropdown-toggle {
+    margin: 5px;
+}
 .message-image{
     display: inline;
     width: 40px;
@@ -104,8 +109,8 @@
 
 
 .nav-item{
-    padding-right:15px;
-    padding-left:15px;
+    padding-right:10px;
+    padding-left:10px;
     margin: 5px;
 }
 
@@ -140,4 +145,33 @@
 
 .fa-bars{
     color: #fff;
+}
+
+@media (max-width:992px) {
+    .nav-item{
+        text-align: center;
+
+    }
+    .dropdown-item.secondary-item:focus, .dropdown-item.secondary-item:hover{
+        background-color: #fff;
+        color: #2554a1;
+    }
+
+
+    .nav-item.active:hover{
+        background-color: #2554a1;
+        border-radius: 30px;
+        color: #f8f8f8;
+    }
+
+    .nav-item.active:hover > a{
+        color: #fff;
+    }
+    .noti-container{
+        margin: auto;
+    }
+    .index-list{
+        text-align: center;
+    }
+
 }

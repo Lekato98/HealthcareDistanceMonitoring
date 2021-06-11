@@ -244,8 +244,7 @@ function signUpValidation(body) {
         message.push("invalid gender");
         redBorder(gender);
     }
-
-    errorContainer.innerHTML = message.join("<br>");
+    // errorContainer.innerHTML = message.join("<br>");
 }
 
 

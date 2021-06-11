@@ -4,7 +4,6 @@ import { Injectable } from 'dependency-injection-v1';
 import UserService from '../../models/user/UserService';
 import { SUCCESS, UNSUCCESSFUL } from '../../helpers/constants';
 import CloudinaryService from '../../services/CloudinaryService';
-const fs = require('fs');
 
 @Injectable
 class UserController {
@@ -151,10 +150,10 @@ class UserController {
      * */
     public async changePhoto(req: Request, res: Response): Promise<void> {
         try {
-            const userId = req.app.locals.jwt._id;
+            const nationalId = req.app.locals.jwt.nationalId;
             // @ts-ignore
             const imageInfo = await CloudinaryService.uploadSingleImage(req.file.path);
-            await UserService.patchOne(userId, {avatar: imageInfo.url});
+            await UserService.patchOne(nationalId, {avatar: imageInfo.url});
             const body = {success: SUCCESS, imageInfo};
             res.json(body);
         } catch (e) {
