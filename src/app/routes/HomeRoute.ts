@@ -46,6 +46,10 @@ class HomeRoute implements IRoute {
         this.ROUTE.get(this.EMERGENCY_PAGE, this.homeController.emergencyPage);
         this.ROUTE.get(this.COORDINATOR_PAGE, this.homeController.coordinatorPage);
 
+        this.ROUTE.get('/contact' , (req,res) =>{
+            res.render('contact');
+        });
+
         this.ROUTE.get(this.NOT_FOUND_PAGE, this.homeController.notFoundPage);
         this.ROUTE.get(this.SERVER_ERROR_PAGE, this.homeController.serverErrorPage);
         this.ROUTE.get(this.DEFAULT_PAGE_URL, this.homeController.unknownRouteRedirect);

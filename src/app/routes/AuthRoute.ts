@@ -20,7 +20,11 @@ class AuthRoute implements IRoute {
 
     public initializeControllers(): void {
         this.ROUTE.get(this.REGISTRATION_URL, this.authController.registrationPage);
+        this.ROUTE.get( '/forgetPassword' , (req,res) =>{
+            res.render("forgetPassword");
+        });
     }
+
 }
 
 const authRoute = new AuthRoute();
