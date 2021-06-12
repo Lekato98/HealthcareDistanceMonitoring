@@ -81,11 +81,11 @@
                     ><i class="fad fa-inbox"></i></a>
                     <div class="dropdown-menu dropdown-menu-right noti-container"
                          aria-labelledby="navbarDropdownMenuLink2">
-                        <% for (const {users: [, from], messages: [lastMessage]} of me.conversations) { %>
-                            <a class="dropdown-item secondary-item noti-item" href="#">
+                        <% for (const {_id, users: [, from], messages: [lastMessage]} of me.conversations) { %>
+                            <a class="dropdown-item secondary-item noti-item" href="/conversations/<%=_id%>">
                                 <div class="inner-noti-item">
                                     <img class="message-image" src="<%= from.avatar %>" alt="profile-image">
-                                    <h6 class="inner-noti-header"><%= from.firstName %></h6>
+                                    <h6 class="inner-noti-header"><%= from.firstName %> <%= from.lastName %></h6>
                                     <p class="inner-noti-text"> <%= lastMessage.message %> </p>
                                     <p class="inner-noti-time"><i class="far fa-clock"></i> <%=lastMessage.date.toLocaleString()%></p>
                                 </div>

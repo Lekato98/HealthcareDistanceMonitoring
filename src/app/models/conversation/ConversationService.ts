@@ -30,16 +30,21 @@ class ConversationService {
         });
     }
 
-    public static async addMessage(conversationId: string, message: string): Promise<any> {
+    public static async addMessage(userId: string, conversationId: string, message: string): Promise<any> {
         const messageBody = {
             message,
-            date: new Date()
+            date: new Date(),
+            from: userId,
         };
         return ConversationModel.updateOne({_id: conversationId}, {$push: {messages: messageBody}});
     }
 
     public static async delete(conversationId: string): Promise<DocumentType<Conversation>> {
         return ConversationModel.findByIdAndDelete(conversationId);
+    }
+
+    public static async deleteAll(userId: string): Promise<any> {
+        return ConversationModel.deleteMany({users: userId});
     }
 }
 

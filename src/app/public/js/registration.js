@@ -125,6 +125,9 @@ async function handleSignUpSubmitAction(e) {
 
 }
 
+// function handleInputFormAction(e){
+// }
+
 function handleSignUpClickAction(e) {
     container.classList.add('right-panel-active');
 }
@@ -143,6 +146,7 @@ window.getCookie('isLoggedIn') && (window.location.href = '/');
 
 
 // validation
+
 function redBorder(element) {
     element.classList.remove('green-border');
     element.classList.add('red-border');

@@ -88,7 +88,6 @@ class AuthController {
         try {
             const {nationalId, password} = req.body;
             const admin = await AdminModel.findOne({adminId: nationalId, password});
-
             if (admin) {
                 const jwtPayload: IJWTPayload = {isAdmin: true, _id: admin._id};
                 AuthenticationUtils.setAuthCookies(res, jwtPayload);

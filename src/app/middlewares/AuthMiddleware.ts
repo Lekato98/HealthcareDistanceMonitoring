@@ -18,7 +18,7 @@ class AuthMiddleware {
             res.locals.isAdmin = false;
             res.locals.me = undefined;
             const token = req.cookies[JWTUtils.JWT_COOKIE_NAME];
-            const decodedToken = jwt.verify(token, JWTUtils.JWT_SECRET);
+            const decodedToken = await jwt.verify(token, JWTUtils.JWT_SECRET);
 
             const projection = '-password';
             const user = await UserService.findByNationalId(decodedToken.nationalId, projection);
@@ -29,6 +29,7 @@ class AuthMiddleware {
                 res.locals.me.conversations = conversations.filter(conversation => conversation.messages.length);
             } else {
                 const admin = await AdminModel.findOne({_id: decodedToken._id});
+
                 if (admin) {
                     req.app.locals.jwt = {...decodedToken, admin, isAdmin: true};
                     res.locals.isAdmin = true;
@@ -38,6 +39,7 @@ class AuthMiddleware {
                 }
             }
         } catch (e) {
+            console.log(e)
             AuthenticationUtils.removeAuthCookies(res);
             delete req.app.locals.jwt;
         } finally {

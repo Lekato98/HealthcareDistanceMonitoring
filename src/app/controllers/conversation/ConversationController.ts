@@ -15,6 +15,10 @@ class ConversationController {
             const userA = req.app.locals.jwt._id;
             const userB = req.body.to;
             const payload = {users: [userA,  userB]};
+            if (userA === userB) {
+                const body = {success: UNSUCCESSFUL, message: 'Unable to create conversation with your self'};
+                res.status(HttpStatusCode.BAD_REQUEST).json(body);
+            }
             const conversation = await ConversationService.create(payload);
             const body = {success: SUCCESS, conversation};
             res.status(HttpStatusCode.CREATED_SUCCESSFULLY).json(body);
@@ -46,8 +50,9 @@ class ConversationController {
      * */
     public async addMessage(req: Request, res: Response): Promise<void> {
         try {
+            const userId = req.app.locals.jwt._id;
             const {conversationId, message} = req.body;
-            const conversation = await ConversationService.addMessage(conversationId, message);
+            const conversation = await ConversationService.addMessage(userId, conversationId, message);
             const body = {success: SUCCESS, conversation};
             res.json(body);
         } catch (e) {

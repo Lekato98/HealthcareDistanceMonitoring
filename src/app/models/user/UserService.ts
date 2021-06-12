@@ -5,6 +5,7 @@ import RoleService from '../roles/RoleService';
 import UserModelHooks from './UserModelHooks';
 import {ILogin} from '../../controllers/auth/AuthController';
 import {QueryUpdateOptions} from 'mongoose';
+import ConversationService from "../conversation/ConversationService";
 
 const bcrypt = require('bcrypt');
 
@@ -76,7 +77,8 @@ class UserService {
     public static async deleteOneUser(userId: string) {
         const roles = RoleService.deleteAllRoles(userId);
         const user = UserModel.findOneAndDelete({_id: userId});
-        return Promise.all([user, roles]);
+        const conversations = ConversationService.deleteAll(userId);
+        return Promise.all([user, roles, conversations]);
     }
 
     public static async login(payload: ILogin) {
