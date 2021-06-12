@@ -1,6 +1,7 @@
 .container{
     margin-bottom: 50px;
-    margin-top: 83px;
+    margin-top: 8%;
+    box-shadow: 0 0 4px 0 #888888;
 }
 
 textarea{
@@ -67,11 +68,12 @@ textarea{
     position: relative;
     padding: 1rem 0;
     border-right: 1px solid #e6ecf3;
-    height: 100%;
     display: -ms-flexbox;
     display: flex;
     -ms-flex-direction: column;
     flex-direction: column;
+    overflow-y: scroll;
+    height: 720px;
 }
 
 
@@ -226,6 +228,9 @@ textarea{
 .chat-container {
     position: relative;
     padding: 1rem;
+    padding-bottom: 0 !important;
+    height: 720px;
+    overflow-y:scroll;
 }
 
 .chat-container li.chat-left,
@@ -379,4 +384,10 @@ ul {
     border-radius: 2px;
     margin-bottom: 2rem;
     box-shadow: none;
+}
+
+.row{
+    position: sticky !important;
+    bottom: 0 !important;
+    background-color: #f4f5fb;
 }
