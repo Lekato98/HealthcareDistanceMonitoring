@@ -1,9 +1,8 @@
-import { SchemaOptions } from 'mongoose';
-import { ArrayPropOptions, BasePropOptions, IModelOptions, PropOptionsForString } from '@typegoose/typegoose/lib/types';
-import { arrayProp, getModelForClass, Index, ModelOptions, Prop, Severity } from '@typegoose/typegoose';
+import {SchemaOptions} from 'mongoose';
+import {ArrayPropOptions, BasePropOptions, IModelOptions, PropOptionsForString} from '@typegoose/typegoose/lib/types';
+import {arrayProp, getModelForClass, Index, ModelOptions, Prop, Severity, mongoose} from '@typegoose/typegoose';
 import UserValidator from './UserValidator';
-import { UNIQUE } from '../../helpers/constants';
-import * as mongoose from 'mongoose';
+import {UNIQUE} from '../../helpers/constants';
 import PhoneUtils from '../../utils/PhoneUtils';
 
 export const enum RoleName {
@@ -118,6 +117,11 @@ const notificationsTypeOptions: ArrayPropOptions = {
     default: [],
 };
 
+const securityTypeOptions: BasePropOptions = {
+    type: mongoose.Schema.Types.Mixed,
+    required: true
+};
+
 const schemaOptions: SchemaOptions = {
     timestamps: true,
     discriminatorKey: '', // used in inheritance as collection name for the childes
@@ -145,6 +149,7 @@ export class User {
     @Prop(birthdateTypeOptions) public birthdate!: Date;
     @Prop(homeAddressTypeOptions) public homeAddress!: string;
     @Prop(phoneNumberTypeOptions) public phoneNumber!: string;
+    @Prop(securityTypeOptions) public security!: ISecurity;
     @arrayProp(rolesTypeOptions) public roles?: string[];
     @arrayProp(notificationsTypeOptions) public notifications?: object[];
 
@@ -159,8 +164,13 @@ export class User {
         this.homeAddress = user?.homeAddress || '';
         this.phoneNumber = user?.phoneNumber || '';
         this.avatar = user?.avatar || '';
-
+        this.security = user?.security;
     }
+}
+
+export interface ISecurity {
+    question: string,
+    answer: string;
 }
 
 export interface IUser {
@@ -176,6 +186,7 @@ export interface IUser {
     phoneNumber: string;
     password: string;
     roles?: string[];
+    security: ISecurity;
 }
 
 const UserModel = getModelForClass(User);

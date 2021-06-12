@@ -1,11 +1,11 @@
-import { Request, Response } from 'express';
-import { IUser } from '../../models/user/UserModel';
-import JWTUtils, { IJWTPayload } from '../../utils/JWTUtils';
-import { HttpStatusCode } from '../../utils/HttpUtils';
-import { Injectable } from 'dependency-injection-v1';
+import {Request, Response} from 'express';
+import {ISecurity} from '../../models/user/UserModel';
+import JWTUtils, {IJWTPayload} from '../../utils/JWTUtils';
+import {HttpStatusCode} from '../../utils/HttpUtils';
+import {Injectable} from 'dependency-injection-v1';
 import UserService from '../../models/user/UserService';
 import AuthenticationUtils from '../../utils/AuthenticationUtils';
-import { SUCCESS, UNSUCCESSFUL } from '../../helpers/constants';
+import {SUCCESS, UNSUCCESSFUL} from '../../helpers/constants';
 import AdminModel from '../../models/admin/AdminModel';
 
 export interface ILogin {
@@ -64,7 +64,8 @@ class AuthController {
      * */
     public async register(req: Request, res: Response): Promise<void> {
         try {
-            const userInfo: IUser = req.body;
+            const {question, answer, ...userInfo}: any = req.body;
+            userInfo.security = {question, answer};
             const user = await UserService.createUser(userInfo);
 
             // create and set token in cookie
@@ -116,6 +117,23 @@ class AuthController {
             const body = {success: UNSUCCESSFUL, message: e.message};
             res.status(HttpStatusCode.SERVER_ERROR).json(body);
         }
+    }
+
+    /**
+     * @Route /api/v1/reset-password
+     * @POST
+     * */
+    public async resetPassword(req: Request, res: Response): Promise<void> {
+      try {
+          const {nationalId, password, question, answer} = req.body;
+          const security = {question, answer};
+          const success = await UserService.resetPassword(nationalId, security, password);
+          const body = {success};
+          res.json(body);
+      } catch (e) {
+          const body = {success: UNSUCCESSFUL, message: e.message};
+          res.status(HttpStatusCode.SERVER_ERROR).json(body);
+      }
     }
 }
 

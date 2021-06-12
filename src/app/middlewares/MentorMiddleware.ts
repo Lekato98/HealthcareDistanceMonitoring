@@ -9,6 +9,11 @@ import { RoleName } from '../models/user/UserModel';
 class MentorMiddleware {
     public async isMentor(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
+            const isAdmin: boolean = req.app.locals.isAdmin;
+
+            if (isAdmin) {
+                return next();
+            }
             const userId: string = req.app.locals.jwt._id;
             const roleName: RoleName = req.app.locals.jwt.roleName;
             const mentor = roleName === RoleName.MENTOR && await MentorService.findOneByUserId(userId);

@@ -36,7 +36,18 @@ signUpForm.addEventListener('submit', handleSignUpSubmitAction);
 signUpButton.addEventListener('click', handleSignUpClickAction);
 signInButton.addEventListener('click', handleSignInClickAction);
 
+async function fetchAdminLogin(payload) {
+    const options = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+    };
 
+    const response = await fetch('/api/v1/auth/admin-login', options);
+    return await response.json();
+}
 
 async function fetchLogin(payload) {
     const options = {
@@ -62,24 +73,40 @@ async function fetchRegistration(payload) {
     return await response.json();
 }
 
+async function handleSignInSubmitAction(e) {
+    try {
+        e.preventDefault();
+        const elements = Array.from(e.target.elements);
+        const body = elements.reduce(setFormBody, {});
+        const nationalId = body.nationalId;
+
+        if (nationalId.startsWith('@')) {
+            body.nationalId = nationalId.slice(1);
+            const payload = await fetchAdminLogin(body);
+            if (payload.success) {
+                location.href = '/coordinator';
+            } else {
+                signInErrors.textContent = payload.message;
+            }
+        } else {
+            const payload = await fetchLogin(body);
+            if (payload.success) {
+                location.href = '/';
+            } else {
+                signInErrors.textContent = payload.message;
+            }
+        }
+    } catch (e) {
+        alert(e.message)
+    }
+}
+
 function setFormBody(body, element) {
     if (element.name) {
         body[element.name] = element.value;
     }
 
     return body;
-}
-
-async function handleSignInSubmitAction(e) {
-    e.preventDefault();
-    const elements = Array.from(e.target.elements);
-    const body = elements.reduce(setFormBody, {});
-    const payload = await fetchLogin(body);
-    if (payload.success) {
-        window.location.href = '/';
-    } else {
-        signInErrors.textContent = payload.message;
-    }
 }
 
 async function handleSignUpSubmitAction(e) {
@@ -97,9 +124,6 @@ async function handleSignUpSubmitAction(e) {
     }
 
 }
-
-// function handleInputFormAction(e){
-// }
 
 function handleSignUpClickAction(e) {
     container.classList.add('right-panel-active');
@@ -119,67 +143,66 @@ window.getCookie('isLoggedIn') && (window.location.href = '/');
 
 
 // validation
-
-function redBorder(element){
+function redBorder(element) {
     element.classList.remove('green-border');
     element.classList.add('red-border');
 }
 
-function greenBorder(element){
+function greenBorder(element) {
     element.classList.remove('red-border');
     element.classList.add('green-border');
 }
 
-function firstLastNameValidator(element){
-    if (element.value.length < 3 || element.value.length > 20){
+function firstLastNameValidator(element) {
+    if (element.value.length < 3 || element.value.length > 20) {
         redBorder(element);
-    } else if (!element.value.match(nameValidation)){
-        redBorder(element);
-    }else {
-        greenBorder(element);
-    }
-}
-
-function nationalIdValidator(element){
-    if (element.value.length === 0){
-        redBorder(element)
-    } else if (!element.value.match(nationalValidation)){
-        redBorder(element);
-    } else {
-        greenBorder(element)
-    }
-}
-
-function emailValidator(element){
-    if (element.value.length === 0){
-        redBorder(element)
-    } else if (!element.value.match(emailValidation)){
-        redBorder(element);
-    } else {
-        greenBorder(element)
-    }
-}
-
-function phoneValidator(element){
-    if (element.value.length === 0){
-        redBorder(element)
-    } else if (!element.value.match(phoneValidation)){
-        redBorder(element);
-    } else {
-        greenBorder(element)
-    }
-}
-
-function passwordValidator(element){
-    if (element.value.length < 6){
+    } else if (!element.value.match(nameValidation)) {
         redBorder(element);
     } else {
         greenBorder(element);
     }
 }
 
-function genderValidator(element){
-    if (element.value ==="gender"){
+function nationalIdValidator(element) {
+    if (element.value.length === 0) {
+        redBorder(element)
+    } else if (!element.value.match(nationalValidation)) {
+        redBorder(element);
+    } else {
+        greenBorder(element)
+    }
+}
+
+function emailValidator(element) {
+    if (element.value.length === 0) {
+        redBorder(element)
+    } else if (!element.value.match(emailValidation)) {
+        redBorder(element);
+    } else {
+        greenBorder(element)
+    }
+}
+
+function phoneValidator(element) {
+    if (element.value.length === 0) {
+        redBorder(element)
+    } else if (!element.value.match(phoneValidation)) {
+        redBorder(element);
+    } else {
+        greenBorder(element)
+    }
+}
+
+function passwordValidator(element) {
+    if (element.value.length < 6) {
+        redBorder(element);
+    } else {
+        greenBorder(element);
+    }
+}
+
+function genderValidator(element) {
+    if (element.value === "gender") {
         redBorder(element)
     } else {
         greenBorder(element)
@@ -211,47 +234,47 @@ function signUpValidation(body) {
         redBorder(lastName);
     }
 
-    if (body.nationalId === ''){
+    if (body.nationalId === '') {
         message.push('National ID cannot be empty')
         redBorder(nationalId);
-    } else if (!body.nationalId.match(nationalValidation)){
+    } else if (!body.nationalId.match(nationalValidation)) {
         message.push('Wrong National ID')
         redBorder(nationalId);
     }
 
-    if (body.email ===''){
-        message.push ('Email cannot be empty');
+    if (body.email === '') {
+        message.push('Email cannot be empty');
         redBorder(email);
-    } else if (!body.email.match(emailValidation)){
+    } else if (!body.email.match(emailValidation)) {
         message.push('email is not valid');
         redBorder(email);
     }
 
-    if (body.password < 6){
+    if (body.password < 6) {
         message.push("password at least 6 characters");
         redBorder(password);
     }
 
-    if (body.phoneNumber === ''){
+    if (body.phoneNumber === '') {
         message.push('phone cannot be empty');
         redBorder(phoneNumber);
-    } else if (!body.phoneNumber.match(phoneValidation)){
+    } else if (!body.phoneNumber.match(phoneValidation)) {
         message.push('invalid phone number');
         redBorder(phoneNumber);
     }
 
-    if (body.gender === "gender"){
+    if (body.gender === "gender") {
         message.push("invalid gender");
         redBorder(gender);
     }
-    // errorContainer.innerHTML = message.join("<br>");
+    // errorContainer.innerHTML = conversation.join("<br>");
 }
 
 
-firstName.addEventListener('input' ,() => firstLastNameValidator(firstName));
-lastName.addEventListener('input' ,() => firstLastNameValidator(lastName));
-nationalId.addEventListener('input' ,() => nationalIdValidator(nationalId));
-email.addEventListener('input' ,() => emailValidator(email));
-phoneNumber.addEventListener('input' ,() => phoneValidator(phoneNumber));
-password.addEventListener('input' ,() => passwordValidator(password));
-gender.addEventListener('input' ,() => genderValidator(gender));
+firstName.addEventListener('input', () => firstLastNameValidator(firstName));
+lastName.addEventListener('input', () => firstLastNameValidator(lastName));
+nationalId.addEventListener('input', () => nationalIdValidator(nationalId));
+email.addEventListener('input', () => emailValidator(email));
+phoneNumber.addEventListener('input', () => phoneValidator(phoneNumber));
+password.addEventListener('input', () => passwordValidator(password));
+gender.addEventListener('input', () => genderValidator(gender));

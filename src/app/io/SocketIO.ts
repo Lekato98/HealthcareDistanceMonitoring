@@ -1,4 +1,5 @@
-import { Socket } from 'socket.io';
+import {Socket} from 'socket.io';
+import ConversationService from "../models/conversation/ConversationService";
 
 const io = require('socket.io');
 
@@ -7,6 +8,7 @@ enum Event {
     RECONNECT = 'reconnection',
     DISCONNECT = 'disconnect',
     NOTIFICATION = 'notification',
+    MESSAGE = 'message',
 }
 
 class SocketIO {
@@ -34,19 +36,17 @@ class SocketIO {
         this.io.on(Event.CONNECTION, (socket) => {
             if (socket.handshake.query?.userId) {
                 this.sockets[socket.handshake.query.userId] = socket;
+                socket.on(Event.MESSAGE, (payload: any) => {
+                    const message = {
+                        title: 'Message',
+                        body: payload.message,
+                        type: 'default',
+                        date: new Date(),
+                    };
+                    ConversationService.addMessage(payload.conversationId, payload.message)
+                        .then(() => this.notifyUser(payload.to, message))
+                })
             }
-
-            /*setInterval(() => {
-                socket.emit(Event.NOTIFICATION, 'New Notification');
-            }, 5000);*/
-
-            socket.on(Event.RECONNECT, () => {
-                // console.log(Event.RECONNECT);
-            });
-
-            socket.on(Event.DISCONNECT, () => {
-                // console.log(Event.DISCONNECT);
-            });
         });
     }
 }
