@@ -1,4 +1,5 @@
-import { Socket } from 'socket.io';
+import {Socket} from 'socket.io';
+import ConversationService from "../models/conversation/ConversationService";
 
 const io = require('socket.io');
 
@@ -7,6 +8,8 @@ enum Event {
     RECONNECT = 'reconnection',
     DISCONNECT = 'disconnect',
     NOTIFICATION = 'notification',
+    MESSAGE = 'message',
+    RECEIVE_MESSAGE = 'receive_message',
 }
 
 class SocketIO {
@@ -27,26 +30,39 @@ class SocketIO {
     }
 
     public static notifyUser(userId: string, message: any): void {
-        this.sockets[userId].emit(Event.NOTIFICATION, message);
+        this.sockets[userId]?.emit(Event.NOTIFICATION, message);
+    }
+
+    public static messageToUser(userId: string, message: any): void {
+        this.sockets[userId]?.emit(Event.RECEIVE_MESSAGE, message);
     }
 
     public static initializeListeners() {
         this.io.on(Event.CONNECTION, (socket) => {
             if (socket.handshake.query?.userId) {
-                this.sockets[socket.handshake.query.userId] = socket;
+                const userId = socket.handshake.query.userId;
+                this.sockets[userId] = socket;
+                socket.on(Event.MESSAGE, (payload: any) => {
+                    const message = {
+                        title: `Message From ${payload.from.firstName} ${payload.from.lastName}`,
+                        body: payload.message,
+                        type: 'default',
+                        date: new Date(),
+                    };
+
+                    const currentMessage = {
+                        conversationId: payload.conversationId,
+                        from: userId,
+                        date: message.date,
+                        body: message.body,
+                    }
+
+                    this.messageToUser(userId, currentMessage);
+                    this.messageToUser(payload.to, currentMessage);
+                    ConversationService.addMessage(userId, payload.conversationId, payload.message)
+                        .then(() => this.notifyUser(payload.to, message))
+                })
             }
-
-            /*setInterval(() => {
-                socket.emit(Event.NOTIFICATION, 'New Notification');
-            }, 5000);*/
-
-            socket.on(Event.RECONNECT, () => {
-                // console.log(Event.RECONNECT);
-            });
-
-            socket.on(Event.DISCONNECT, () => {
-                // console.log(Event.DISCONNECT);
-            });
         });
     }
 }

@@ -1,11 +1,12 @@
-import { NextFunction, Request, Response } from 'express';
+import {NextFunction, Request, Response} from 'express';
 import JWTUtils from '../utils/JWTUtils';
-import { HttpStatusCode } from '../utils/HttpUtils';
-import { Injectable } from 'dependency-injection-v1';
+import {HttpStatusCode} from '../utils/HttpUtils';
+import {Injectable} from 'dependency-injection-v1';
 import UserService from '../models/user/UserService';
 import AuthenticationUtils from '../utils/AuthenticationUtils';
-import { UNSUCCESSFUL } from '../helpers/constants';
+import {UNSUCCESSFUL} from '../helpers/constants';
 import AdminModel from '../models/admin/AdminModel';
+import ConversationService from "../models/conversation/ConversationService";
 
 const jwt = require('jsonwebtoken');
 
@@ -17,15 +18,18 @@ class AuthMiddleware {
             res.locals.isAdmin = false;
             res.locals.me = undefined;
             const token = req.cookies[JWTUtils.JWT_COOKIE_NAME];
-            const decodedToken = jwt.verify(token, JWTUtils.JWT_SECRET);
+            const decodedToken = await jwt.verify(token, JWTUtils.JWT_SECRET);
 
             const projection = '-password';
             const user = await UserService.findByNationalId(decodedToken.nationalId, projection);
             if (user && user._id === decodedToken._id && user.nationalId === decodedToken.nationalId) {
+                const conversations = await ConversationService.getAllByUserId(user._id);
                 req.app.locals.jwt = {...decodedToken, user};
                 res.locals.me = user;
+                res.locals.me.conversations = conversations.filter(conversation => conversation.messages.length);
             } else {
                 const admin = await AdminModel.findOne({_id: decodedToken._id});
+
                 if (admin) {
                     req.app.locals.jwt = {...decodedToken, admin, isAdmin: true};
                     res.locals.isAdmin = true;
@@ -35,6 +39,7 @@ class AuthMiddleware {
                 }
             }
         } catch (e) {
+            console.log(e)
             AuthenticationUtils.removeAuthCookies(res);
             delete req.app.locals.jwt;
         } finally {

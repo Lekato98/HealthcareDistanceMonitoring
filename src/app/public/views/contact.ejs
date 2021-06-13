@@ -4,19 +4,36 @@
     <%- include('./partials/head.ejs') %>
     <title>C19HDM | Patients</title>
     <link rel="stylesheet" href="../css/contact.css">
+
 </head>
 <body>
 
 <%- include('./partials/navbar.ejs') %>
 <%- include('./partials/notification.ejs') %>
-
+<%if (conversation) {%>
+<script>
+    const conversationId = "<%= conversation._id %>";
+    const to = "<%= conversation.users[1]._id %>";
+    const me = {
+        _id: "<%= conversation.users[0]._id %>",
+        firstName: "<%= conversation.users[0].firstName %>",
+        lastName: "<%= conversation.users[0].lastName %>",
+        avatar: "<%= conversation.users[0].avatar %>"
+    };
+    const you = {
+        _id: "<%= conversation.users[1]._id %>",
+        firstName: "<%= conversation.users[1].firstName %>",
+        avatar: "<%= conversation.users[1].avatar %>"
+    };
+</script>
+<%}%>
 <div class="container">
 
     <!-- Page header start -->
     <div class="page-title">
         <div class="row gutters">
 
-            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12"> </div>
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12"></div>
         </div>
     </div>
     <!-- Page header end -->
@@ -35,159 +52,76 @@
                     <div class="row no-gutters">
                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-3 col-3">
                             <div class="users-container">
-                                <!-- <div class="chat-search-box">
-                                    <div class="input-group">
-                                        <input class="form-control" placeholder="Search">
-                                        <div class="input-group-btn">
-                                            <button type="button" class="btn btn-info">
-                                                <i class="fa fa-search"></i>
+                                <ul class="users">
+                                    <% for (const {
+                                        _id,
+                                        users: [, from],
+                                        messages: [lastMessage]
+                                    } of me.conversations) { %>
+                                        <a href="/conversations/<%= _id %>">
+                                            <li class="person" data-chat="person5">
+                                                <div class="user">
+                                                    <img src="<%= from.avatar %>" alt="Retail Admin">
+                                                </div>
+                                                <p class="name-time">
+                                                    <span class="name"><%= from.firstName %> <%= from.lastName %></span>
+                                                    <br>
+                                                    <span class="name"><%= lastMessage.message %></span>
+                                                    <br>
+                                                    <span class="time"><%= lastMessage.date.toLocaleString() %></span>
+                                                </p>
+                                            </li>
+                                        </a>
+                                    <% } %>
+                                </ul>
+                            </div>
+                        </div>
+                        <% if (conversation) { %>
+                            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-9 col-9">
+                                <div class="selected-user">
+                                <span>To: <span
+                                            class="name"><%= conversation.users[1].firstName %> <%= conversation.users[1].lastName %></span></span>
+                                </div>
+                                <div class="chat-container">
+                                    <ul id="messages" class="chat-box chatContainerScroll">
+                                        <% for (const {message, date, from} of conversation.messages) { %>
+                                            <% if (from === conversation.users[0]._id ) { %>
+                                                <li class="chat-right">
+                                                    <div class="chat-hour"><%= date.toLocaleString() %></div>
+                                                    <div class="chat-text"><%= message %></div>
+                                                    <div class="chat-avatar">
+                                                        <img src="<%= conversation.users[0].avatar %>"
+                                                             alt="<%= conversation.users[0].firstName %>">
+                                                        <div class="chat-name"><%= conversation.users[0].firstName %></div>
+                                                    </div>
+                                                </li>
+                                            <% } else { %>
+                                                <li class="chat-left">
+                                                    <div class="chat-avatar">
+                                                        <img src="<%= conversation.users[1].avatar %>"
+                                                             alt="<%= conversation.users[1].firstName %>">
+                                                        <div class="chat-name"><%= conversation.users[1].firstName %></div>
+                                                    </div>
+                                                    <div class="chat-text"><%= message %></div>
+                                                    <div class="chat-hour"><%= date.toLocaleString() %></div>
+                                                </li>
+                                        <% }} %>
+                                    </ul>
+                                    <div class="row">
+                                        <div class="form-group col-lg-11 text-position">
+                                        <textarea id="message-body" class="form-control" rows="3"
+                                                  placeholder="Type your message here..."></textarea>
+                                        </div>
+
+                                        <div class="col-lg-1 btn-position">
+                                            <button id="send-message" class="btn btn-lg btn-primary"><i
+                                                        class="far fa-paper-plane"></i>
                                             </button>
                                         </div>
                                     </div>
-                                </div>  THIS IS THE SEARCH BAR -->
-                                <ul class="users">
-
-                                    <li class="person" data-chat="person5">
-                                        <div class="user">
-                                            <img src="https://www.bootdey.com/img/Content/avatar/avatar5.png" alt="Retail Admin">
-                                        </div>
-                                        <p class="name-time">
-                                            <span class="name">Michael Jordan</span>
-                                            <span class="time">05/02/2019</span>
-                                        </p>
-                                    </li>
-                                    <li class="person" data-chat="person5">
-                                        <div class="user">
-                                            <img src="https://www.bootdey.com/img/Content/avatar/avatar5.png" alt="Retail Admin">
-                                        </div>
-                                        <p class="name-time">
-                                            <span class="name">Michael Jordan</span>
-                                            <span class="time">05/02/2019</span>
-                                        </p>
-                                    </li>
-                                    <li class="person" data-chat="person5">
-                                        <div class="user">
-                                            <img src="https://www.bootdey.com/img/Content/avatar/avatar5.png" alt="Retail Admin">
-                                        </div>
-                                        <p class="name-time">
-                                            <span class="name">Michael Jordan</span>
-                                            <span class="time">05/02/2019</span>
-                                        </p>
-                                    </li>
-                                    <li class="person" data-chat="person5">
-                                        <div class="user">
-                                            <img src="https://www.bootdey.com/img/Content/avatar/avatar5.png" alt="Retail Admin">
-                                        </div>
-                                        <p class="name-time">
-                                            <span class="name">Michael Jordan</span>
-                                            <span class="time">05/02/2019</span>
-                                        </p>
-                                    </li>
-                                    <li class="person" data-chat="person5">
-                                        <div class="user">
-                                            <img src="https://www.bootdey.com/img/Content/avatar/avatar5.png" alt="Retail Admin">
-                                        </div>
-                                        <p class="name-time">
-                                            <span class="name">Michael Jordan</span>
-                                            <span class="time">05/02/2019</span>
-                                        </p>
-                                    </li>
-
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="col-xl-8 col-lg-8 col-md-8 col-sm-9 col-9">
-                            <div class="selected-user">
-                                <span>To: <span class="name">Emily Russell</span></span>
-                            </div>
-                            <div class="chat-container">
-                                <ul class="chat-box chatContainerScroll">
-                                    <li class="chat-left">
-                                        <div class="chat-avatar">
-                                            <img src="https://www.bootdey.com/img/Content/avatar/avatar3.png" alt="Retail Admin">
-                                            <div class="chat-name">Russell</div>
-                                        </div>
-                                        <div class="chat-text">Hello, I'm Russell.
-                                            <br>How can I help you today?</div>
-                                        <div class="chat-hour">08:55</div>
-                                    </li>
-                                    <li class="chat-right">
-                                        <div class="chat-hour">08:56</div>
-                                        <div class="chat-text">Hi, Russell
-                                            <br> I need more information about Developer Plan.</div>
-                                        <div class="chat-avatar">
-                                            <img src="https://www.bootdey.com/img/Content/avatar/avatar3.png" alt="Retail Admin">
-                                            <div class="chat-name">Sam</div>
-                                        </div>
-                                    </li>
-
-                                    <li class="chat-right">
-                                        <div class="chat-hour">08:56</div>
-                                        <div class="chat-text">Hi, Russell
-                                            <br> I need more information about Developer Plan.</div>
-                                        <div class="chat-avatar">
-                                            <img src="https://www.bootdey.com/img/Content/avatar/avatar3.png" alt="Retail Admin">
-                                            <div class="chat-name">Sam</div>
-                                        </div>
-                                    </li>
-                                    <li class="chat-right">
-                                        <div class="chat-hour">08:56</div>
-                                        <div class="chat-text">Hi, Russell
-                                            <br> I need more information about Developer Plan.</div>
-                                        <div class="chat-avatar">
-                                            <img src="https://www.bootdey.com/img/Content/avatar/avatar3.png" alt="Retail Admin">
-                                            <div class="chat-name">Sam</div>
-                                        </div>
-                                    </li>
-                                    <li class="chat-right">
-                                        <div class="chat-hour">08:56</div>
-                                        <div class="chat-text">Hi, Russell
-                                            <br> I need more information about Developer Plan.</div>
-                                        <div class="chat-avatar">
-                                            <img src="https://www.bootdey.com/img/Content/avatar/avatar3.png" alt="Retail Admin">
-                                            <div class="chat-name">Sam</div>
-                                        </div>
-                                    </li>
-                                    <li class="chat-right">
-                                        <div class="chat-hour">08:56</div>
-                                        <div class="chat-text">Hi, Russell
-                                            <br> I need more information about Developer Plan.</div>
-                                        <div class="chat-avatar">
-                                            <img src="https://www.bootdey.com/img/Content/avatar/avatar3.png" alt="Retail Admin">
-                                            <div class="chat-name">Sam</div>
-                                        </div>
-                                    </li>
-                                    <li class="chat-right">
-                                        <div class="chat-hour">08:56</div>
-                                        <div class="chat-text">Hi, Russell
-                                            <br> I need more information about Developer Plan.</div>
-                                        <div class="chat-avatar">
-                                            <img src="https://www.bootdey.com/img/Content/avatar/avatar3.png" alt="Retail Admin">
-                                            <div class="chat-name">Sam</div>
-                                        </div>
-                                    </li>
-                                    <li class="chat-right">
-                                        <div class="chat-hour">08:56</div>
-                                        <div class="chat-text">Hi, Russell
-                                            <br> I need more information about Developer Plan.</div>
-                                        <div class="chat-avatar">
-                                            <img src="https://www.bootdey.com/img/Content/avatar/avatar3.png" alt="Retail Admin">
-                                            <div class="chat-name">Sam</div>
-                                        </div>
-                                    </li>
-
-                                </ul>
-                                <div class="row">
-                                    <div class="form-group col-lg-11 text-position">
-                                        <textarea class="form-control" rows="3" placeholder="Type your message here..."></textarea>
-                                    </div>
-
-                                    <div class="col-lg-1 btn-position">
-                                        <button class="btn btn-lg btn-primary"><i class="far fa-paper-plane"></i></button>
-                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        <% } %>
                     </div>
                     <!-- Row end -->
                 </div>
@@ -202,6 +136,7 @@
 
 </div>
 
+<script src="../js/socket.js"></script>
 <script
         src="https://code.jquery.com/jquery-3.6.0.js"
         integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="

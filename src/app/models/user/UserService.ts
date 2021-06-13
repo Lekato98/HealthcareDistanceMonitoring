@@ -1,10 +1,11 @@
-import { DocumentType } from '@typegoose/typegoose';
+import {DocumentType} from '@typegoose/typegoose';
 import UserModelUtils from './UserModelUtils';
-import UserModel, { IUser, User } from './UserModel';
+import UserModel, {ISecurity, IUser, User} from './UserModel';
 import RoleService from '../roles/RoleService';
 import UserModelHooks from './UserModelHooks';
-import { ILogin } from '../../controllers/auth/AuthController';
-import { QueryUpdateOptions } from 'mongoose';
+import {ILogin} from '../../controllers/auth/AuthController';
+import {QueryUpdateOptions} from 'mongoose';
+import ConversationService from "../conversation/ConversationService";
 
 const bcrypt = require('bcrypt');
 
@@ -39,7 +40,7 @@ class UserService {
 
     public static async removeNotification(userId: string, index: number): Promise<any> {
         const update: any = {$set: {}};
-        update['$set'][`notifications.${ index }`] = null;
+        update['$set'][`notifications.${index}`] = null;
 
         return await UserModel.updateOne({_id: userId}, update) &&
             await UserModel.updateOne({_id: userId}, {$pull: {'notifications': null}});
@@ -76,12 +77,29 @@ class UserService {
     public static async deleteOneUser(userId: string) {
         const roles = RoleService.deleteAllRoles(userId);
         const user = UserModel.findOneAndDelete({_id: userId});
-        return Promise.all([user, roles]);
+        const conversations = ConversationService.deleteAll(userId);
+        return Promise.all([user, roles, conversations]);
     }
 
     public static async login(payload: ILogin) {
         const user = await UserService.findByNationalId(payload.nationalId);
         return user && UserService.isValidPassword(payload.password, user?.password) && user;
+    }
+
+    public static async resetPassword(nationalId: string, security: ISecurity, newPassword: string): Promise<boolean> {
+        const user = await UserModel.findOne({nationalId});
+        const isCorrectAnswer = user && user.security.question === security.question &&
+            bcrypt.compareSync(security.answer, user.security.answer);
+
+        if (!isCorrectAnswer) {
+            return false;
+        }
+
+        const salt = await bcrypt.genSalt(10);
+        const password = await bcrypt.hash(newPassword, salt); // hash password
+        await UserModel.updateOne({nationalId}, {password});
+
+        return true;
     }
 }
 

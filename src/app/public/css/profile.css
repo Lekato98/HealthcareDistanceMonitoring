@@ -34,8 +34,7 @@ input[type='file']{
     padding: 3%;
     margin-top: 7%;
     margin-bottom: 3%;
-    border-radius: 0.5rem;
-    background: aliceblue;
+    border-radius: 1.5rem;
     color: white;
     background-color: #7EA8ED;
 }
@@ -153,5 +152,5 @@ input[type='file']{
 
 .profile-tab p {
     font-weight: 600;
-    color: #0062cc;
+    color: #efefef;
 }

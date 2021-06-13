@@ -3,6 +3,7 @@ import AuthApiRoute from './AuthApiRoute';
 import IRoute from '../../IRoute';
 import { UserApiRoute } from './UserApiRoute';
 import { ReportApiRoute } from './report/ReportApiRoute';
+import ConversationApiRoute from './ConversationApiRoute';
 import RoleApiRoute from './roles/RoleApiRoute';
 import PatientApiRoute from  './roles/PatientApiRoute';
 import EmergencyApiRoute from './EmergencyApiRoute';
@@ -27,6 +28,7 @@ class ApiRoute implements IRoute {
         this.ROUTE.use(RoleApiRoute.ROUTE_PREFIX_URL, RoleApiRoute.ROUTE); // /role
         this.ROUTE.use(PatientApiRoute.ROUTE_PREFIX_URL, PatientApiRoute.ROUTE); // /patient
         this.ROUTE.use(MentorApiRoute.ROUTE_PREFIX_URL, MentorApiRoute.ROUTE); // /mentor
+        this.ROUTE.use(ConversationApiRoute.ROUTE_PREFIX_URL, ConversationApiRoute.ROUTE); // /mentor
         this.ROUTE.use(EmergencyApiRoute.ROUTE_PREFIX_URL, EmergencyApiRoute.ROUTE); // /emergency
     }
 }

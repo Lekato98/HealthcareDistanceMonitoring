@@ -42,16 +42,16 @@
                 <span><i title="Minimum 6 Characters"  class="fas fa-exclamation-circle"></i></span>
             </div>
 
-            <select class="Security-Question" name="Security Question" id="Security-Question">
+            <select class="Security-Question" name="question" id="Security-Question">
                 <option selected disabled>Select Security Question</option>
-                <option value="#">What is your pet name ?</option>
-                <option value="#">What is your first school name ?</option>
-                <option value="#">What is your best friend name ?</option>
-                <option value="#">What is your favorite food ?</option>
+                <option value="q1">What is your pet name ?</option>
+                <option value="q2">What is your first school name ?</option>
+                <option value="q3">What is your best friend name ?</option>
+                <option value="q4">What is your favorite food ?</option>
             </select>
 
             <div>
-                <input id="Security-Question-Answer" name="securityQuestionAnswer" type="text" placeholder="Security Question" required/>
+                <input id="Security-Question-Answer" name="answer" type="text" placeholder="Security Question" required/>
                 <span><i title="Answer Your security Question"  class="fas fa-exclamation-circle"></i></span>
             </div>
 
@@ -71,7 +71,7 @@
 
             <div>
                 <input id="phone-number" name="phoneNumber" type="phone" placeholder="Phone Number" required/>
-                <span><i title="Follow this formula: 0712345678"  class="fas fa-exclamation-circle"></i></span>
+                <span><i title="Follow the formula: 07XXXXXXXX"  class="fas fa-exclamation-circle"></i></span>
             </div>
 
             <br>
@@ -118,7 +118,6 @@
     </p>
 </footer>
 <script src="../js/registration.js"></script>
-<script src="../js/socket.js"></script>
 </body>
 
 </html>

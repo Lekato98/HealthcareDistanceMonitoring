@@ -1,12 +1,13 @@
-import { Request, Response } from 'express';
-import { Injectable } from 'dependency-injection-v1';
-import { HttpStatusCode } from '../../utils/HttpUtils';
+import {Request, Response} from 'express';
+import {Injectable} from 'dependency-injection-v1';
+import {HttpStatusCode} from '../../utils/HttpUtils';
 import RoleService from '../../models/roles/RoleService';
 import MentorService from '../../models/roles/mentor/MentorService';
 import PatientService from '../../models/roles/patient/PatientService';
 import DailyReportService from '../../models/reports/daily/DailyReportService';
 import EmergencyService from '../../models/emergency/EmergencyService';
-import { RoleName } from '../../models/user/UserModel';
+import {RoleName} from '../../models/user/UserModel';
+import ConversationService from "../../models/conversation/ConversationService";
 
 @Injectable
 class HomeController {
@@ -69,13 +70,49 @@ class HomeController {
 
     public async coordinatorPage(req: Request, res: Response): Promise<void> {
         try {
-            const [doctors, mentors, pendingDoctors, pendingMentors] = await Promise.all([
+            const [doctors, mentors, pendingDoctors, pendingMentors, inactiveMentors, inactiveDoctors] = await Promise.all([
                 RoleService.getActiveByRoleName(RoleName.DOCTOR),
                 RoleService.getActiveByRoleName(RoleName.MENTOR),
                 RoleService.getPendingByRoleName(RoleName.DOCTOR),
                 RoleService.getPendingByRoleName(RoleName.MENTOR),
+                RoleService.getInActiveByRoleName(RoleName.MENTOR),
+                RoleService.getInActiveByRoleName(RoleName.DOCTOR),
             ]);
-            res.render('coordinator.ejs', {doctors, mentors, pendingDoctors, pendingMentors});
+
+            res.render('coordinator.ejs', {
+                doctors,
+                mentors,
+                pendingDoctors,
+                pendingMentors,
+                inactiveMentors,
+                inactiveDoctors
+            });
+        } catch (e) {
+            res.redirect('/500');
+        }
+    }
+
+    public async conversationsPage(req: Request, res: Response): Promise<void> {
+        try {
+            const userId = req.app.locals.jwt._id;
+            const conversations = await ConversationService.getAllByUserId(userId);
+            res.render('contact', {conversations, conversation: null});
+        } catch (e) {
+            res.redirect('/500');
+        }
+    }
+
+    public async conversationPage(req: Request, res: Response): Promise<void> {
+        try {
+            const userId = req.app.locals.jwt._id;
+            const {conversationId} = req.params;
+            const conversations = await ConversationService.getAllByUserId(userId);
+            const conversation = conversations.find(conversation => conversation._id === conversationId);
+            if (!conversation) {
+                res.redirect('/conversations');
+            } else {
+                res.render('contact', {conversations, conversation});
+            }
         } catch (e) {
             res.redirect('/500');
         }

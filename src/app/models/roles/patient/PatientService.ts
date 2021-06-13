@@ -11,6 +11,10 @@ import UserService from '../../user/UserService';
 class PatientService {
     private static readonly PATIENTS_PAIR_PAGE = 20;
 
+    public static async updateStatus(patientId: string): Promise<any> {
+
+    }
+
     public static async getOnWait(): Promise<DocumentType<Patient>[]> {
         const patients = await PatientModel.find({});
         const currentDate = new Date();

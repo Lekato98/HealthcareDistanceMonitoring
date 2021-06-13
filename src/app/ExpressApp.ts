@@ -25,7 +25,7 @@ class ExpressApp {
     public readonly VIEWS_PATH: string = path.join(__dirname, 'public/views'); // views folder
     public readonly _12H: number = 43200000;
     public readonly urlencodedOptions = {extended: true};
-    // limit each IP to 100 requests per windowMs 1 request per 2 seconds
+    // limit each IP to 1 request per 2 seconds
     public readonly requestLimiter = rateLimit({
         windowMs: 60 * 1000,
         max: 30,

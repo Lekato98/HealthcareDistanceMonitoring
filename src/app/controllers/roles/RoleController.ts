@@ -27,7 +27,7 @@ class RoleController {
     public async deleteOneRole(req: Request, res: Response): Promise<void> {
         try {
             const {roleName, userId} = req.params;
-            const {isAdmin = false} = req.app.locals;
+            const {isAdmin = false} = req.app.locals.jwt;
 
             if (!isAdmin && userId !== req.app.locals.jwt._id) {
                 const body = {success: UNSUCCESSFUL, message: 'Trying to delete another user role'};

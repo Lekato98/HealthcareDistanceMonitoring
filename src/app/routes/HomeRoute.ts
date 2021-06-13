@@ -1,8 +1,9 @@
-import { Router } from 'express';
+import {Router} from 'express';
 import HomeController from '../controllers/home/HomeController';
 import IRoute from './IRoute';
-import { Inject, Injectable } from 'dependency-injection-v1';
+import {Inject, Injectable} from 'dependency-injection-v1';
 import HomeMiddleware from '../middlewares/HomeMiddleware';
+import ConversationService from "../models/conversation/ConversationService";
 
 @Injectable
 class HomeRoute implements IRoute {
@@ -18,6 +19,8 @@ class HomeRoute implements IRoute {
     public readonly REPORT_LIST_PAGE: string = '/report-list';
     public readonly EMERGENCY_CASES_PAGE: string = '/emergency-cases';
     public readonly COORDINATOR_PAGE: string = '/coordinator';
+    public readonly CONVERSATIONS_PAGE: string = '/conversations';
+    public readonly SPECIFIC_CONVERSATION_PAGE: string = '/conversations/:conversationId';
     public readonly DEFAULT_PAGE_URL: string = '/**';
 
     @Inject(HomeController) private homeController: HomeController;
@@ -44,11 +47,9 @@ class HomeRoute implements IRoute {
         this.ROUTE.get(this.REPORT_LIST_PAGE, this.homeController.reportListPage);
         this.ROUTE.get(this.MY_MONITORED_PATIENTS_PAGE, this.homeController.monitoredPatientsPage);
         this.ROUTE.get(this.EMERGENCY_PAGE, this.homeController.emergencyPage);
-        this.ROUTE.get(this.COORDINATOR_PAGE, this.homeController.coordinatorPage);
-
-        this.ROUTE.get('/contact' , (req,res) =>{
-            res.render('contact');
-        });
+        this.ROUTE.get(this.COORDINATOR_PAGE, this.homeMiddleware.isAdmin, this.homeController.coordinatorPage);
+        this.ROUTE.get(this.CONVERSATIONS_PAGE, this.homeController.conversationsPage);
+        this.ROUTE.get(this.SPECIFIC_CONVERSATION_PAGE, this.homeController.conversationPage);
 
         this.ROUTE.get('/mentorList' , (req,res) =>{
             res.render('mentorList');
