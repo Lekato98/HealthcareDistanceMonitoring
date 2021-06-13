@@ -10,13 +10,14 @@
 
 <%- include('./partials/navbar.ejs') %>
 <%- include('./partials/notification.ejs') %>
-
+<%if (conversation) {%>
 <script>
     const conversationId = "<%= conversation._id %>";
     const to = "<%= conversation.users[1]._id %>";
     const me = {
         _id: "<%= conversation.users[0]._id %>",
         firstName: "<%= conversation.users[0].firstName %>",
+        lastName: "<%= conversation.users[0].lastName %>",
         avatar: "<%= conversation.users[0].avatar %>"
     };
     const you = {
@@ -25,7 +26,7 @@
         avatar: "<%= conversation.users[1].avatar %>"
     };
 </script>
-
+<%}%>
 <div class="container">
 
     <!-- Page header start -->

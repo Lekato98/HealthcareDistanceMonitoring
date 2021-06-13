@@ -1,7 +1,10 @@
 const messageBtn = document.querySelector('#send-message');
 const messageBody = document.querySelector('#message-body');
 const messagesUl = document.querySelector('#messages');
+const chatContainer = document.querySelector(".chat-container");
 
+
+chatContainer && (chatContainer.scrollTop = chatContainer.scrollHeight);
 messageBtn.addEventListener('click', messageHandler);
 client.on('receive_message', receiveMessageHandler);
 
@@ -38,10 +41,14 @@ function receiveMessageHandler(message) {
         `
     }
     messagesUl.innerHTML += html;
+
+    setTimeout(() => {
+        chatContainer && (chatContainer.scrollTop = chatContainer.scrollHeight);
+    }, 200);
 }
 
 function messageHandler(e) {
-    const message = {message: messageBody.value, conversationId, to}
+    const message = {message: messageBody.value, conversationId, to, from: me}
     client.emit('message', message);
     messageBody.value = "";
 }

@@ -1,7 +1,7 @@
-import { Router } from 'express';
+import {Router} from 'express';
 import HomeController from '../controllers/home/HomeController';
 import IRoute from './IRoute';
-import { Inject, Injectable } from 'dependency-injection-v1';
+import {Inject, Injectable} from 'dependency-injection-v1';
 import HomeMiddleware from '../middlewares/HomeMiddleware';
 import ConversationService from "../models/conversation/ConversationService";
 
@@ -47,23 +47,9 @@ class HomeRoute implements IRoute {
         this.ROUTE.get(this.REPORT_LIST_PAGE, this.homeController.reportListPage);
         this.ROUTE.get(this.MY_MONITORED_PATIENTS_PAGE, this.homeController.monitoredPatientsPage);
         this.ROUTE.get(this.EMERGENCY_PAGE, this.homeController.emergencyPage);
-        this.ROUTE.get(this.COORDINATOR_PAGE, this.homeController.coordinatorPage);
-
-        this.ROUTE.get(this.CONVERSATIONS_PAGE, async (req, res) =>{
-            const userId = req.app.locals.jwt._id;
-            const conversations = await ConversationService.getAllByUserId(userId);
-
-            res.render('contact', {conversations, conversation: null});
-        });
-
-        this.ROUTE.get(this.SPECIFIC_CONVERSATION_PAGE, async (req, res) =>{
-            const userId = req.app.locals.jwt._id;
-            const {conversationId} = req.params;
-            const conversations = await ConversationService.getAllByUserId(userId);
-            const conversation = conversations.find(conversation => conversation._id === conversationId);
-
-            res.render('contact', {conversations, conversation});
-        });
+        this.ROUTE.get(this.COORDINATOR_PAGE, this.homeMiddleware.isAdmin, this.homeController.coordinatorPage);
+        this.ROUTE.get(this.CONVERSATIONS_PAGE, this.homeController.conversationsPage);
+        this.ROUTE.get(this.SPECIFIC_CONVERSATION_PAGE, this.homeController.conversationPage);
 
         this.ROUTE.get(this.NOT_FOUND_PAGE, this.homeController.notFoundPage);
         this.ROUTE.get(this.SERVER_ERROR_PAGE, this.homeController.serverErrorPage);

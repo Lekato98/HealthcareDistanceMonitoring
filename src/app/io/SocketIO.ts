@@ -30,11 +30,11 @@ class SocketIO {
     }
 
     public static notifyUser(userId: string, message: any): void {
-        this.sockets[userId].emit(Event.NOTIFICATION, message);
+        this.sockets[userId]?.emit(Event.NOTIFICATION, message);
     }
 
-    public static messageToUser(userId: string,  message: any): void {
-        this.sockets[userId].emit(Event.RECEIVE_MESSAGE, message);
+    public static messageToUser(userId: string, message: any): void {
+        this.sockets[userId]?.emit(Event.RECEIVE_MESSAGE, message);
     }
 
     public static initializeListeners() {
@@ -44,7 +44,7 @@ class SocketIO {
                 this.sockets[userId] = socket;
                 socket.on(Event.MESSAGE, (payload: any) => {
                     const message = {
-                        title: 'Message',
+                        title: `Message From ${payload.from.firstName} ${payload.from.lastName}`,
                         body: payload.message,
                         type: 'default',
                         date: new Date(),

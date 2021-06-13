@@ -29,6 +29,14 @@ class HomeMiddleware {
             res.status(HttpStatusCode.SERVER_ERROR).render('500');
         }
     }
+
+    public async isAdmin(req: Request, res: Response, next: NextFunction): Promise<void> {
+        if (!req.app.locals.jwt?.isAdmin) {
+            res.status(HttpStatusCode.FORBIDDEN).redirect('/');
+        } else {
+            next();
+        }
+    }
 }
 
 export default HomeMiddleware;
