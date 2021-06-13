@@ -52,7 +52,7 @@
                             data-toggle="dropdown"
                             aria-haspopup="true"
                             aria-expanded="false"
-                    ><i class="fas fa-bell"></i></a>
+                    ><i class="fas fa-bell"></i><div class="mobile-size">Notifications</div></a>
                     <div class="dropdown-menu dropdown-menu-right noti-container"
                          aria-labelledby="navbarDropdownMenuLink2">
                         <% for (const {title, body, time} of me.notifications) { %>
@@ -78,7 +78,8 @@
                             data-toggle="dropdown"
                             aria-haspopup="true"
                             aria-expanded="false"
-                    ><i class="fad fa-inbox"></i></a>
+                    ><i class="fad fa-inbox"></i><div class="mobile-size">Inbox</div></a>
+
                     <div class="dropdown-menu dropdown-menu-right noti-container"
                          aria-labelledby="navbarDropdownMenuLink2">
                         <a class="dropdown-item secondary-item noti-item" href="#">

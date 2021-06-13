@@ -73,7 +73,7 @@ input[type="date"]::-webkit-inner-spin-button {
 }
 .item i {
     right: 2%;
-    top: 30px;
+    top: 50px;
     z-index: 1;
 }
 [type="date"]::-webkit-calendar-picker-indicator {

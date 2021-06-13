@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%-include('./partials/head.ejs')%>
+    <title>HDM | Advice</title>
+    <link rel="stylesheet" href="../css/emergency.css">
+</head>
+
+<body>
+<%- include('./partials/notification.ejs') %>
+<%-include('./partials/navbar.ejs')%>
+
+
+
+<section id="emergency">
+
+    <div class id="header">
+        <h1>Write Your Advice </h1>
+    </div>
+
+    <div class="description">
+        Help Your Patient By Adding Daily Advice.
+    </div>
+
+    <hr>
+
+    <div class="form">
+        <form id="report" action="">
+            <div class='field required'>
+                <textarea style="resize: none"  cols="130" rows="15" id='reason' placeholder="Your Advice ..." name="reason" required></textarea>
+            </div>
+
+            <p class='field half'>
+                <input  class='button btn btn-lg btn-primary btn-block' type='submit' value='Send'>
+            </p>
+        </form>
+    </div>
+
+</section>
+
+<script src="../js/emergency.js"></script>
+<script src="../js/socket.js"></script>
+</body>
+</html>

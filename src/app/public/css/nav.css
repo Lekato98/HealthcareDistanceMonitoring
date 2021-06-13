@@ -147,6 +147,12 @@
     color: #fff;
 }
 
+.mobile-size {
+    display: none;
+    margin-left: 7px !important;
+}
+
+
 @media (max-width:992px) {
     .nav-item{
         text-align: center;
@@ -173,5 +179,10 @@
     .index-list{
         text-align: center;
     }
+    .mobile-size{
+        display: inline;
+        margin-left: 2px;
+    }
 
 }
+

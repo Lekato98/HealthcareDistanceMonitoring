@@ -1,0 +1,30 @@
+body{
+    margin: 0;
+    padding: 0;
+    background-color: #ecedf3;
+}
+
+
+#emergency{
+    margin: 7% 15%;
+    width: 60%;
+    background-color: #fff;
+    padding: 50px;
+    box-shadow: 0 0 10px 0 #888888;
+    border-radius: 0.5%;
+
+}
+
+div.field.required{
+    margin: 5% 0 5% 0;
+}
+
+.button{
+    background-color:#426c88 ;
+    border: none;
+    outline: none;
+}
+
+.field{
+    text-align: center;
+}

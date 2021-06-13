@@ -20,11 +20,11 @@ const email = signUpForm.querySelector('#email');
 const phoneNumber = signUpForm.querySelector('#phone-number');
 const password = signUpForm.querySelector('#password');
 const gender = signUpForm.querySelector('#gender');
-
+const securityAnswer = document.querySelector('#Security-Question-Answer');
 const errorContainer = document.querySelector('.error-container')
 
 //regEX
-const nameValidation = /^[A-Za-z]+$/;
+const nameValidation = /^[A-Za-z_-]+$/;
 const emailValidation = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 const nationalValidation = /^([9][0-9]{2}[12][0][0-9]{5})|([2][0]{2}[0-9]{7})$/;
 const phoneValidation = /^(009627|9627|\+9627|07)(7|8|9)([0-9]{7})$/;
@@ -133,9 +133,9 @@ function greenBorder(element){
 function firstLastNameValidator(element){
     if (element.value.length < 3 || element.value.length > 20){
         redBorder(element);
-    } else if (!element.value.match(nameValidation)){
+    } else if (!element.value.match(nameValidation)) {
         redBorder(element);
-    }else {
+    } else {
         greenBorder(element);
     }
 }
@@ -248,6 +248,14 @@ function signUpValidation(body) {
 }
 
 
+function securityAnswerValidator (element){
+    if (element.value.length >= 3){
+        greenBorder(securityAnswer);
+    } else if (element.value.length <= 0){
+        redBorder(securityAnswer);
+    }
+}
+
 firstName.addEventListener('input' ,() => firstLastNameValidator(firstName));
 lastName.addEventListener('input' ,() => firstLastNameValidator(lastName));
 nationalId.addEventListener('input' ,() => nationalIdValidator(nationalId));
@@ -255,3 +263,4 @@ email.addEventListener('input' ,() => emailValidator(email));
 phoneNumber.addEventListener('input' ,() => phoneValidator(phoneNumber));
 password.addEventListener('input' ,() => passwordValidator(password));
 gender.addEventListener('input' ,() => genderValidator(gender));
+securityAnswer.addEventListener('input' , () => securityAnswerValidator(securityAnswer));

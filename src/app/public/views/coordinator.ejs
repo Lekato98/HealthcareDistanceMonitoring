@@ -12,10 +12,10 @@
 <div class="row">
     <div class="col-lg-5 col-md-6 table-container">
         <table class="table table-fixed">
-            <caption style="caption-side: top">List Of Doctors :</caption>
+            <caption>List Of Active Doctors</caption>
             <thead>
             <tr>
-                <th>Patient Name</th>
+                <th>Doctor Name</th>
                 <th>Birthdate</th>
                 <th>National ID</th>
                 <th>Phone Number</th>
@@ -30,7 +30,7 @@
                     <td data-label="National_ID"><%= user.nationalId %></td>
                     <td data-label="Phone-number"><%= user.phoneNumber %></td>
                     <td>
-                        <button class="delete-btn"
+                        <button class="delete-btn btn btn-lg btn-primary"
                                 onclick="deleteHandler(this, '<%= user._id %>', 'doctor', '<%= _id %>')">Delete
                         </button>
                     </td>
@@ -42,10 +42,10 @@
     </div>
     <div class="col-lg-5 col-md-6 table-container">
         <table class="table table-fixed">
-            <caption style="caption-side: top">List Of Mentors :</caption>
+            <caption>List Of Active Mentors</caption>
             <thead>
             <tr>
-                <th>Patient Name</th>
+                <th>Mentor Name</th>
                 <th>Birthdate</th>
                 <th>National ID</th>
                 <th>Phone Number</th>
@@ -60,7 +60,7 @@
                     <td data-label="National_ID"><%= user.nationalId %></td>
                     <td data-label="Phone-number"><%= user.phoneNumber %></td>
                     <td>
-                        <button class="delete-btn"
+                        <button class="delete-btn btn btn-lg btn-primary"
                                 onclick="deleteHandler(this, '<%= user._id %>', 'mentor', '<%= _id %>')">Delete
                         </button>
                     </td>
@@ -77,10 +77,10 @@
 <div class="row">
     <div class="col-lg-5 col-md-6 table-container">
         <table class="table table-fixed">
-            <caption style="caption-side: top">List Of Doctors :</caption>
+            <caption>List Of Pending Doctors</caption>
             <thead>
             <tr>
-                <th>Patient Name</th>
+                <th>Doctor Name</th>
                 <th>Birthdate</th>
                 <th>National ID</th>
                 <th>Phone Number</th>
@@ -95,8 +95,8 @@
                 <td data-label="National_ID"><%= user.nationalId %></td>
                 <td data-label="Phone-number"><%= user.phoneNumber %></td>
                 <td>
-                    <button class="accept-btn" onclick="acceptOrRejectHandler('mentor', '<%=user._id%>', '<%=_id%>', 'accept')">Accept</button>
-                    <button class="reject-btn" onclick="acceptOrRejectHandler('mentor', '<%=user._id%>', '<%=_id%>', 'reject')">Reject</button>
+                    <button class="accept-btn btn btn-lg btn-primary" onclick="acceptOrRejectHandler('mentor', '<%=user._id%>', '<%=_id%>', 'accept')">Accept</button>
+                    <button class="reject-btn btn btn-lg btn-dark" onclick="acceptOrRejectHandler('mentor', '<%=user._id%>', '<%=_id%>', 'reject')">Reject</button>
                 </td>
             </tr>
             <%}%>
@@ -106,10 +106,10 @@
     </div>
     <div class="col-lg-5 col-md-6 table-container">
         <table class="table table-fixed">
-            <caption style="caption-side: top">List Of Mentors :</caption>
+            <caption>List Of Pending Mentors</caption>
             <thead>
             <tr>
-                <th>Patient Name</th>
+                <th>Mentor Name</th>
                 <th>Birthdate</th>
                 <th>National ID</th>
                 <th>Phone Number</th>

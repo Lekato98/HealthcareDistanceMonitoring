@@ -104,7 +104,8 @@ input {
     overflow: hidden;
     width: 768px;
     max-width: 100%;
-    min-height: 920px;
+    min-height: 940px;
+    margin-top: 37px !important;
 }
 
 .form-container {
@@ -287,8 +288,8 @@ span:hover{
 }
 
 .logoImage{
-    margin: 20px 0 0 20px;
-    width: 120px;
+    margin: 75px 0 0 20px;
+    width: 145px;
 }
 
 .logoContainer{

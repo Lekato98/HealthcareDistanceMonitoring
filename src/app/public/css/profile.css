@@ -93,6 +93,9 @@ input[type='file']{
     color: #6c757d;
     cursor: pointer;
     padding: 10px 25px;
+    width: 150px;
+    background-color: #0062cc;
+    color: #fff;
 }
 
 .proile-rating {
