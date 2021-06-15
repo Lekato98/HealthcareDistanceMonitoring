@@ -7,7 +7,8 @@
             </div>
             <h4>Health Status</h4>
             <h6>Excellent</h6>
-            <p>Your current health status occassionally updated by your designated doctor.</p>
+            <h6 style="color: green;">Expected recovery date <%=me.roles[0].expectedRecoveryDate.toLocaleDateString()%></h6>
+            <p>Your current health status occasionally updated by your designated doctor.</p>
         </div>
 
         <div class="Features-item-r col-lg-3 col-md-6">
@@ -15,7 +16,11 @@
                 <a href="/questionnaire"><i class="icon far fa-question-circle fa-2x"></i></a>
             </div>
             <h4>Daily Report</h4>
-            <h6><em>Next Report tomorrow At 8:00 Am</em></h6>
+            <%if (me.roles[0].nextDailyReportDate >= new Date()) {%>
+                <h6><em style="color: green;">Next Report <%=me.roles[0].nextDailyReportDate.toLocaleString()%></em></h6>
+            <%} else {%>
+                <h6><em style="color: red;">You are missing your report fill it soon please</em></h6>
+            <%}%>
             <p><em>A set of questions that we adhere you to answer them daily. for your own healthcare!</em></p>
         </div>
 

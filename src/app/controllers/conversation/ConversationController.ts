@@ -18,10 +18,11 @@ class ConversationController {
             if (userA === userB) {
                 const body = {success: UNSUCCESSFUL, message: 'Unable to create conversation with your self'};
                 res.status(HttpStatusCode.BAD_REQUEST).json(body);
+            } else {
+                const conversation = await ConversationService.create(payload);
+                const body = {success: SUCCESS, conversation};
+                res.status(HttpStatusCode.CREATED_SUCCESSFULLY).json(body);
             }
-            const conversation = await ConversationService.create(payload);
-            const body = {success: SUCCESS, conversation};
-            res.status(HttpStatusCode.CREATED_SUCCESSFULLY).json(body);
         } catch (e) {
             if (e.message.startsWith('E11000')) {
                 const conversation = await ConversationService.getByUsers(payload.users);

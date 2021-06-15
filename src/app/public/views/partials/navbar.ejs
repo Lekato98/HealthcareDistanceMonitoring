@@ -159,18 +159,27 @@
                     <% } %>
 
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink2">
-                        <a id="no-role" class="dropdown-item secondary-item" href="#">
-                            <i class="fas fa-user"></i> No Role
-                        </a>
-                        <a id="patient-role" class="dropdown-item secondary-item" href="#">
-                            <i class="fas fa-hospital-user"></i> Patient
-                        </a>
-                        <a id="mentor-role" class="dropdown-item secondary-item" href="#">
-                            <i class="fas fa-user-nurse"></i> Mentor
-                        </a>
-                        <a id="doctor-role" class="dropdown-item secondary-item" href="#">
-                            <i class="fas fa-user-md"></i> Doctor
-                        </a>
+                        <% if (role !== 'no-role') { %>
+                            <a id="no-role" class="dropdown-item secondary-item" href="#">
+                                <i class="fas fa-user"></i> No Role
+                            </a>
+                        <% } %>
+                        <% if (role !== 'patient') { %>
+                            <a id="patient-role" class="dropdown-item secondary-item" href="#">
+                                <i class="fas fa-hospital-user"></i> Patient
+                            </a>
+                        <% } %>
+                        <% if (role !== 'mentor') { %>
+                            <a id="mentor-role" class="dropdown-item secondary-item" href="#">
+                                <i class="fas fa-user-nurse"></i> Mentor
+                            </a>
+                        <% } %>
+
+                        <% if (role !== 'doctor') { %>
+                            <a id="doctor-role" class="dropdown-item secondary-item" href="#">
+                                <i class="fas fa-user-md"></i> Doctor
+                            </a>
+                        <% } %>
                     </div>
                 </div>
             </li>

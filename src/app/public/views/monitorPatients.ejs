@@ -3,6 +3,7 @@
 <head>
     <%- include('./partials/head.ejs') %>
     <title>C19HDM | My Patients</title>
+    <script src="../js/contact.js"></script>
     <link rel="stylesheet" href="../css/monitorPatients.css">
 </head>
 <body>
@@ -33,7 +34,7 @@
                         <td data-label="Phone-number"><%=user.phoneNumber%></td>
                         <td data-label="Health Status">Bad</td>
                         <td>
-                            <button class="btn btn-lg btn-dark">Contact</button>
+                            <button class="btn btn-lg btn-dark" onclick="contact(this, '<%=user._id%>')">Contact</button>
                             <a href="/report-list">
                                 <button class="btn btn-lg btn-primary">Report List</button>
                             </a>

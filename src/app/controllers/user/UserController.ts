@@ -19,7 +19,11 @@ class UserController {
             );
             const projection = '-password';
             const user = await UserService.findByNationalId(nationalId, projection);
-            res.render('profile', {user});
+            if (!user) {
+                res.redirect('/404');
+            }  else {
+                res.render('profile', {user});
+            }
         } catch (e) {
             res.status(HttpStatusCode.SERVER_ERROR).send('Server Error');
         }

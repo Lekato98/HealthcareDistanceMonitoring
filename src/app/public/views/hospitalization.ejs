@@ -3,6 +3,7 @@
 <head>
     <%- include('./partials/head.ejs') %>
     <title>C19HDM | Emergency Cases</title>
+    <script src="../js/contact.js"></script>
     <link rel="stylesheet" href="../css/hospitalization.css">
 </head>
 <body>
@@ -36,7 +37,7 @@
                     <td data-label="Health Status">Bad</td>
                     <td data-label="Reason"><%= reason %></td>
                     <td>
-                        <button class="btn btn-lg btn-dark">Contact</button>
+                        <button class="btn btn-lg btn-dark" onclick="contact(this, '<%=user._id%>')">Contact</button>
                         <button class="btn btn-lg btn-primary">Hospitalize</button>
                     </td>
                 </tr>

@@ -10,23 +10,23 @@
 
 <%- include('./partials/navbar.ejs') %>
 <%- include('./partials/notification.ejs') %>
-<%if (conversation) {%>
-<script>
-    const conversationId = "<%= conversation._id %>";
-    const to = "<%= conversation.users[1]._id %>";
-    const me = {
-        _id: "<%= conversation.users[0]._id %>",
-        firstName: "<%= conversation.users[0].firstName %>",
-        lastName: "<%= conversation.users[0].lastName %>",
-        avatar: "<%= conversation.users[0].avatar %>"
-    };
-    const you = {
-        _id: "<%= conversation.users[1]._id %>",
-        firstName: "<%= conversation.users[1].firstName %>",
-        avatar: "<%= conversation.users[1].avatar %>"
-    };
-</script>
-<%}%>
+<% if (conversation) { %>
+    <script>
+        const conversationId = "<%= conversation._id %>";
+        const to = "<%= conversation.users[1]._id %>";
+        const me = {
+            _id: "<%= conversation.users[0]._id %>",
+            firstName: "<%= conversation.users[0].firstName %>",
+            lastName: "<%= conversation.users[0].lastName %>",
+            avatar: "<%= conversation.users[0].avatar %>"
+        };
+        const you = {
+            _id: "<%= conversation.users[1]._id %>",
+            firstName: "<%= conversation.users[1].firstName %>",
+            avatar: "<%= conversation.users[1].avatar %>"
+        };
+    </script>
+<% } %>
 <div class="container">
 
     <!-- Page header start -->
@@ -79,8 +79,12 @@
                         <% if (conversation) { %>
                             <div class="col-xl-8 col-lg-8 col-md-8 col-sm-9 col-9">
                                 <div class="selected-user">
-                                <span>To: <span
-                                            class="name"><%= conversation.users[1].firstName %> <%= conversation.users[1].lastName %></span></span>
+
+                                <span>To: <a href="/profile/<%=conversation.users[1].nationalId%>"><span
+                                                class="name">
+                                            <%= conversation.users[1].firstName %> <%= conversation.users[1].lastName %>
+                                        </span></a>
+                                </span>
                                 </div>
                                 <div class="chat-container">
                                     <ul id="messages" class="chat-box chatContainerScroll">
