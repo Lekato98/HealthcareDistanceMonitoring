@@ -1,4 +1,4 @@
-async function deleteHandler(e, userId, roleName, id) {
+async function deactivateHandler(e, userId, roleName, id) {
     const headers = {
         'Content-Type': 'application/json',
     };

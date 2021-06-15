@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <%- include('./partials/head.ejs') %>
+    <script src="../js/contact.js"></script>
     <title>C19HDM | <%= user.firstName %> <%= user.lastName %></title>
     <link rel="stylesheet" href="../css/profile.css">
 </head>
@@ -35,14 +36,15 @@
                 </div>
             </div>
             <div class="col-md-2">
-                <a href="/profile/edit">
-                    <button type="button" class="profile-edit-btn" name="btnAddMore"> Edit Profile</button>
-                </a>
-                <br>
-                <br>
-                <a href="#">
-                    <button type="button" class="profile-edit-btn" name="btnAddMore">Contact</button>
-                </a>
+                <% if (me._id === user._id) { %>
+                    <a href="/profile/edit">
+                        <button type="button" class="profile-edit-btn" name="btnAddMore"> Edit Profile</button>
+                    </a>
+                    <br>
+                    <br>
+                <% } else { %>
+                        <button type="button" class="profile-edit-btn" name="btnAddMore" onclick="contact(this, '<%=user._id%>')">Contact</button>
+                <% } %>
             </div>
         </div>
         <div class="row">

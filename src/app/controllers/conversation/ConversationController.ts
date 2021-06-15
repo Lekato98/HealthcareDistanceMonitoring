@@ -11,20 +11,27 @@ class ConversationController {
      * @POST
      * */
     public async createConversation(req: Request, res: Response): Promise<void> {
+        const userA = req.app.locals.jwt._id;
+        const userB = req.body.to;
+        const payload = {users: [userA,  userB]};
         try {
-            const userA = req.app.locals.jwt._id;
-            const userB = req.body.to;
-            const payload = {users: [userA,  userB]};
             if (userA === userB) {
                 const body = {success: UNSUCCESSFUL, message: 'Unable to create conversation with your self'};
                 res.status(HttpStatusCode.BAD_REQUEST).json(body);
+            } else {
+                const conversation = await ConversationService.create(payload);
+                const body = {success: SUCCESS, conversation};
+                res.status(HttpStatusCode.CREATED_SUCCESSFULLY).json(body);
             }
-            const conversation = await ConversationService.create(payload);
-            const body = {success: SUCCESS, conversation};
-            res.status(HttpStatusCode.CREATED_SUCCESSFULLY).json(body);
         } catch (e) {
-            const body = {success: UNSUCCESSFUL, message: e.message};
-            res.status(HttpStatusCode.SERVER_ERROR).json(body);
+            if (e.message.startsWith('E11000')) {
+                const conversation = await ConversationService.getByUsers(payload.users);
+                const body = {success: SUCCESS, conversation};
+                res.json(body);
+            } else {
+                const body = {success: UNSUCCESSFUL, message: e.message};
+                res.status(HttpStatusCode.SERVER_ERROR).json(body);
+            }
         }
     }
 

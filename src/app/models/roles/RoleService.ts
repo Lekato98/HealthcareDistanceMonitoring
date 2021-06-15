@@ -1,9 +1,10 @@
-import { DocumentType } from '@typegoose/typegoose';
-import IRole, { Status } from './IRole';
+import {DocumentType} from '@typegoose/typegoose';
+import IRole, {Status} from './IRole';
 import RoleFactory from './RoleFactory';
 import RoleUtils from './RoleUtils';
-import { QueryUpdateOptions } from 'mongoose';
-import { ACTIVE, INACTIVE } from '../../helpers/constants';
+import {QueryUpdateOptions} from 'mongoose';
+import {ACTIVE, INACTIVE} from '../../helpers/constants';
+import {RoleName} from "../user/UserModel";
 
 class RoleService {
     public static readonly USER_PROJECTION = '-password -createdAt -updatedAt -__v';
@@ -14,9 +15,9 @@ class RoleService {
         return roleService.create(role);
     }
 
-    public static async deleteOneRole(roleName: string, userId: string): Promise<DocumentType<IRole>> {
+    public static async deactivateOneRole(roleName: string, userId: string): Promise<DocumentType<IRole>> {
         const roleModel = RoleUtils.getModelByRoleName(roleName);
-        return roleModel.findOneAndDelete({userId});
+        return roleModel.findOneAndUpdate({userId}, {active: INACTIVE});
     }
 
     public static async deleteAllRoles(userId: string): Promise<Array<any>> {
@@ -84,7 +85,20 @@ class RoleService {
 
     public static async getUserRole(roleName: string, userId: string): Promise<DocumentType<IRole>> {
         const roleModel = RoleUtils.getModelByRoleName(roleName);
-        return await roleModel.findOne({userId});
+        return roleModel.findOne({userId});
+    }
+
+    public static async getUserRoles(userId: string): Promise<DocumentType<IRole>[]> {
+        return await Promise.all([
+            RoleService.getUserRole(RoleName.PATIENT, userId),
+            RoleService.getUserRole(RoleName.MENTOR, userId),
+            RoleService.getUserRole(RoleName.DOCTOR, userId),
+        ]);
+    }
+
+    public static async isExistRole(userId: string, roleName: string): Promise<boolean> {
+        const roleModel = RoleUtils.getModelByRoleName(roleName);
+        return roleModel.exists({userId, active: ACTIVE});
     }
 }
 

@@ -10,23 +10,23 @@
 
 <%- include('./partials/navbar.ejs') %>
 <%- include('./partials/notification.ejs') %>
-<%if (conversation) {%>
-<script>
-    const conversationId = "<%= conversation._id %>";
-    const to = "<%= conversation.users[1]._id %>";
-    const me = {
-        _id: "<%= conversation.users[0]._id %>",
-        firstName: "<%= conversation.users[0].firstName %>",
-        lastName: "<%= conversation.users[0].lastName %>",
-        avatar: "<%= conversation.users[0].avatar %>"
-    };
-    const you = {
-        _id: "<%= conversation.users[1]._id %>",
-        firstName: "<%= conversation.users[1].firstName %>",
-        avatar: "<%= conversation.users[1].avatar %>"
-    };
-</script>
-<%}%>
+<% if (conversation) { %>
+    <script>
+        const conversationId = "<%= conversation._id %>";
+        const to = "<%= conversation.users[1]._id %>";
+        const me = {
+            _id: "<%= conversation.users[0]._id %>",
+            firstName: "<%= conversation.users[0].firstName %>",
+            lastName: "<%= conversation.users[0].lastName %>",
+            avatar: "<%= conversation.users[0].avatar %>"
+        };
+        const you = {
+            _id: "<%= conversation.users[1]._id %>",
+            firstName: "<%= conversation.users[1].firstName %>",
+            avatar: "<%= conversation.users[1].avatar %>"
+        };
+    </script>
+<% } %>
 <div class="container">
 
     <!-- Page header start -->
@@ -56,7 +56,7 @@
                                     <% for (const {
                                         _id,
                                         users: [, from],
-                                        messages: [lastMessage]
+                                        lastMessage
                                     } of me.conversations) { %>
                                         <a href="/conversations/<%= _id %>">
                                             <li class="person" data-chat="person5">
@@ -79,8 +79,12 @@
                         <% if (conversation) { %>
                             <div class="col-xl-8 col-lg-8 col-md-8 col-sm-9 col-9">
                                 <div class="selected-user">
-                                <span>To: <span
-                                            class="name"><%= conversation.users[1].firstName %> <%= conversation.users[1].lastName %></span></span>
+
+                                <span>To: <a href="/profile/<%=conversation.users[1].nationalId%>"><span
+                                                class="name">
+                                            <%= conversation.users[1].firstName %> <%= conversation.users[1].lastName %>
+                                        </span></a>
+                                </span>
                                 </div>
                                 <div class="chat-container">
                                     <ul id="messages" class="chat-box chatContainerScroll">
@@ -141,6 +145,6 @@
         src="https://code.jquery.com/jquery-3.6.0.js"
         integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
         crossorigin="anonymous"></script>
-<script src="../js/contact.js"></script>
+<script src="../js/conversation.js"></script>
 </body>
 </html>

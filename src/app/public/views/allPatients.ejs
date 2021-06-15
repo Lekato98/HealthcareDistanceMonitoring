@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <%- include('./partials/head.ejs') %>
+    <script src="../js/contact.js"></script>
     <title>C19HDM | Patients</title>
     <link rel="stylesheet" href="../css/allPatients.css">
 </head>
@@ -37,7 +38,7 @@
                         <td data-label="Phone-number"><%= user.phoneNumber %></td>
                         <td data-label="Health Status">Bad</td>
                         <td>
-                            <button class="btn btn-lg btn-dark" value="<%= _id %>">Contact</button>
+                            <button class="btn btn-lg btn-dark" value="<%= _id %>" onclick="contact(this, '<%=user._id%>')">Contact</button>
                             <% if (!isMine) { %>
                                 <button class="btn btn-lg btn-primary add-patient" value="<%= _id %>">
                                     Add Patient

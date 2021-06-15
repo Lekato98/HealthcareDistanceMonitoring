@@ -18,6 +18,8 @@ class RoleApiRoute implements IRoute {
     public readonly ACCEPT_ROLE: string = '/accept';
     public readonly REJECT_ROLE: string = '/reject';
     public readonly SWITCH_ROLE: string = '/switch';
+    public readonly QUIT_ROLES: string = '/quit';
+
     @Inject(RoleController) private roleController: RoleController;
     @Inject(AuthMiddleware) private authMiddleware: AuthMiddleware;
 
@@ -38,14 +40,15 @@ class RoleApiRoute implements IRoute {
         this.ROUTE.post(this.CREATE_ROLE, this.roleController.createRole);
         this.ROUTE.delete(this.DELETE_ALL_ROLES, this.roleController.deleteAllRoles);
         this.ROUTE.delete(this.DELETE_ROLE, this.roleController.deleteOneRole);
-        this.ROUTE.get(this.GET_ACTIVE_ROLES, this.roleController.getActiveRoles); // DR CO NUR
-        this.ROUTE.get(this.GET_IN_ACTIVE_ROLES, this.roleController.getInActiveRoles); // DR CO NUR
-        this.ROUTE.get(this.GET_ACCEPTED_ROLES, this.roleController.getAcceptedRoles); // DR CO NUR
-        this.ROUTE.get(this.GET_REJECTED_ROLES, this.roleController.getRejectedRoles); // DR CO NUR
-        this.ROUTE.get(this.GET_PENDING_ROLES, this.roleController.getPendingRoles); // DR CO NUR
-        this.ROUTE.patch(this.ACCEPT_ROLE, this.roleController.acceptRole); // DR or CO, CO > DR > NUR
-        this.ROUTE.patch(this.REJECT_ROLE, this.roleController.rejectRole); // DR or CO, CO > DR > NUR
+        this.ROUTE.get(this.GET_ACTIVE_ROLES, this.roleController.getActiveRoles);
+        this.ROUTE.get(this.GET_IN_ACTIVE_ROLES, this.roleController.getInActiveRoles);
+        this.ROUTE.get(this.GET_ACCEPTED_ROLES, this.roleController.getAcceptedRoles);
+        this.ROUTE.get(this.GET_REJECTED_ROLES, this.roleController.getRejectedRoles);
+        this.ROUTE.get(this.GET_PENDING_ROLES, this.roleController.getPendingRoles);
+        this.ROUTE.patch(this.ACCEPT_ROLE, this.roleController.acceptRole);
+        this.ROUTE.patch(this.REJECT_ROLE, this.roleController.rejectRole);
         this.ROUTE.put(this.SWITCH_ROLE, this.roleController.switchRole);
+        this.ROUTE.put(this.QUIT_ROLES, this.roleController.quitRoles);
     }
 }
 

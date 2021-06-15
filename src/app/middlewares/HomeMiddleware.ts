@@ -4,6 +4,7 @@ import { HttpStatusCode } from '../utils/HttpUtils';
 import UserService from '../models/user/UserService';
 import { RoleName } from '../models/user/UserModel';
 import AdminModel from '../models/admin/AdminModel';
+import RoleService from "../models/roles/RoleService";
 
 @Injectable
 class HomeMiddleware {
@@ -14,6 +15,7 @@ class HomeMiddleware {
             const nationalId: string = req.app.locals.jwt?.nationalId;
             const user = await UserService.findByNationalId(nationalId);
             if (user && user._id === userId) {
+                res.locals.me && (res.locals.me.roles = await RoleService.getUserRoles(userId));
                 res.locals.role = req.app.locals.jwt?.roleName || RoleName.NO_ROLE;
                 next();
             } else {

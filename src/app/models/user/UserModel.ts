@@ -5,7 +5,7 @@ import UserValidator from './UserValidator';
 import {UNIQUE} from '../../helpers/constants';
 import PhoneUtils from '../../utils/PhoneUtils';
 
-export const enum RoleName {
+export enum RoleName {
     PATIENT = 'patient',
     MENTOR = 'mentor',
     DOCTOR = 'doctor',
@@ -102,16 +102,6 @@ const passwordTypeOptions: PropOptionsForString = {
     minlength: [6, 'Too short Password'],
 };
 
-const rolesTypeOptions: ArrayPropOptions = {
-    type: () => [String],
-    validate: {
-        validator: UserValidator.rolesValidator,
-        message: 'Unknown role',
-    },
-    default: [],
-    required: true,
-};
-
 const notificationsTypeOptions: ArrayPropOptions = {
     type: [mongoose.Schema.Types.Mixed],
     default: [],
@@ -150,7 +140,6 @@ export class User {
     @Prop(homeAddressTypeOptions) public homeAddress!: string;
     @Prop(phoneNumberTypeOptions) public phoneNumber!: string;
     @Prop(securityTypeOptions) public security!: ISecurity;
-    @arrayProp(rolesTypeOptions) public roles?: string[];
     @arrayProp(notificationsTypeOptions) public notifications?: object[];
 
     constructor(user?: IUser) {
@@ -185,7 +174,6 @@ export interface IUser {
     homeAddress: string;
     phoneNumber: string;
     password: string;
-    roles?: string[];
     security: ISecurity;
 }
 

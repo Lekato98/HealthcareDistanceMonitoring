@@ -19,8 +19,16 @@ class ConversationService {
             }
         };
         const projectStage = {$project: {'users.notifications': 0, 'users.password': 0}}
-        const pipeline = [matchStage, lookupStage, projectStage];
-        return (await ConversationModel.aggregate(pipeline)).map(conversation => {
+        const addLastMessageFieldStage = {
+            $addFields: {
+                lastMessage: {
+                    $arrayElemAt: [ "$messages", -1 ]
+                }
+            }
+        };
+        const sortStage = {$sort: {'lastMessage.date': -1}};
+        const pipeline = [matchStage, lookupStage, projectStage, addLastMessageFieldStage, sortStage];
+        return (await ConversationModel.aggregate(pipeline)).map((conversation: any) => {
             if (conversation.users[1]._id === userId) {
                 [conversation.users[0], conversation.users[1]]
                     = [conversation.users[1], conversation.users[0]];
@@ -37,6 +45,10 @@ class ConversationService {
             from: userId,
         };
         return ConversationModel.updateOne({_id: conversationId}, {$push: {messages: messageBody}});
+    }
+
+    public static async getByUsers(users: string[]): Promise<any> {
+        return ConversationModel.findOne({users});
     }
 
     public static async delete(conversationId: string): Promise<DocumentType<Conversation>> {

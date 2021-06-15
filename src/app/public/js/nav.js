@@ -2,15 +2,17 @@ const logout = document.querySelector('#logout');
 const patient = document.querySelector('#patient-role');
 const mentor = document.querySelector('#mentor-role');
 const doctor = document.querySelector('#doctor-role');
+const noRole = document.querySelector('#no-role');
 const removeNotifications = document.querySelectorAll('.noti-remove');
 
 // logout event
 logout.addEventListener('click', logoutHandler);
 
 // switch event
-patient.addEventListener('click', (e) => switchRoleHandler(e, 'patient'));
-mentor.addEventListener('click', (e) => switchRoleHandler(e, 'mentor'));
-doctor.addEventListener('click', (e) => switchRoleHandler(e, 'doctor'));
+patient?.addEventListener('click', (e) => switchRoleHandler(e, 'patient'));
+mentor?.addEventListener('click', (e) => switchRoleHandler(e, 'mentor'));
+doctor?.addEventListener('click', (e) => switchRoleHandler(e, 'doctor'));
+noRole?.addEventListener('click', (e) => switchRoleHandler(e, 'no-role'));
 
 // remove notification event
 removeNotifications.forEach((notification, index) =>

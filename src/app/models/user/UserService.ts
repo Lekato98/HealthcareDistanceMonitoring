@@ -1,6 +1,6 @@
 import {DocumentType} from '@typegoose/typegoose';
 import UserModelUtils from './UserModelUtils';
-import UserModel, {ISecurity, IUser, User} from './UserModel';
+import UserModel, {ISecurity, IUser, RoleName, User} from './UserModel';
 import RoleService from '../roles/RoleService';
 import UserModelHooks from './UserModelHooks';
 import {ILogin} from '../../controllers/auth/AuthController';

@@ -78,6 +78,8 @@ form {
 
 .date {
     color: #757575;
+    width: 99%;
+    margin-left: 15px;
 }
 
 select {
