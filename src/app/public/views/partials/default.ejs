@@ -3,31 +3,38 @@
     <div class="row">
         <div class="Features-item-l col-lg-3 col-md-6">
             <div class="sm">
-                <a href="#"><i class="icon fas fa-hospital-user fa-2x"></i></a>
+                <a onclick="switchRoleHandler(this , 'patient')" id="patient-role" href="#"><i class="icon fas fa-hospital-user fa-2x"></i></a>
             </div>
-            <h4>Join Patient Role</h4>
+            <h4>Join Patients Role</h4>
+            <p>
+                Welcome to our community.
+            </p>
         </div>
+
+
 
         <div class="Features-item-r col-lg-3 col-md-6">
             <div class="sm">
-                <a href="#"><i class="icon fas fa-user-nurse fa-2x"></i></a>
+                <a onclick="switchRoleHandler(this , 'mentor')" href="#"><i class="icon fas fa-user-nurse fa-2x"></i></a>
             </div>
-            <h4>Create Mentor Role</h4>
+            <h4>Join Mentors Role</h4>
+            <p>Be part of our community to help patients.</p>
         </div>
 
         <div class="Features-item-l col-lg-3 col-md-6">
             <div class="sm">
-                <a href="#"><i class="icon fas fa-user-md fa-2x"></i></a>
+                <a onclick="switchRoleHandler(this , 'doctor')" href="#"><i class="icon fas fa-user-md fa-2x"></i></a>
             </div>
-            <h4>Create Doctor Role</h4>
+            <h4>Join Doctors Role</h4>
+            <p>Be part of our community to help patients and give them useful advices.</p>
         </div>
 
         <div class="Features-item-r col-lg-3 col-md-6">
             <div class="sm">
-                <a href="#"><i class=" icon far fa-phone-plus fa-2x"></i></a>
+                <a href="#"><i class="icon fas fa-users fa-2x"></i></a>
             </div>
-            <h4>Emergency</h4>
-            <p>If you are feeling Severe pain and want to seek urgent medical assistance.</p>
+            <h4>Our Community</h4>
+            <p>Be part of our community to gain or help the patients.</p>
         </div>
     </div>
 
@@ -100,3 +107,5 @@
     </div>
 
 </section>
+
+<script src="../../js/default.js"></script>
