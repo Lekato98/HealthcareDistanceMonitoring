@@ -102,7 +102,7 @@
                     <div class="dropdown-menu dropdown-menu-right noti-container"
                          aria-labelledby="navbarDropdownMenuLink2"
                          style=<%= me.conversations.length ? "" : "padding:60px;" %>>
-                        <% for (const {_id, users: [, from], messages: [lastMessage]} of me.conversations) { %>
+                        <% for (const {_id, users: [, from], lastMessage} of me.conversations) { %>
                             <a class="dropdown-item secondary-item noti-item" href="/conversations/<%= _id %>">
                                 <div class="inner-noti-item">
                                     <img class="message-image" src="<%= from.avatar %>" alt="profile-image">

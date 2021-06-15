@@ -1,54 +1,22 @@
-const messageBtn = document.querySelector('#send-message');
-const messageBody = document.querySelector('#message-body');
-const messagesUl = document.querySelector('#messages');
-const chatContainer = document.querySelector(".chat-container");
+async function contact(e, to) {
+    try {
+        const headers = {'Content-Type': 'application/json'};
+        const body = {to};
+        const options = {
+            method: 'POST',
+            body: JSON.stringify(body),
+            headers
+        };
 
+        const response = await fetch('/api/v1/conversation/create', options);
+        const payload = await response.json();
 
-chatContainer && (chatContainer.scrollTop = chatContainer.scrollHeight);
-messageBtn.addEventListener('click', messageHandler);
-client.on('receive_message', receiveMessageHandler);
-
-function receiveMessageHandler(message) {
-    let html = '';
-    if (conversationId !== message.conversationId) {
-        return;
+        if (payload.success) {
+            location.href = `/conversations/${payload.conversation._id}`;
+        } else {
+            alert(payload.message);
+        }
+    } catch (e) {
+        alert(e.message);
     }
-
-    message.date = new Date(message.date);
-
-    if (message.from === me._id) {
-        html = `
-             <li class="chat-right">
-                <div class="chat-hour"> ${message.date.toLocaleString()}</div>
-                <div class="chat-text">${message.body}</div>
-                <div class="chat-avatar">
-                <img src="${me.avatar}"
-                alt="${me.firstName}">
-                <div class="chat-name">${me.firstName}</div>
-                </div>
-            </li>
-        `
-    } else {
-        html = `
-             <li class='chat-left'>
-                <div class="chat-avatar">
-                 <img src="${you.avatar}" alt="${you.firstName}">
-                <div class="chat-name">${you.firstName}</div>
-                </div>
-                 <div class="chat-text">${message.body}</div>
-                <div class="chat-hour">${message.date.toLocaleString()}</div>
-            </li>
-        `
-    }
-    messagesUl.innerHTML += html;
-
-    setTimeout(() => {
-        chatContainer && (chatContainer.scrollTop = chatContainer.scrollHeight);
-    }, 200);
-}
-
-function messageHandler(e) {
-    const message = {message: messageBody.value, conversationId, to, from: me}
-    client.emit('message', message);
-    messageBody.value = "";
 }

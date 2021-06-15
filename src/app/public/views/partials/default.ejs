@@ -5,21 +5,24 @@
             <div class="sm">
                 <a href="#"><i class="icon fas fa-hospital-user fa-2x"></i></a>
             </div>
-            <h4>Join Patient Role</h4>
+            <h4><%=(me.roles[0]?.active ? 'Switch To': 'Join') %>
+                Patient Role</h4>
         </div>
 
         <div class="Features-item-r col-lg-3 col-md-6">
             <div class="sm">
                 <a href="#"><i class="icon fas fa-user-nurse fa-2x"></i></a>
             </div>
-            <h4>Create Mentor Role</h4>
+            <h4><%=(me.roles[1]?.active ? 'Switch To': 'Request') %>
+                Mentor Role</h4>
         </div>
 
         <div class="Features-item-l col-lg-3 col-md-6">
             <div class="sm">
                 <a href="#"><i class="icon fas fa-user-md fa-2x"></i></a>
             </div>
-            <h4>Create Doctor Role</h4>
+            <h4><%=(me.roles[2]?.active ? 'Switch To': 'Request') %>
+                Doctor Role</h4>
         </div>
 
         <div class="Features-item-r col-lg-3 col-md-6">
