@@ -83,3 +83,26 @@ async function logoutHandler() {
         alert(e.message);
     }
 }
+
+async function createRoleHandler(e , roleName){
+        const headers = {'Content-Type': 'application/json'};
+        const body = {roleName};
+        const options = {
+            method: 'POST',
+            body: JSON.stringify(body),
+            headers,
+        };
+
+        try {
+            const response = await fetch('/api/v1/role/', options);
+            console.log(response);
+            const payload = await response.json();
+            if (payload.success) {
+                location.href = '/';
+            } else {
+                alert(payload.message);
+            }
+        } catch (e) {
+            alert(e.message);
+        }
+}

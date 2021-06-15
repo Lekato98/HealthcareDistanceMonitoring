@@ -3,7 +3,13 @@
     <div class="row">
         <div class="Features-item-l col-lg-3 col-md-6">
             <div class="sm">
-                <a href="#" onclick="switchRoleHandler(this, 'patient')"><i class="icon fas fa-hospital-user fa-2x"></i></a>
+                <% if (me.roles[0]){ %>
+                    <a href="#"
+                       onclick="switchRoleHandler(this, 'patient')"><i class="icon fas fa-hospital-user fa-2x"></i></a>
+                <% }else{ %>
+                    <a href="#"
+                       onclick="createRoleHandler(this, 'patient')"><i class="icon fas fa-hospital-user fa-2x"></i></a>
+                <% } %>
             </div>
             <h4><%= me.roles[0]?.status === 'pending' ? '' : (me.roles[0]?.active === false ? '' :
                         me.roles[0]?.active ? 'Switch To' : 'Join') %>
@@ -14,8 +20,16 @@
 
         <div class="Features-item-r col-lg-3 col-md-6">
             <div class="sm">
-                <a href="#" onclick="switchRoleHandler(this, 'mentor')"><i class="icon fas fa-user-nurse fa-2x"></i></a>
+                <% if (me.roles[1]) { %>
+                    <a href="#"
+                       onclick='switchRoleHandler(this, "mentor")'><i class="icon fas fa-user-nurse fa-2x"></i></a>
+                <% } else { %>
+                    <a href="#"
+                       onclick='createRoleHandler(this,"mentor")'><i class="icon fas fa-user-nurse fa-2x"></i></a>
+                <% } %>
+
             </div>
+
             <h4><%= me.roles[1]?.status === 'pending' ? '' : (me.roles[1]?.active === false ? '' :
                         me.roles[1]?.active ? 'Switch To' : 'Join') %>
                 Mentor Role</h4>
@@ -25,8 +39,16 @@
 
         <div class="Features-item-l col-lg-3 col-md-6">
             <div class="sm">
-                <a href="#" onclick="switchRoleHandler(this, 'doctor')"><i class="icon fas fa-user-md fa-2x"></i></a>
+                <% if (me.roles[2]){ %>
+                    <a href="#"
+                       onclick="switchRoleHandler(this, 'doctor')"><i class="icon fas fa-user-md fa-2x"></i></a>
+                <% }else{ %>
+                    <a href="#"
+                       onclick="createRoleHandler(this, 'doctor')"><i class="icon fas fa-user-md fa-2x"></i></a>
+                <% } %>
+
             </div>
+
             <h4><%= me.roles[2]?.status === 'pending' ? '' : (me.roles[2]?.active === false ? '' :
                         me.roles[2]?.active ? 'Switch To' : 'Join') %>
                 Doctor Role</h4>
@@ -35,7 +57,7 @@
         </div>
 
         <div class="Features-item-r col-lg-3 col-md-6">
-            <div class="sm">
+            <div class="sm noSm">
                 <a href="#"><i class="icon fas fa-users fa-2x"></i></a>
             </div>
             <h4>Our Community</h4>
@@ -107,7 +129,7 @@
                 <h1 class="main-text font-weight-bolder display-4">Are You Vaccinated?</h1>
                 <p class="italic-text text-muted font-italic">Jordan's Vaccine Application</p>
                 <p class="info">
-                    We Believe that prevention is always better than curement.
+                    We Believe that prevention is always better than current.
                 </p>
                 <p class="info">
                     Thus it is always to be safe than sorry hence, applying to a vaccine is a must.

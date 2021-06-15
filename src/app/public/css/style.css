@@ -150,6 +150,11 @@ body{
     position: relative;
 }
 
+.noSm a:hover{
+    transform: scale(1) !important;
+    cursor: auto;
+}
+
 .sm a::before , .sm a::after{
     content: '';
     position: absolute;
