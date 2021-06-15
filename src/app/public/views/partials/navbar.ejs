@@ -14,7 +14,14 @@
                     <% } else if (role === 'doctor') { %>
                         <i class="fas fa-user-md"></i>
                         Doctor
+                    <% } else if (isAdmin) { %>
+                        <i class="fas fa-user-shield"></i>
+                        Admin
+                    <% } else { %>
+                        <i class="fas fa-user"></i>
+                        No Role
                     <% } %>
+
                 </div>
             </div>
         </div>
@@ -93,7 +100,8 @@
                             aria-expanded="false"
                     ><i class="fad fa-inbox"></i></a>
                     <div class="dropdown-menu dropdown-menu-right noti-container"
-                         aria-labelledby="navbarDropdownMenuLink2" style=<%=me.conversations.length ? "" : "padding:60px;"%>>
+                         aria-labelledby="navbarDropdownMenuLink2"
+                         style=<%= me.conversations.length ? "" : "padding:60px;" %>>
                         <% for (const {_id, users: [, from], messages: [lastMessage]} of me.conversations) { %>
                             <a class="dropdown-item secondary-item noti-item" href="/conversations/<%= _id %>">
                                 <div class="inner-noti-item">
@@ -105,14 +113,15 @@
                                 </div>
                             </a>
                         <% } %>
-                        <%if (me.conversations.length === 0) {%>
-                                <a class="dropdown-item secondary-item noti-item" href="/conversations">
-                                    <div class="empty-item">
-                                        <i class="fad fa-mailbox fa-4x"></i>
-                                        <p class="inner-empty-item">Your inbox seems empty, Come back later in later time...</p>
-                                    </div>
-                                </a>
-                        <%}%>
+                        <% if (me.conversations.length === 0) { %>
+                            <a class="dropdown-item secondary-item noti-item" href="/conversations">
+                                <div class="empty-item">
+                                    <i class="fad fa-mailbox fa-4x"></i>
+                                    <p class="inner-empty-item">Your inbox seems empty, Come back later in later
+                                        time...</p>
+                                </div>
+                            </a>
+                        <% } %>
                     </div>
                 </li>
             <% } %>
@@ -140,13 +149,19 @@
                     <% } %>
                     <a id="logout" class="dropdown-item secondary-item" href="#"><i class="fas fa-sign-out-alt"></i>
                         Logout</a>
-                    <a class="dropdown-item secondary-item nav-link dropdown-toggle inner-dropdown"
-                       id="navbarDropdownMenuLink2"
-                       data-toggle="dropdown"
-                       aria-haspopup="true"
-                       aria-expanded="false"
-                       href="#"> <i class="fas fa-random"></i> Switch role to </a>
+                    <% if (!isAdmin) { %>
+                        <a class="dropdown-item secondary-item nav-link dropdown-toggle inner-dropdown"
+                           id="navbarDropdownMenuLink2"
+                           data-toggle="dropdown"
+                           aria-haspopup="true"
+                           aria-expanded="false"
+                           href="#"> <i class="fas fa-random"></i> Switch role to </a>
+                    <% } %>
+
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink2">
+                        <a id="no-role" class="dropdown-item secondary-item" href="#">
+                            <i class="fas fa-user"></i> No Role
+                        </a>
                         <a id="patient-role" class="dropdown-item secondary-item" href="#">
                             <i class="fas fa-hospital-user"></i> Patient
                         </a>
@@ -154,7 +169,7 @@
                             <i class="fas fa-user-nurse"></i> Mentor
                         </a>
                         <a id="doctor-role" class="dropdown-item secondary-item" href="#">
-                            <i class="fas fa-user-md"></i>Doctor
+                            <i class="fas fa-user-md"></i> Doctor
                         </a>
                     </div>
                 </div>
@@ -164,7 +179,6 @@
 
     </div>
 </nav>
-
 
 <script src="../js/nav.js"></script>
 

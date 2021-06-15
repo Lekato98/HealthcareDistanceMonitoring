@@ -142,7 +142,11 @@ textarea{
     height: 48px;
     -webkit-border-radius: 50px;
     -moz-border-radius: 50px;
-    border-radius: 50px;
+    border-radius: 30% 30% 30% 0;
+}
+
+.chat-right img {
+    border-radius: 30% 30% 0 30% !important;
 }
 
 .users .person .user .status {
@@ -246,7 +250,7 @@ textarea{
     height: 48px;
     -webkit-border-radius: 30px;
     -moz-border-radius: 30px;
-    border-radius: 30px;
+    border-radius: 30% 30% 30% 0;
 }
 
 .chat-container li .chat-avatar {

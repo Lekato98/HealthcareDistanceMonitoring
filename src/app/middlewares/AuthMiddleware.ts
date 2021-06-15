@@ -7,6 +7,7 @@ import AuthenticationUtils from '../utils/AuthenticationUtils';
 import {UNSUCCESSFUL} from '../helpers/constants';
 import AdminModel from '../models/admin/AdminModel';
 import ConversationService from "../models/conversation/ConversationService";
+import {RoleName} from "../models/user/UserModel";
 
 const jwt = require('jsonwebtoken');
 
@@ -17,12 +18,14 @@ class AuthMiddleware {
         try {
             res.locals.isAdmin = false;
             res.locals.me = undefined;
+            res.locals.role = RoleName.NO_ROLE;
+
             const token = req.cookies[JWTUtils.JWT_COOKIE_NAME];
             const decodedToken = await jwt.verify(token, JWTUtils.JWT_SECRET);
-
             const projection = '-password';
             const user = await UserService.findByNationalId(decodedToken.nationalId, projection);
-            if (user && user._id === decodedToken._id && user.nationalId === decodedToken.nationalId) {
+
+            if (user && user._id === decodedToken._id) {
                 const conversations = await ConversationService.getAllByUserId(user._id);
                 req.app.locals.jwt = {...decodedToken, user};
                 res.locals.me = user;
@@ -39,7 +42,6 @@ class AuthMiddleware {
                 }
             }
         } catch (e) {
-            console.log(e)
             AuthenticationUtils.removeAuthCookies(res);
             delete req.app.locals.jwt;
         } finally {
