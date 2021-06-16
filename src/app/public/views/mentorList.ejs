@@ -3,13 +3,13 @@
 <head>
     <%- include('./partials/head.ejs') %>
     <title>C19HDM | Mentor List</title>
+    <script src="../js/contact.js"></script>
     <link rel="stylesheet" href="../css/mentorList.css">
 </head>
 <body>
 <%- include('./partials/notification.ejs') %>
 <!--                         Navbar                                         -->
 <%- include('./partials/navbar.ejs') %>
-
 
 <section id="mentor-list">
     <div class="row">
@@ -25,15 +25,17 @@
                 </tr>
                 </thead>
                 <tbody>
+                <%for (const {userId: user} of mentors) {%>
                     <tr>
-                        <td data-label="Name">Osama</td>
-                        <td data-label="Birthdate">12/12/12</td>
-                        <td data-label="National_ID">1212121212</td>
-                        <td data-label="Phone-number">00962776572329</td>
+                        <td data-label="Name"><%=user.firstName%> <%=user.lastName%></td>
+                        <td data-label="Birthdate"><%=user.birthdate.toLocaleDateString()%></td>
+                        <td data-label="National_ID"><%=user.nationalId%></td>
+                        <td data-label="Phone-number"><%=user.phoneNumber%></td>
                         <td>
-                            <button class="btn btn-lg btn-dark">Contact</button>
+                            <button class="btn btn-lg btn-dark" onclick="contact(this, '<%=user._id%>')">Contact</button>
                         </td>
                     </tr>
+                <%}%>
                 </tbody>
             </table>
         </div>

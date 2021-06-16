@@ -10,8 +10,6 @@ async function submitHandler(e) {
         return {...reducer, ...object};
     }, {});
 
-    console.log(data);
-
     const headers = {
         'Content-Type': 'application/json',
     };
@@ -24,9 +22,8 @@ async function submitHandler(e) {
 
     try {
         const response = await fetch('/api/v1/user', options);
-        console.log(response);
         const body = await response.json();
-        console.log(body);
+
         if (body.success) {
             location.href = '/profile/me';
         } else {

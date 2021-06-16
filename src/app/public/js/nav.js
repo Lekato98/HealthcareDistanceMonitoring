@@ -30,7 +30,6 @@ async function switchRoleHandler(e, roleName) {
 
     try {
         const response = await fetch('/api/v1/role/switch', options);
-        console.log(response);
         const payload = await response.json();
         if (payload.success) {
             location.href = '/';
@@ -95,7 +94,6 @@ async function createRoleHandler(e , roleName){
 
         try {
             const response = await fetch('/api/v1/role/', options);
-            console.log(response);
             const payload = await response.json();
             if (payload.success) {
                 location.href = '/';

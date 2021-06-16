@@ -59,6 +59,15 @@ class HomeController {
         }
     }
 
+    public async mentorListPage(req: Request, res: Response): Promise<void> {
+        try {
+            const mentors = await RoleService.getAcceptedByRoleName('mentor');
+            res.render('mentorList.ejs', {mentors});
+        } catch (e) {
+            res.redirect('/500');
+        }
+    }
+
     public async emergencyCasesPage(req: Request, res: Response): Promise<void> {
         try {
             const emergencyCases = await EmergencyService.getAll();

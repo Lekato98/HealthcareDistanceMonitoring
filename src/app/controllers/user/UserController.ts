@@ -121,7 +121,6 @@ class UserController {
     public async addNotification(req: Request, res: Response): Promise<void> {
         try {
             const {userId, ...payload} = req.body;
-            console.log(userId);
             const notification = await UserService.addNotification(userId, payload);
             const body = {success: SUCCESS, notification};
             res.json(body);

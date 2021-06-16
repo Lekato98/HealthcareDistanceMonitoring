@@ -20,7 +20,6 @@ async function addPatientHandler(e) {
     try {
         const response = await fetch('/api/v1/mentor/add-patient', options);
         const body = await response.json();
-        console.log(body);
         if (body.success) {
             location.reload();
         } else {
@@ -34,7 +33,6 @@ async function addPatientHandler(e) {
 async function removePatientHandler(e) {
     e.preventDefault();
     const payload = {patientId: e.target.value}; // userId
-    console.log(payload);
     const options = {
         method: 'PATCH',
         body: JSON.stringify(payload),
@@ -45,7 +43,6 @@ async function removePatientHandler(e) {
     try {
         const response = await fetch('/api/v1/mentor/remove-patient', options);
         const body = await response.json();
-        console.log(body);
         if (body.success) {
             location.reload();
         } else {

@@ -95,7 +95,7 @@ class PatientService {
         const pipeline = [sortStage, skipStage, limitStage, lookupStage, unwindStage, projectionStage];
         const patients = await PatientModel.aggregate(pipeline);
         const mentor = mentorId && await MentorModel.findById(mentorId);
-        return patients.map(patient => ({...patient, isMine: mentor.patients.includes(patient._id)}));
+        return patients.map(patient => ({...patient, isMine: mentor?.patients.includes(patient._id)}));
     }
 
     public static async getMonitoredPatientsByPageNumber(page: number = 0): Promise<any[]> {

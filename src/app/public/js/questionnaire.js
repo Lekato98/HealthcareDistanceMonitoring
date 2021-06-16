@@ -22,9 +22,7 @@ async function submitHandler(e) {
 
     try {
         const response = await fetch('/api/v1/report/daily', options);
-        console.log(response);
         const body = await response.json();
-        console.log(body);
         if (body.success) {
             location.href = '/';
         } else {

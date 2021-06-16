@@ -19,7 +19,6 @@ class PhoneUtils {
     }
 
     public static isValidJordanNumber(phoneNumber: string): boolean {
-        console.log(phoneNumber);
         return !!phoneNumber.match(PhoneUtils.jordanNumberRegex);
     }
 }

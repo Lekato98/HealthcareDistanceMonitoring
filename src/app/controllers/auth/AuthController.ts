@@ -75,8 +75,13 @@ class AuthController {
             const body = {success: SUCCESS, user};
             res.json(body);
         } catch (e) {
-            const body = {success: UNSUCCESSFUL, message: e.message};
-            res.status(HttpStatusCode.SERVER_ERROR).json(body);
+            if (e.message.startsWith('E11000')) {
+                const body = {success: UNSUCCESSFUL, message: 'National Id or Email is already used'};
+                res.status(HttpStatusCode.BAD_REQUEST).json(body);
+            } else {
+                const body = {success: UNSUCCESSFUL, message: e.message};
+                res.status(HttpStatusCode.SERVER_ERROR).json(body);
+            }
         }
     }
 

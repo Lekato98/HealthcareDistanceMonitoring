@@ -51,9 +51,7 @@ class HomeRoute implements IRoute {
         this.ROUTE.get(this.CONVERSATIONS_PAGE, this.homeController.conversationsPage);
         this.ROUTE.get(this.SPECIFIC_CONVERSATION_PAGE, this.homeController.conversationPage);
 
-        this.ROUTE.get('/mentorList' , (req,res) =>{
-            res.render('mentorList');
-        });
+        this.ROUTE.get('/mentorList', this.homeController.mentorListPage);
 
         this.ROUTE.get('/advice' , (req,res) =>{
             res.render('advice');

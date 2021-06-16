@@ -24,7 +24,6 @@ class SocketIO {
 
     public static initializeMiddlewares() {
         this.io.use((event, next) => {
-            // console.log('socket middleware');
             next();
         });
     }

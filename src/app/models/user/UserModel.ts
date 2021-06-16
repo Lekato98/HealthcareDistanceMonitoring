@@ -179,7 +179,7 @@ export interface IUser {
 
 const UserModel = getModelForClass(User);
 
-UserModel.createIndexes().catch((err) => {
+UserModel.createIndexes().catch((err: any) => {
     console.error(err);
     process.exit(0);
 });
