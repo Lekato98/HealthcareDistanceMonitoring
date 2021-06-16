@@ -5,7 +5,6 @@ import { RoleName, User } from '../../user/UserModel';
 import PatientModelUtils from './PatientModelUtils';
 import IRole, { Status } from '../IRole';
 import DateUtils from '../../../utils/DateUtils';
-import { Mentor } from '../mentor/MentorModel';
 
 const patientIdTypeOptions: PropOptionsForString = {
     type: String,
