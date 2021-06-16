@@ -1,20 +1,35 @@
-import PatientModel, { IPatient, Patient } from './PatientModel';
-import { DocumentType } from '@typegoose/typegoose';
-import { Status } from '../IRole';
-import { ACTIVE } from '../../../helpers/constants';
+import PatientModel, {IPatient, Patient} from './PatientModel';
+import {DocumentType} from '@typegoose/typegoose';
+import {Status} from '../IRole';
+import {ACTIVE} from '../../../helpers/constants';
 import DateUtils from '../../../utils/DateUtils';
-import { QueryUpdateOptions } from 'mongoose';
+import {QueryUpdateOptions} from 'mongoose';
 import MentorModel from '../mentor/MentorModel';
 import UserModel from '../../user/UserModel';
 import UserService from '../../user/UserService';
 import DailyReportService from "../../reports/daily/DailyReportService";
+import {IDailyReport} from "../../reports/daily/DailyReportModel";
+import PatientModelUtils from "./PatientModelUtils";
 
 class PatientService {
     private static readonly PATIENTS_PAIR_PAGE = 20;
 
     public static async updateStatus(patientId: string): Promise<any> {
         const reports = await DailyReportService.getReportsByPatientId(patientId);
-        console.log(reports);
+        const healthStatusRate = reports.length && reports.reduce((total: number, report: IDailyReport) => (
+            total +
+            report.headache +
+            report.soreThroat +
+            report.smell +
+            report.fatigue +
+            report.shortnessOfBreath +
+            report.taste
+        ), 0) / reports.length;
+
+        const healthStatus = PatientModelUtils.healthStatusToString(healthStatusRate);
+        await PatientModel.updateOne({_id:patientId}, {healthStatus});
+
+        return reports;
     }
 
     public static async getOnWait(): Promise<DocumentType<Patient>[]> {
@@ -44,7 +59,7 @@ class PatientService {
     }
 
     public static async patchNextReportDate(patientId: string): Promise<any> {
-        const nextDailyReportDate = DateUtils.getDayReportTimeAfterNDays(1);
+        const nextDailyReportDate = DateUtils.getDayReportTimeAfterNDays(0);
         const options: QueryUpdateOptions = {runValidators: true};
 
         return PatientModel.updateOne({_id: patientId}, {nextDailyReportDate}, options);
@@ -148,7 +163,7 @@ class PatientService {
             },
         };
         const unwindStage = {$unwind: '$user'};
-        const matchStage = {$match: {'user.nationalId': {$regex: `.*${ text }.*`}}};
+        const matchStage = {$match: {'user.nationalId': {$regex: `.*${text}.*`}}};
         const projectionStage = {
             $project: {
                 'user.password': 0,

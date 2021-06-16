@@ -6,21 +6,26 @@
                 <a href="#"><i class="icon fas fa-heartbeat fa-2x"></i></a>
             </div>
             <h4>Health Status</h4>
-            <h6>Excellent</h6>
-            <h6 style="color: green;">Expected recovery date <%=me.roles[0].expectedRecoveryDate.toLocaleDateString()%></h6>
+            <h6 style="color: red;"><%=me.roles[0].healthStatus%></h6>
+            <h6 style="color: green;">Expected recovery
+                date <%= me.roles[0].expectedRecoveryDate.toLocaleDateString() %></h6>
             <p>Your current health status occasionally updated by your designated doctor.</p>
         </div>
 
         <div class="Features-item-r col-lg-3 col-md-6">
             <div class="sm">
-                <a href="/questionnaire"><i class="icon far fa-question-circle fa-2x"></i></a>
+                <% if (me.roles[0].nextDailyReportDate >= new Date()) { %>
+                    <a href="#"><i class="icon far fa-question-circle fa-2x"></i></a>
+                <% } else { %>
+                    <a href="/questionnaire"><i class="icon far fa-question-circle fa-2x"></i></a>
+                <% } %>
             </div>
             <h4>Daily Report</h4>
-            <%if (me.roles[0].nextDailyReportDate >= new Date()) {%>
-                <h6><em style="color: green;">Next Report <%=me.roles[0].nextDailyReportDate.toLocaleString()%></em></h6>
-            <%} else {%>
+            <% if (me.roles[0].nextDailyReportDate >= new Date()) { %>
+            <h6><em style="color: green;">Next Report <%= me.roles[0].nextDailyReportDate.toLocaleString() %></em></h6>
+            <% } else { %>
                 <h6><em style="color: red;">You are missing your report fill it soon please</em></h6>
-            <%}%>
+            <% } %>
             <p><em>A set of questions that we adhere you to answer them daily. for your own healthcare!</em></p>
         </div>
 
@@ -52,12 +57,17 @@
                     ‘The ability to perform daily tasks and live comfortably in one’s body’.
                 </p>
                 <p class="info">
-                    Physical health is the well-being of the body and the proper functioning of the organism of individuals,
+                    Physical health is the well-being of the body and the proper functioning of the organism of
+                    individuals,
                     which is a normal condition for individuals of both physical,
                     and mental condition who are not suffering from any type of sickness.
                 </p>
-                <h5>refer to the following website for more information about Physical health : <a href="https://www1.health.gov.au/internet/publications/publishing.nsf/Content/mental-pubs-p-mono-toc~mental-pubs-p-mono-bas~mental-pubs-p-mono-bas-alt~mental-pubs-p-mono-bas-alt-phy" target="_blank">https://www1.health.gov.au/</a></h5>
-                <h5>tips to better you Physical Fitness: <a href="https://simple.wikipedia.org/wiki/Physical_fitness" target="_blank">https://simple.wikipedia.org/wiki/Physical_fitness</a></h5>
+                <h5>refer to the following website for more information about Physical health : <a
+                            href="https://www1.health.gov.au/internet/publications/publishing.nsf/Content/mental-pubs-p-mono-toc~mental-pubs-p-mono-bas~mental-pubs-p-mono-bas-alt~mental-pubs-p-mono-bas-alt-phy"
+                            target="_blank">https://www1.health.gov.au/</a></h5>
+                <h5>tips to better you Physical Fitness: <a href="https://simple.wikipedia.org/wiki/Physical_fitness"
+                                                            target="_blank">https://simple.wikipedia.org/wiki/Physical_fitness</a>
+                </h5>
             </div>
             <div class="col-lg-6">
                 <img class="first-more-img" src="../../images/10748.jpg" alt="man">
@@ -74,15 +84,22 @@
                 <h1 class="main-text font-weight-bolder display-4">MENTAL HEALTH</h1>
                 <p class="italic-text text-muted font-italic">During COVID-19</p>
                 <p class="info">
-                    Mental health includes our emotional, psychological, and social well-being. It affects how we think, feel, and act.
+                    Mental health includes our emotional, psychological, and social well-being. It affects how we think,
+                    feel, and act.
                     It also helps determine how we handle stress, relate to others, and make choices.
                 </p>
                 <p>
                     Mental health is important at every stage of life, from childhood and adolescence through adulthood.
-                    Over the course of your life, if you experience mental health problems, your thinking, mood, and behavior could be affected.
+                    Over the course of your life, if you experience mental health problems, your thinking, mood, and
+                    behavior could be affected.
                 </p>
-                <h5>website for Mental Health Awareness: <a href="https://www.mentalhealth.org.uk/campaigns/mental-health-awareness-week" target="_blank">https://www.mentalhealth.org.uk/campaigns/mental-health-awareness-week</a></h5>
-                <h5>refer to the following website for more information about mental health and some tips on dealing with it: <a href="https://www.medicalnewstoday.com/articles/154543#treatment" target="_blank">https://www.medicalnewstoday.com/articles/154543#treatment</a></h5>
+                <h5>website for Mental Health Awareness: <a
+                            href="https://www.mentalhealth.org.uk/campaigns/mental-health-awareness-week"
+                            target="_blank">https://www.mentalhealth.org.uk/campaigns/mental-health-awareness-week</a>
+                </h5>
+                <h5>refer to the following website for more information about mental health and some tips on dealing
+                    with it: <a href="https://www.medicalnewstoday.com/articles/154543#treatment" target="_blank">https://www.medicalnewstoday.com/articles/154543#treatment</a>
+                </h5>
             </div>
         </div>
     </div>
@@ -100,7 +117,8 @@
                     In our beloved country, Jordan, it is possible to apply to a platform to get your vaccine,
                     so once you are out of covid symptoms you should apply through the following website.
                     <a href='https://vaccine.jo/cvms/' target="_blank">https://vaccine.jo/cvms/</a>
-                <h3 style="color:red;">Warning:<h4 style="color:red;">Be sure to wait for atleast 3 weeks after you get cured to get your vaccine</h4></h3>
+                <h3 style="color:red;">Warning:<h4 style="color:red;">Be sure to wait for atleast 3 weeks after you get
+                        cured to get your vaccine</h4></h3>
                 </p>
             </div>
             <div class="col-lg-6">

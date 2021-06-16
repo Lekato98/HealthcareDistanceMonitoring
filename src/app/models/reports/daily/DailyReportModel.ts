@@ -115,6 +115,8 @@ interface IDailyReport {
     fatigue: number;
     shortnessOfBreath: number;
     positiveContact: boolean;
+    createdAt?: Date;
+    updatedAt?: Date;
 }
 
 const DailyReportModel = getModelForClass(DailyReport);

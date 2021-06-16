@@ -1,5 +1,6 @@
 import {nanoid} from 'nanoid';
 import {Patient} from './PatientModel';
+import {IDailyReport} from "../../reports/daily/DailyReportModel";
 
 /*
 excellent: Your health status is excellent, you don't need to worry about anything.4-5
@@ -22,6 +23,7 @@ export enum StatusRange {
 }
 
 export enum HealthStatus {
+    NO_STATUS = 'No Status',
     IMMEDIATE_CARE = 'Immediate Care',
     BAD = 'Bad',
     GOOD = 'Good',
@@ -32,6 +34,12 @@ export enum HealthStatus {
 class PatientModelUtils {
     public static async preValidation(this: Patient): Promise<void> {
         this._id = `patient~${nanoid()}`;
+    }
+
+    public static transform(report: IDailyReport): any {
+        return {
+
+        }
     }
 
     public static healthStatusToString(healthStatus: number): string {

@@ -62,6 +62,10 @@ function notify(message, withAudio = true) {
 
     notificationItem.append(notificationBody);
 
+    message.redirectUrl && notification.addEventListener('click', () => {
+       location.href = message.redirectUrl;
+    });
+
     notification.append(notificationItem);
     withAudio && notificationAudio.play();
 }

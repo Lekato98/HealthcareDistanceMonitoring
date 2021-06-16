@@ -4,6 +4,7 @@ import IRoute from './IRoute';
 import {Inject, Injectable} from 'dependency-injection-v1';
 import HomeMiddleware from '../middlewares/HomeMiddleware';
 import ConversationService from "../models/conversation/ConversationService";
+import DailyReportMiddleware from "../middlewares/DailyReportMiddleware";
 
 @Injectable
 class HomeRoute implements IRoute {
@@ -26,6 +27,7 @@ class HomeRoute implements IRoute {
 
     @Inject(HomeController) private homeController: HomeController;
     @Inject(HomeMiddleware) private homeMiddleware: HomeMiddleware;
+    @Inject(DailyReportMiddleware) private dailyReportMiddleware: DailyReportMiddleware;
 
     constructor() {
         this.initialize();
@@ -44,7 +46,10 @@ class HomeRoute implements IRoute {
         this.ROUTE.get(this.HOME_PAGE_URL, this.homeController.homePage);
         this.ROUTE.get(this.ALL_PATIENTS_PAGE, this.homeController.allPatientsPage);
         this.ROUTE.get(this.EMERGENCY_CASES_PAGE, this.homeController.emergencyCasesPage);
-        this.ROUTE.get(this.QUESTIONNAIRE_PAGE, this.homeController.questionnairePage);
+        this.ROUTE.get(this.QUESTIONNAIRE_PAGE,
+            this.dailyReportMiddleware.isDailyReportAvailable,
+            this.homeController.questionnairePage
+        );
         this.ROUTE.get(this.REPORT_LIST_PAGE, this.homeController.reportListPage);
         this.ROUTE.get(this.MY_MONITORED_PATIENTS_PAGE, this.homeController.monitoredPatientsPage);
         this.ROUTE.get(this.EMERGENCY_PAGE, this.homeController.emergencyPage);
@@ -53,7 +58,7 @@ class HomeRoute implements IRoute {
         this.ROUTE.get(this.SPECIFIC_CONVERSATION_PAGE, this.homeController.conversationPage);
         this.ROUTE.get(this.MENTOR_LIST_PAGE, this.homeController.mentorListPage);
 
-        this.ROUTE.get('/advice' , (req,res) =>{
+        this.ROUTE.get('/advice', (req, res) => {
             res.render('advice');
         });
 

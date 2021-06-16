@@ -14,6 +14,7 @@ class DailyReportMiddleware {
             if (patient?.nextDailyReportDate) {
                 const targetDate = patient.nextDailyReportDate.getTime();
                 const currentDate = new Date().getTime();
+
                 if (currentDate - targetDate >= 0) {
                     next();
                 } else {
