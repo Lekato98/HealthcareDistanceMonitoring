@@ -25,7 +25,7 @@
             </tr>
             </thead>
             <tbody>
-            <% for (let report of reports) { %>
+            <% for (const report of reports) { %>
                 <tr>
                     <td data-label="Date"><%=report.createdAt.toLocaleDateString()%></td>
                     <td data-label="FeelingASoreThroat"><%=report.soreThroat%></td>

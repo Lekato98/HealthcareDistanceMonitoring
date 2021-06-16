@@ -8,6 +8,8 @@ import DailyReportService from '../../models/reports/daily/DailyReportService';
 import EmergencyService from '../../models/emergency/EmergencyService';
 import {RoleName} from '../../models/user/UserModel';
 import ConversationService from "../../models/conversation/ConversationService";
+import {IDailyReport} from "../../models/reports/daily/DailyReportModel";
+import PatientModelUtils from "../../models/roles/patient/PatientModelUtils";
 
 @Injectable
 class HomeController {
@@ -51,7 +53,20 @@ class HomeController {
     public async reportListPage(req: Request, res: Response): Promise<void> {
         try {
             const nationalId = req.params.nationalId;
-            const reports = await DailyReportService.getReportsByPatientId(nationalId);
+            const reports = (await DailyReportService.getReportsByPatientId(nationalId))
+                .map((report: any) => ({
+                        _id: report._id,
+                        patientId: report.patientId,
+                        shortnessOfBreath: PatientModelUtils.healthStatusToString(report.shortnessOfBreath),
+                        fatigue: PatientModelUtils.healthStatusToString(report.fatigue),
+                        headache: PatientModelUtils.healthStatusToString(report.headache),
+                        smell: PatientModelUtils.healthStatusToString(report.smell),
+                        soreThroat: PatientModelUtils.healthStatusToString(report.soreThroat),
+                        taste: PatientModelUtils.healthStatusToString(report.taste),
+                        createdAt: report.createdAt,
+                        updatedAt: report.updatedAt,
+                    })
+                );
 
             res.render('reportList.ejs', {reports});
         } catch (e) {

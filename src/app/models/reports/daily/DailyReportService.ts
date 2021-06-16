@@ -1,12 +1,14 @@
 import { DocumentType } from '@typegoose/typegoose';
 import DailyReportModel, { DailyReport, IDailyReport } from './DailyReportModel';
 import UserModel from '../../user/UserModel';
+import PatientService from "../../roles/patient/PatientService";
 
 class DailyReportService {
     public static readonly REPORTS_LIMIT_PER_PAGE = 10;
 
     public static async createReport(reportData: IDailyReport): Promise<DocumentType<DailyReport>> {
         const report = new DailyReport(reportData);
+        await PatientService.updateStatus(String(reportData.patientId));
         return DailyReportModel.create(report);
     }
 

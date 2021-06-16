@@ -13,10 +13,10 @@ class DailyReportController {
      * */
     public async submitReport(req: Request, res: Response): Promise<void> {
         try {
-            const userId = req.app.locals.jwt._id;
-            const payload: IDailyReport = {...req.body, userId};
+            const patientId = req.app.locals.jwt.roleId;
+            const payload: IDailyReport = {...req.body, patientId};
             const report = await DailyReportService.createReport(payload);
-            const patchReport = await PatientService.patchNextReportDate(userId);
+            const patchReport = await PatientService.patchNextReportDate(patientId);
             const body = {success: 1, report, patchReport};
             res.json(body);
         } catch (e) {
