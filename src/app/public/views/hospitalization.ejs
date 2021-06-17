@@ -5,49 +5,52 @@
     <title>C19HDM | Emergency Cases</title>
     <script src="../js/contact.js"></script>
     <link rel="stylesheet" href="../css/hospitalization.css">
+    <link rel="stylesheet" href="../css/footer.css">
 </head>
 <body>
 <%- include('./partials/notification.ejs') %>
 <!--                         Navbar                                         -->
 <%- include('./partials/navbar.ejs') %>
 
-
-<section id="patients-list">
-    <div class="row">
-        <div class="col-lg-12 col-md-6 table-container main">
-            <table class="table table-fixed">
-                <thead>
-                <tr>
-                    <th>Patient Name</th>
-                    <th>Age</th>
-                    <th>National ID</th>
-                    <th>Phone Number</th>
-                    <th>Health Status</th>
-                    <th>Reason</th>
-                    <th>Options</th>
-                </tr>
-                </thead>
-                <tbody>
-                <% for (let {reason, patient: {user}} of emergencyCases) { %>
-                <tr>
-                    <td data-label="Name"><%= user.firstName %> <%= user.lastName %></td>
-                    <td data-label="Birthdate"><%= user.birthdate.toLocaleDateString() %></td>
-                    <td data-label="National_ID"><%= user.nationalId %></td>
-                    <td data-label="Phone-number"><%= user.phoneNumber %></td>
-                    <td data-label="Health Status">Bad</td>
-                    <td data-label="Reason"><%= reason %></td>
-                    <td>
-                        <button class="btn btn-lg btn-dark" onclick="contact(this, '<%=user._id%>')">Contact</button>
-                        <button class="btn btn-lg btn-primary">Hospitalize</button>
-                    </td>
-                </tr>
-                <% } %>
-                </tbody>
-            </table>
+<div class="main">
+    <section id="patients-list">
+        <div class="row">
+            <div class="col-lg-12 col-md-6 table-container main">
+                <table class="table table-fixed">
+                    <thead>
+                    <tr>
+                        <th>Patient Name</th>
+                        <th>Age</th>
+                        <th>National ID</th>
+                        <th>Phone Number</th>
+                        <th>Health Status</th>
+                        <th>Reason</th>
+                        <th>Options</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <% for (let {reason, patient: {user}} of emergencyCases) { %>
+                        <tr>
+                            <td data-label="Name"><a href="/profile/<%=user.nationalId%>"><%= user.firstName %> <%= user.lastName %></a></td>
+                            <td data-label="Birthdate"><%= user.birthdate.toLocaleDateString() %></td>
+                            <td data-label="National_ID"><%= user.nationalId %></td>
+                            <td data-label="Phone-number"><%= user.phoneNumber %></td>
+                            <td data-label="Health Status">Bad</td>
+                            <td data-label="Reason"><%= reason %></td>
+                            <td>
+                                <button class="btn btn-lg btn-dark" onclick="contact(this, '<%=user._id%>')">Contact</button>
+                                <button class="btn btn-lg btn-primary">Hospitalize</button>
+                            </td>
+                        </tr>
+                    <% } %>
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
 
-</section>
+    </section>
+
+</div>
 
 
 <!-- Footer -->

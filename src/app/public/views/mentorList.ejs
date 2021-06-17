@@ -5,29 +5,31 @@
     <title>C19HDM | Mentor List</title>
     <script src="../js/contact.js"></script>
     <link rel="stylesheet" href="../css/mentorList.css">
+    <link rel="stylesheet" href="../css/footer.css">
 </head>
 <body>
 <%- include('./partials/notification.ejs') %>
 <!--                         Navbar                                         -->
 <%- include('./partials/navbar.ejs') %>
 
-<section id="mentor-list">
-    <div class="row">
-        <div class="col-lg-12 col-md-6 table-container main">
-            <table class="table table-fixed">
-                <thead>
-                <tr>
-                    <th>Mentor Name</th>
-                    <th>Age</th>
-                    <th>National ID</th>
-                    <th>Phone Number</th>
-                    <th>Options</th>
-                </tr>
-                </thead>
-                <tbody>
-                <%for (const {userId: user} of mentors) {%>
+<div class="main">
+    <section id="mentor-list">
+        <div class="row">
+            <div class="col-lg-12 col-md-6 table-container main">
+                <table class="table table-fixed">
+                    <thead>
                     <tr>
-                        <td data-label="Name"><%=user.firstName%> <%=user.lastName%></td>
+                        <th>Mentor Name</th>
+                        <th>Age</th>
+                        <th>National ID</th>
+                        <th>Phone Number</th>
+                        <th>Options</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <%for (const {userId: user} of mentors) {%>
+                    <tr>
+                        <td data-label="Name"><a href="/profile/<%=user.nationalId%>"><%=user.firstName%> <%=user.lastName%></a></td>
                         <td data-label="Birthdate"><%=user.birthdate.toLocaleDateString()%></td>
                         <td data-label="National_ID"><%=user.nationalId%></td>
                         <td data-label="Phone-number"><%=user.phoneNumber%></td>
@@ -35,13 +37,15 @@
                             <button class="btn btn-lg btn-dark" onclick="contact(this, '<%=user._id%>')">Contact</button>
                         </td>
                     </tr>
-                <%}%>
-                </tbody>
-            </table>
+                    <%}%>
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
 
-</section>
+    </section>
+
+</div>
 
 
 <!-- Footer -->

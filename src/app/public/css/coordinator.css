@@ -11,7 +11,6 @@ body {
 }
 
 .btn-dark{
-    background-color:#426c88 !important;
     border : none !important;
 }
 
@@ -175,4 +174,12 @@ caption{
     font-size: 20pt;
     padding: 25px;
     color: black;
+}
+
+.accept-btn{
+    margin-bottom: 5px;
+    width: 100px;
+}
+.reject-btn{
+    width: 100px;
 }

@@ -1,10 +1,9 @@
 const messageBtn = document.querySelector('#send-message');
 const messageBody = document.querySelector('#message-body');
 const messagesUl = document.querySelector('#messages');
-const chatContainer = document.querySelector(".chat-container");
 
 
-chatContainer && (chatContainer.scrollTop = chatContainer.scrollHeight);
+messagesUl && (messagesUl.scrollTop = messagesUl.scrollHeight);
 messageBtn.addEventListener('click', messageHandler);
 client.on('receive_message', receiveMessageHandler);
 
@@ -18,32 +17,47 @@ function receiveMessageHandler(message) {
 
     if (message.from === me._id) {
         html = `
-             <li class="chat-right">
-                <div class="chat-hour"> ${message.date.toLocaleString()}</div>
-                <div class="chat-text">${message.body}</div>
-                <div class="chat-avatar">
-                <img src="${me.avatar}"
-                alt="${me.firstName}">
-                <div class="chat-name">${me.firstName}</div>
-                </div>
-            </li>
+<li class="left clearfix">
+                    <span class="chat-img pull-left">
+                    <img src="${me.avatar}"
+                                 alt="${me.firstName}">
+                    </span>
+                                        <div class="chat-body clearfix">
+                                            <div class="header">
+                                                <strong class="primary-font">${me.firstName}</strong>
+                                                <small class="pull-right text-muted"><i
+                                                            class="fa fa-clock-o"></i> ${message.date.toLocaleString()}
+                                                </small>
+                                            </div>
+                                            <p>
+                                                ${message.body}
+                                            </p>
+                                        </div>
+                                    </li>
         `
     } else {
         html = `
-             <li class='chat-left'>
-                <div class="chat-avatar">
-                 <img src="${you.avatar}" alt="${you.firstName}">
-                <div class="chat-name">${you.firstName}</div>
-                </div>
-                 <div class="chat-text">${message.body}</div>
-                <div class="chat-hour">${message.date.toLocaleString()}</div>
-            </li>
+             <li class="right clearfix">
+                    	<span class="chat-img pull-right">
+                    		<img src="${you.avatar}" alt="${you.firstName}">
+                    	</span>
+                                        <div class="chat-body clearfix">
+                                            <div class="header">
+                                                <strong class="primary-font">${you.firstName}</strong>
+                                                <small class="pull-right text-muted"> <i class="fa fa-clock-o"></i>
+                                                    ${message.date.toLocaleString()}</small>
+                                            </div>
+                                            <p>
+                                                ${message.body}
+                                            </p>
+                                        </div>
+                                    </li>
         `
     }
     messagesUl.innerHTML += html;
 
     setTimeout(() => {
-        chatContainer && (chatContainer.scrollTop = chatContainer.scrollHeight);
+        messagesUl && (messagesUl.scrollTop = messagesUl.scrollHeight);
     }, 200);
 }
 

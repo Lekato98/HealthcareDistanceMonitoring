@@ -4,28 +4,30 @@
     <%- include('./partials/head.ejs') %>
     <title>C19HDM | Daily Reports</title>
     <link rel="stylesheet" href="../css/reportList.css">
+    <link rel="stylesheet" href="../css/footer.css">
 </head>
 <body>
 <%- include('./partials/notification.ejs') %>
 <%- include('./partials/navbar.ejs') %>
 
-<section id="patientsList" class="patients-table">
-    <div class="table-container">
-        <table class="table table-fixed">
-            <caption style="caption-side: top">Patient Reports :</caption>
-            <thead>
-            <tr>
-                <th>Date</th>
-                <th>Feeling A Sore Throat</th>
-                <th>Shortness of Breath severity</th>
-                <th>Headache severity</th>
-                <th>Fatigue severity</th>
-                <th>Can Taste?</th>
-                <th>Can Smell?</th>
-            </tr>
-            </thead>
-            <tbody>
-            <% for (const report of reports) { %>
+<div class="main" style="min-height: 95% !important;">
+    <section id="patientsList" class="patients-table">
+        <div class="table-container">
+            <table class="table table-fixed">
+                <caption style="caption-side: top">Patient Reports :</caption>
+                <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Feeling A Sore Throat</th>
+                    <th>Shortness of Breath severity</th>
+                    <th>Headache severity</th>
+                    <th>Fatigue severity</th>
+                    <th>Can Taste?</th>
+                    <th>Can Smell?</th>
+                </tr>
+                </thead>
+                <tbody>
+                <% for (const report of reports) { %>
                 <tr>
                     <td data-label="Date"><%=report.createdAt.toLocaleDateString()%></td>
                     <td data-label="FeelingASoreThroat"><%=report.soreThroat%></td>
@@ -35,12 +37,14 @@
                     <td data-label="CanTaste"><%=report.taste%></td>
                     <td data-label="CanSmell"><%=report.smell%></td>
                 </tr>
-            <% } %>
-            </tbody>
+                <% } %>
+                </tbody>
 
-        </table>
-    </div>
-</section>
+            </table>
+        </div>
+    </section>
+
+</div>
 
 
 <footer id="footer">

@@ -1,184 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <%-include('./partials/head.ejs')%>
+    <%- include('./partials/head.ejs') %>
     <title>C19HDM</title>
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/footer.css">
 </head>
 <body>
-<%-include('./partials/navbar.ejs')%>
+<%- include('./partials/navbar.ejs') %>
 <%- include('./partials/notification.ejs') %>
 <!--                         Navbar                                         -->
 
-<section id="title">
+<div class="main">
+    <section id="title">
 
-    <!--home page content-->
-    <div class="home-page-content container-fluid">
-        <div class="row">
-            <div class="left-contant col-lg-4">
-                <h3 class="covid-header">Covid-19 Home Monitoring System</h3>
+        <!--home page content-->
+        <div class="home-page-content container-fluid">
+            <div class="row">
+                <div class="left-contant col-lg-4">
+                    <h3 class="covid-header">Covid-19 Home Monitoring System</h3>
 
-                <p>Changing Lives One Smile At A Time</p>
+                    <p>Changing Lives One Smile At A Time</p>
 
-            </div>
+                </div>
 
-            <div class="home-page-image col-lg-6">
-                <img class="pat-img" src="../images/healthcare_image.jpg" alt="Patient_home-page_image">
+                <div class="home-page-image col-lg-6">
+                    <img class="pat-img" src="../images/healthcare_image.jpg" alt="Patient_home-page_image">
+                </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
 
-<!--                                  Features                     -->
+    <!--                                  Features                     -->
 
-<%if(role === 'patient') {%>
-    <%- include('./partials/patientPage') %>
-<%}%>
+    <% if(role === 'patient') { %>
+        <%- include('./partials/patientPage') %>
+    <% } %>
 
-<%if(role === 'doctor') {%>
-    <%- include('./partials/doctorPage.ejs') %>
-<%}%>
+    <% if(role === 'doctor') { %>
+        <%- include('./partials/doctorPage.ejs') %>
+    <% } %>
 
-<%if(role === 'mentor') {%>
-    <%- include('./partials/mentorPage.ejs') %>
-<%}%>
+    <% if(role === 'mentor') { %>
+        <%- include('./partials/mentorPage.ejs') %>
+    <% } %>
 
-<%if(role === 'no-role') {%>
-    <%- include('./partials/default.ejs') %>
-<%}%>
+    <% if(role === 'no-role') { %>
+        <%- include('./partials/default.ejs') %>
+    <% } %>
 
+    <!--                testimonials                    -->
 
+    <section id="testimonials">
 
-<!--more-->
+        <div id="testimonial-caruosel" class="carousel slide" data-ride="false">
 
+            <div class="carousel-inner">
 
-<!--<section id="more">-->
-<!--    <div class="firstPara">-->
-<!--        <div class="row">-->
-<!--            <div class="col-lg-6">-->
-<!--                <h1 class="main-text font-weight-bolder display-4">PHYSICAL HEALTH</h1>-->
-<!--                <p class="italic-text text-muted font-italic">During COVID-19</p>-->
-<!--                <p class="info">-->
-<!--                    ‘The ability to perform daily tasks and live comfortably in one’s body’.-->
-<!--                </p>-->
-<!--                <p class="info">-->
-<!--                    Physical health is the well-being of the body and the proper functioning of the organism of individuals,-->
-<!--                    which is a normal condition for individuals of both physical,-->
-<!--                    and mental condition who are not suffering from any type of sickness.-->
-<!--                </p>-->
-<!--                <h5>refer to the following website for more information about Physical health : <a href="https://www1.health.gov.au/internet/publications/publishing.nsf/Content/mental-pubs-p-mono-toc~mental-pubs-p-mono-bas~mental-pubs-p-mono-bas-alt~mental-pubs-p-mono-bas-alt-phy" target="_blank">https://www1.health.gov.au/</a></h5>-->
-<!--                <h5>tips to better you Physical Fitness: <a href="https://simple.wikipedia.org/wiki/Physical_fitness" target="_blank">https://simple.wikipedia.org/wiki/Physical_fitness</a></h5>-->
-<!--            </div>-->
-<!--            <div class="col-lg-6">-->
-<!--                <img class="first-more-img" src="../images/10748.jpg" alt="man">-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--    <hr class="HrLine" size="3" noshade>-->
-<!--    <div class="secondPara">-->
-<!--        <div class="row">-->
-<!--            <div class="col-lg-6">-->
-<!--                <img class="more-img" src="../images/5302.jpg" alt="man">-->
-<!--            </div>-->
-<!--            <div class="col-lg-6">-->
-<!--                <h1 class="main-text font-weight-bolder display-4">MENTAL HEALTH</h1>-->
-<!--                <p class="italic-text text-muted font-italic">During COVID-19</p>-->
-<!--                <p class="info">-->
-<!--                    Mental health includes our emotional, psychological, and social well-being. It affects how we think, feel, and act.-->
-<!--                    It also helps determine how we handle stress, relate to others, and make choices.-->
-<!--                </p>-->
-<!--                <p>-->
-<!--                    Mental health is important at every stage of life, from childhood and adolescence through adulthood.-->
-<!--                    Over the course of your life, if you experience mental health problems, your thinking, mood, and behavior could be affected.-->
-<!--                </p>-->
-<!--                <h5>website for Mental Health Awareness: <a href="https://www.mentalhealth.org.uk/campaigns/mental-health-awareness-week" target="_blank">https://www.mentalhealth.org.uk/campaigns/mental-health-awareness-week</a></h5>-->
-<!--                <h5>refer to the following website for more information about mental health and some tips on dealing with it: <a href="https://www.medicalnewstoday.com/articles/154543#treatment" target="_blank">https://www.medicalnewstoday.com/articles/154543#treatment</a></h5>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--    <hr class="HrLine" size="3" noshade>-->
-<!--    <div class="thirdPara">-->
-<!--        <div class="row">-->
-<!--            <div class="col-lg-6">-->
-<!--                <h1 class="main-text font-weight-bolder display-4">Are You Vaccinated?</h1>-->
-<!--                <p class="italic-text text-muted font-italic">Jordan's Vaccine Application</p>-->
-<!--                <p class="info">-->
-<!--                    We Believe that prevention is always better than curement.-->
-<!--                </p>-->
-<!--                <p class="info">-->
-<!--                    Thus it is always to be safe than sorry hence, applying to a vaccine is a must.-->
-<!--                    In our beloved country, Jordan, it is possible to apply to a platform to get your vaccine,-->
-<!--                    so once you are out of covid symptoms you should apply through the following website.-->
-<!--                    <a href='https://vaccine.jo/cvms/' target="_blank">https://vaccine.jo/cvms/</a>-->
-<!--                <h3 style="color:red;">Warning:<h4 style="color:red;">Be sure to wait for atleast 3 weeks after you get cured to get your vaccine</h4></h3>-->
-<!--                </p>-->
-<!--            </div>-->
-<!--            <div class="col-lg-6">-->
-<!--                <img class="first-more-img" src="../images/10748.jpg" alt="man">-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
+                <div class="carousel-item active">
+                    <h2 class="light">OUR DOCTORS</h2>
+                    <h2 class="heavy">ADVICES YOU TO</h2>
+                    <img class="testimonials-img" src="../images/jordan.png" alt="وزاره الصحه الاردنيه">
+                    <h5 class="doctor_name">Doctor Name</h5>
+                    <p class='testimonial-para'>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad adipisci animi aperiam architecto dicta
+                        earum enim est harum illo inventore ipsa itaque iusto laboriosam laborum necessitatibus numquam
+                        officia pariatur porro possimus, quae quibusdam quidem vel! Accusamus delectus dolor excepturi,
+                        harum hic, modi officia optio placeat praesentium quam, soluta tempora veniam. Commodi incidunt
+                        libero officiis quos ratione sequi, temporibus. Aut consequuntur cupiditate impedit, ipsa
+                        reprehenderit unde! Error nisi omnis sed suscipit? A, adipisci aliquid aperiam at aut consequuntur
+                        corporis dicta dolorem doloremque earum eum ex exercitationem hic illum incidunt laudantium magni
+                        numquam, obcaecati porro quidem, repellendus similique sit velit veritatis voluptatem.
+                    </p>
+                    <p>Email: ABCD@XYZ.COM // Phone Number: +012 12 5677 6574</p>
+                </div>
 
-<!--</section>-->
+                <div class="carousel-item">
+                    <h2 class="light">OUR DOCTORS</h2>
+                    <h2 class="heavy">ADVICES YOU TO</h2>
+                    <img class="testimonials-img" src="../images/jordan.png" alt="وزاره الصحه الاردنيه">
+                    <h5 class="doctor_name">Doctor Name</h5>
+                    <p class="testimonial-para">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad adipisci animi aperiam architecto dicta
+                        earum enim est harum illo inventore ipsa itaque iusto laboriosam laborum necessitatibus numquam
+                        officia pariatur porro possimus, quae quibusdam quidem vel! Accusamus delectus dolor excepturi,
+                        harum hic, modi officia optio placeat praesentium quam, soluta tempora veniam. Commodi incidunt
+                        liberoem.
+                    </p>
+                    <p>Email: ABCD@XYZ.COM // Phone Number: +012 12 5677 6574</p>
+                </div>
 
-
-<!--                testimonials                    -->
-
-<section id="testimonials">
-
-    <div id="testimonial-caruosel" class="carousel slide" data-ride="false">
-
-        <div class="carousel-inner">
-
-            <div class="carousel-item active">
-                <h2 class="light">OUR PATIENT</h2>
-                <h2 class="heavy">SAY ABOUT US</h2>
-                <img class="testimonials-img" src="../images/jordan.png" alt="وزاره الصحه الاردنيه">
-                <h5 class="patient_name">Patient Name</h5>
-                <P>Please contact us if you want to report any issue or want to add some features to our website through the following:</P>
-                <p>Email:  ABCD@XYZ.COM // Phone Number: +012 12 5677 6574</p>
-                <img src="../images/quotes-images.png" alt="quotes images" class="quotes testimonials-img">
             </div>
 
-            <div class="carousel-item">
-                <h2 class="light">OUR PATIENT</h2>
-                <h2 class="heavy">SAY ABOUT US</h2>
-                <img class="testimonials-img" src="../images/jordan.png" alt="وزاره الصحه الاردنيه">
-                <h5 class="patient_name">Patient Name</h5>
-                <P>Please contact us if you want to report any issue or want to add some features to our website through the following:</P>
-                <p>Email:  ABCD@XYZ.COM // Phone Number: +012 12 5677 6574</p>
-
-                <img src="../images/quotes-images.png" alt="quotes images" class="quotes testimonials-img">
-            </div>
-
+            <a class="carousel-control-prev" href="#testimonial-caruosel" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </a>
+            <a class="carousel-control-next" href="#testimonial-caruosel" role="button" data-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </a>
         </div>
 
-        <a class="carousel-control-prev" href="#testimonial-caruosel" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon"></span>
-        </a>
-        <a class="carousel-control-next" href="#testimonial-caruosel" role="button" data-slide="next">
-            <span class="carousel-control-next-icon"></span>
-        </a>
-    </div>
+
+    </section>
 
 
-</section>
+    <!--                     Call To Action                         -->
 
+    <section id="cta">
 
-<!--                     Call To Action                         -->
+        <h3 class="cta-h3">Wear your Mask, Stay Distant, Stay Safe!</h3>
+        <!-- <button type="button" class="btn btn-dark btn-lg download-cta-button" ><i class="fab fa-apple"></i> Download</button>
+        <button type="button" class="btn btn-light btn-lg download-cta-button"><i class="fab fa-google-play"></i> Download</button> -->
 
-<section id="cta">
-
-    <h3 class="cta-h3">Wear your Mask, Stay Distant, Stay Safe!</h3>
-    <!-- <button type="button" class="btn btn-dark btn-lg download-cta-button" ><i class="fab fa-apple"></i> Download</button>
-    <button type="button" class="btn btn-light btn-lg download-cta-button"><i class="fab fa-google-play"></i> Download</button> -->
-
-</section>
-
+    </section>
+</div>
 
 <!-- Footer -->
-
 
 <footer id="footer">
     <div class="sm">
@@ -192,7 +130,7 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
-<script src="../js/home.js" ></script>
+<script src="../js/home.js"></script>
 <script src="../js/socket.js"></script>
 
 </body>

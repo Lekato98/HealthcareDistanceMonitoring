@@ -5,30 +5,32 @@
     <title>C19HDM | My Patients</title>
     <script src="../js/contact.js"></script>
     <link rel="stylesheet" href="../css/monitorPatients.css">
+    <link rel="stylesheet" href="../css/footer.css">
 </head>
 <body>
 <%- include('./partials/notification.ejs') %>
 <%- include('./partials/navbar.ejs') %>
 
-<section id="patients-list">
-    <div class="row">
+<div class="main">
+    <section id="patients-list">
+        <div class="row">
 
-        <div class="form col-lg-12 col-md-6 table-container">
-            <table class="table table-fixed">
-                <thead>
-                <tr>
-                    <th>Patient Name</th>
-                    <th>Age</th>
-                    <th>National ID</th>
-                    <th>Phone Number</th>
-                    <th>Health Status</th>
-                    <th>Options</th>
-                </tr>
-                </thead>
-                <tbody>
-                <% for (let {user} of patients) { %>
+            <div class="form col-lg-12 col-md-6 table-container">
+                <table class="table table-fixed">
+                    <thead>
                     <tr>
-                        <td data-label="Name"><%=user.firstName%> <%=user.lastName%></td>
+                        <th>Patient Name</th>
+                        <th>Age</th>
+                        <th>National ID</th>
+                        <th>Phone Number</th>
+                        <th>Health Status</th>
+                        <th>Options</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <% for (let {user} of patients) { %>
+                    <tr>
+                        <td data-label="Name"><a href="/profile/<%=user.nationalId%>"><%=user.firstName%> <%=user.lastName%></a></td>
                         <td data-label="Birthdate"><%=user.birthdate.toLocaleDateString()%></td>
                         <td data-label="National_ID"><%=user.nationalId%></td>
                         <td data-label="Phone-number"><%=user.phoneNumber%></td>
@@ -40,14 +42,27 @@
                             </a>
                         </td>
                     </tr>
-                <% } %>
-                </tbody>
-            </table>
+                    <% } %>
+                    </tbody>
+                </table>
+            </div>
         </div>
+
+    </section>
+
+</div>
+
+
+
+<footer id="footer">
+    <div class="sm">
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fas fa-envelope"></i></a>
+        <p class="footer-p">&COPY; Copyright 2021 Covid-19 Home Monitoring System</p>
     </div>
-
-</section>
-
+</footer>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 

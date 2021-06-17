@@ -25,12 +25,12 @@
             <tbody>
             <% for(let {_id, userId: user} of doctors) { %>
                 <tr id="<%= _id %>">
-                    <td data-label="Name"><%= user.firstName %> <%= user.lastName %></td>
+                    <td data-label="Name"><a href="/profile/<%=user.nationalId%>"><%= user.firstName %> <%= user.lastName %></a></td>
                     <td data-label="Age"><%= user.birthdate.toLocaleDateString() %></td>
                     <td data-label="National_ID"><%= user.nationalId %></td>
                     <td data-label="Phone-number"><%= user.phoneNumber %></td>
                     <td>
-                        <button class="delete-btn btn btn-lg btn-primary"
+                        <button class="deactivate-btn btn btn-lg btn-dark"
                                 onclick="deactivateHandler(this, '<%= user._id %>', 'doctor', '<%= _id %>')">Deactivate
                         </button>
                     </td>
@@ -55,12 +55,12 @@
             <tbody>
             <% for(let {_id, userId: user} of mentors) { %>
                 <tr id="<%= _id %>">
-                    <td data-label="Name"><%= user.firstName %> <%= user.lastName %></td>
+                    <td data-label="Name"><a href="/profile/<%=user.nationalId%>"><%= user.firstName %> <%= user.lastName %></a></td>
                     <td data-label="Age"><%= user.birthdate.toLocaleDateString() %></td>
                     <td data-label="National_ID"><%= user.nationalId %></td>
                     <td data-label="Phone-number"><%= user.phoneNumber %></td>
                     <td>
-                        <button class="delete-btn btn btn-lg btn-primary"
+                        <button class="delete-btn btn btn-lg btn-dark"
                                 onclick="deactivateHandler(this, '<%= user._id %>', 'mentor', '<%= _id %>')">Deactivate
                         </button>
                     </td>
@@ -90,7 +90,7 @@
             <tbody>
             <% for (let {_id, userId: user} of pendingDoctors) { %>
             <tr id="<%= _id %>">
-                <td data-label="Name"><%= user.firstName %> <%= user.lastName %></td>
+                <td data-label="Name"><a href="<%=user.nationalId%>"><%= user.firstName %> <%= user.lastName %></a></td>
                 <td data-label="Age"><%= user.birthdate.toLocaleDateString() %></td>
                 <td data-label="National_ID"><%= user.nationalId %></td>
                 <td data-label="Phone-number"><%= user.phoneNumber %></td>
@@ -98,6 +98,7 @@
                     <button class="accept-btn btn btn-lg btn-primary"
                             onclick="acceptOrRejectHandler('doctor', '<%= user._id %>', '<%= _id %>', 'accept')">Accept
                     </button>
+                    <br>
                     <button class="reject-btn btn btn-lg btn-dark"
                             onclick="acceptOrRejectHandler('doctor', '<%= user._id %>', '<%= _id %>', 'reject')">Reject
                     </button>
@@ -123,7 +124,7 @@
             <tbody>
             <% for (let {_id, userId: user} of pendingMentors) { %>
             <tr id="<%= _id %>">
-                <td data-label="Name"><%= user.firstName %> <%= user.lastName %></td>
+                <td data-label="Name"><a href="/profile/<%=user.nationalId%>"><%= user.firstName %> <%= user.lastName %></a></td>
                 <td data-label="Age"><%= user.birthdate.toLocaleDateString() %></td>
                 <td data-label="National_ID"><%= user.nationalId %></td>
                 <td data-label="Phone-number"><%= user.phoneNumber %></td>
@@ -131,6 +132,7 @@
                     <button class="accept-btn btn btn-lg btn-primary"
                             onclick="acceptOrRejectHandler('mentor', '<%= user._id %>', '<%= _id %>', 'accept')">Accept
                     </button>
+                    <br>
                     <button class="reject-btn btn btn-lg btn-dark"
                             onclick="acceptOrRejectHandler('mentor', '<%= user._id %>', '<%= _id %>', 'reject')">Reject
                     </button>
@@ -159,7 +161,7 @@
             <tbody>
             <% for (let {_id, userId: user} of inactiveDoctors) { %>
             <tr id="<%= _id %>">
-                <td data-label="Name"><%= user.firstName %> <%= user.lastName %></td>
+                <td data-label="Name"><a href="/profile/<%=user.nationalId%>"><%= user.firstName %> <%= user.lastName %></a></td>
                 <td data-label="Age"><%= user.birthdate.toLocaleDateString() %></td>
                 <td data-label="National_ID"><%= user.nationalId %></td>
                 <td data-label="Phone-number"><%= user.phoneNumber %></td>
@@ -189,7 +191,7 @@
             <tbody>
             <% for (let {_id, userId: user} of inactiveMentors) { %>
             <tr id="<%= _id %>">
-                <td data-label="Name"><%= user.firstName %> <%= user.lastName %></td>
+                <td data-label="Name"><a href="/profile/<%=user.nationalId%>"><%= user.firstName %> <%= user.lastName %></a></td>
                 <td data-label="Age"><%= user.birthdate.toLocaleDateString() %></td>
                 <td data-label="National_ID"><%= user.nationalId %></td>
                 <td data-label="Phone-number"><%= user.phoneNumber %></td>
