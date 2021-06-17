@@ -2,7 +2,6 @@ import {Socket} from 'socket.io';
 import ConversationService from "../models/conversation/ConversationService";
 import RoleService from "../models/roles/RoleService";
 import {RoleName} from "../models/user/UserModel";
-import IRole from "../models/roles/IRole";
 import UserService from "../models/user/UserService";
 
 const io = require('socket.io');
@@ -11,7 +10,7 @@ export interface INotificationMessage {
     title: string;
     body: string;
     type: string;
-    date: Date;
+    date?: Date;
     redirectUrl?: string;
 }
 
@@ -27,6 +26,7 @@ enum Event {
 class SocketIO {
     public static io: Socket;
     public static sockets: any = {};
+    public static socketsArray: any[] = [];
 
     public static initialize(server: any) {
         this.io = io(server);
@@ -38,6 +38,10 @@ class SocketIO {
         this.io.use((event, next) => {
             next();
         });
+    }
+
+    public static notifyAll(message: INotificationMessage): void {
+        this.socketsArray.forEach((socket: Socket) => socket.emit(Event.NOTIFICATION, message));
     }
 
     public static notifyUser(userId: string, message: INotificationMessage): void {
@@ -73,6 +77,7 @@ class SocketIO {
             if (socket.handshake.query?.userId) {
                 const userId = socket.handshake.query.userId;
                 this.sockets[userId] = socket;
+                this.socketsArray.push(this.sockets[userId]);
                 socket.on(Event.MESSAGE, (payload: any) => {
                     const message = {
                         title: `Message From ${payload.from.firstName} ${payload.from.lastName}`,

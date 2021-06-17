@@ -22,7 +22,8 @@ class HomeRoute implements IRoute {
     public readonly COORDINATOR_PAGE: string = '/coordinator';
     public readonly CONVERSATIONS_PAGE: string = '/conversations';
     public readonly SPECIFIC_CONVERSATION_PAGE: string = '/conversations/:conversationId';
-    public readonly MENTOR_LIST_PAGE: string = 'mentor-list';
+    public readonly MENTOR_LIST_PAGE: string = '/mentor-list';
+    public readonly CREATE_ADVICE_PAGE: string = '/advice';
     public readonly DEFAULT_PAGE_URL: string = '/**';
 
     @Inject(HomeController) private homeController: HomeController;
@@ -57,8 +58,7 @@ class HomeRoute implements IRoute {
         this.ROUTE.get(this.CONVERSATIONS_PAGE, this.homeController.conversationsPage);
         this.ROUTE.get(this.SPECIFIC_CONVERSATION_PAGE, this.homeController.conversationPage);
         this.ROUTE.get(this.MENTOR_LIST_PAGE, this.homeController.mentorListPage);
-
-        this.ROUTE.get('/advice', (req, res) => {
+        this.ROUTE.get(this.CREATE_ADVICE_PAGE, (req, res) => {
             res.render('advice');
         });
 

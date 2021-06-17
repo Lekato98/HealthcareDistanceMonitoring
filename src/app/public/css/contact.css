@@ -84,7 +84,8 @@ small, .small {
 .chat {
     list-style: none;
     margin: 0;
-    overflow-y: scroll;
+    padding: 25px;
+    overflow-y: overlay;
     height: 600px;
 }
 
@@ -200,4 +201,12 @@ img {
 a:hover, a:active, a:focus {
     text-decoration: none;
     outline: 0;
+}
+
+.left-img {
+    border-radius: 30% 30% 30% 0 !important;
+}
+
+.right-img {
+    border-radius: 30% 30% 0 30% !important;
 }

@@ -45,7 +45,7 @@
                     } of me.conversations) { %>
                         <li>
                             <a href="/conversations/<%= _id %>" class="clearfix">
-                                <img src="<%= from.avatar %>" alt="" class="img-circle">
+                                <img src="<%= from.avatar %>" alt="" class="left-img">
                                 <div class="friend-name">
                                     <strong><%= from.firstName %> <%= from.lastName %></strong>
                                 </div>
@@ -67,7 +67,7 @@
                                 <% if (from === conversation.users[0]._id ) { %>
                                     <li class="left clearfix">
                     	<span class="chat-img pull-left">
-                    		<img src="<%= conversation.users[0].avatar %>"
+                    		<img class="left-img" src="<%= conversation.users[0].avatar %>"
                                  alt="<%= conversation.users[0].firstName %>">
                     	</span>
                                         <div class="chat-body clearfix">
@@ -85,7 +85,7 @@
                                 <% }else{ %>
                                     <li class="right clearfix">
                     	<span class="chat-img pull-right">
-                    		<img src="<%= conversation.users[1].avatar %>" alt="<%= conversation.users[1].firstName %>">
+                    		<img class="right-img" src="<%= conversation.users[1].avatar %>" alt="<%= conversation.users[1].firstName %>">
                     	</span>
                                         <div class="chat-body clearfix">
                                             <div class="header">

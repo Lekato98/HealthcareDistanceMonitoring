@@ -44,6 +44,7 @@ class ConversationService {
             date: new Date(),
             from: userId,
         };
+        // @ts-ignore
         return ConversationModel.updateOne({_id: conversationId}, {$push: {messages: messageBody}});
     }
 

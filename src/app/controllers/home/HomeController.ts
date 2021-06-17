@@ -11,14 +11,16 @@ import ConversationService from "../../models/conversation/ConversationService";
 import {IDailyReport} from "../../models/reports/daily/DailyReportModel";
 import PatientModelUtils from "../../models/roles/patient/PatientModelUtils";
 import DailyReportUtils from "../../models/reports/daily/DailyReportUtils";
+import DoctorAdviceService from "../../models/doctor-advice/DoctorAdviceService";
 
 @Injectable
 class HomeController {
     public async homePage(req: Request, res: Response): Promise<void> {
         try {
-            res.render('home');
+            const doctorAdvices = await DoctorAdviceService.getAll();
+            res.render('home', {doctorAdvices});
         } catch (e) {
-            res.status(HttpStatusCode.SERVER_ERROR).send(e.message);
+            res.redirect('/500');
         }
     }
 

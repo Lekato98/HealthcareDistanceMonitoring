@@ -63,26 +63,9 @@
                     <h2 class="heavy">ADVICES YOU TO</h2>
                     <img class="testimonials-img" src="../images/jordan.png" alt="وزاره الصحه الاردنيه">
                     <h5 class="doctor_name">Doctor Name</h5>
-                    <p class='testimonial-para'>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad adipisci animi aperiam architecto dicta
-                        earum enim est harum illo inventore ipsa itaque iusto laboriosam laborum necessitatibus numquam
-                        officia pariatur porro possimus, quae quibusdam quidem vel! Accusamus delectus dolor excepturi,
-                        harum hic, modi officia optio placeat praesentium quam, soluta tempora veniam. Commodi incidunt
-                        libero officiis quos ratione sequi, temporibus. Aut consequuntur cupiditate impedit, ipsa
-                        reprehenderit unde! Error nisi omnis sed suscipit? A, adipisci aliquid aperiam at aut consequuntur
-                        corporis dicta dolorem doloremque earum eum ex exercitationem hic illum incidunt laudantium magni
-                        numquam, obcaecati porro quidem, repellendus similique sit velit veritatis voluptatem.
-                    </p>
-                    <p>Email: ABCD@XYZ.COM // Phone Number: +012 12 5677 6574</p>
-                </div>
-
-                <div class="carousel-item">
-                    <h2 class="light">OUR DOCTORS</h2>
-                    <h2 class="heavy">ADVICES YOU TO</h2>
-                    <img class="testimonials-img" src="../images/jordan.png" alt="وزاره الصحه الاردنيه">
-                    <h5 class="doctor_name">Doctor Name</h5>
                     <p class="testimonial-para">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad adipisci animi aperiam architecto dicta
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad adipisci animi aperiam architecto
+                        dicta
                         earum enim est harum illo inventore ipsa itaque iusto laboriosam laborum necessitatibus numquam
                         officia pariatur porro possimus, quae quibusdam quidem vel! Accusamus delectus dolor excepturi,
                         harum hic, modi officia optio placeat praesentium quam, soluta tempora veniam. Commodi incidunt
@@ -90,7 +73,20 @@
                     </p>
                     <p>Email: ABCD@XYZ.COM // Phone Number: +012 12 5677 6574</p>
                 </div>
-
+                <% for (const {text, user} of doctorAdvices) { %>
+                    <div class="carousel-item">
+                        <h2 class="light">OUR DOCTORS</h2>
+                        <h2 class="heavy">ADVICES YOU TO</h2>
+                        <img class="testimonials-img" src="<%= user.avatar %>" alt="<%= user.firstName %>">
+                        <h5 class="doctor_name">
+                            <%= user.firstName %>
+                            <%= user.lastName %></h5>
+                        <p class='testimonial-para'>
+                            <%= text %>
+                        </p>
+                        <p>Email: <%= user.email %> // Phone Number: <%= user.phoneNumber %></p>
+                    </div>
+                <% } %>
             </div>
 
             <a class="carousel-control-prev" href="#testimonial-caruosel" role="button" data-slide="prev">

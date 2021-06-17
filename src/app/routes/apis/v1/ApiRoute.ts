@@ -8,6 +8,7 @@ import RoleApiRoute from './roles/RoleApiRoute';
 import PatientApiRoute from  './roles/PatientApiRoute';
 import EmergencyApiRoute from './EmergencyApiRoute';
 import MentorApiRoute from './roles/MentorApiRoute';
+import DoctorAdviceApiRoute from "./DoctorAdviceApiRoute";
 
 class ApiRoute implements IRoute {
     public readonly ROUTE: Router = Router();
@@ -30,6 +31,7 @@ class ApiRoute implements IRoute {
         this.ROUTE.use(MentorApiRoute.ROUTE_PREFIX_URL, MentorApiRoute.ROUTE); // /mentor
         this.ROUTE.use(ConversationApiRoute.ROUTE_PREFIX_URL, ConversationApiRoute.ROUTE); // /mentor
         this.ROUTE.use(EmergencyApiRoute.ROUTE_PREFIX_URL, EmergencyApiRoute.ROUTE); // /emergency
+        this.ROUTE.use(DoctorAdviceApiRoute.ROUTE_PREFIX_URL, DoctorAdviceApiRoute.ROUTE); // /doctor-advice
     }
 }
 

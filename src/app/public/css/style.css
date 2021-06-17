@@ -114,9 +114,10 @@ body{
     margin-bottom: 3rem ;
 }
 
-.doctor_name{
+.doctor_name {
     color: #3D94F6;
-    font-size: 20pt;
+    padding: 10px;
+    font-size: 12pt;
 }
 
 .quotes{
@@ -152,4 +153,10 @@ body{
 
 .j-animate{
     margin: 10px;
+}
+
+.testimonials-img {
+    border-radius: 30% 30% 30% 0;
+    width: 150px;
+    height: 150px;
 }
