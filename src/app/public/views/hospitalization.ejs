@@ -29,7 +29,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <% for (let {reason, patient: {user}} of emergencyCases) { %>
+                    <% for (let {_id, reason, patient: {user}} of emergencyCases) { %>
                         <tr>
                             <td data-label="Name"><a href="/profile/<%=user.nationalId%>"><%= user.firstName %> <%= user.lastName %></a></td>
                             <td data-label="Birthdate"><%= user.birthdate.toLocaleDateString() %></td>
@@ -38,14 +38,14 @@
                             <td data-label="Health Status">Bad</td>
                             <td data-label="Reason"><%= reason %></td>
                             <td>
-                                <button class="btn btn-lg btn-dark" onclick="contact(this, '<%=user._id%>')">Contact</button>
-                                <button class="btn btn-lg btn-primary">Hospitalize</button>
+                                <button class="btn btn-lg btn-primary" onclick="contact(this, '<%=user._id%>')">Contact</button>
+                                <button class="btn btn-lg btn-primary" onclick="hospitalizeHandler('<%=_id%>')">Hospitalize</button>
+                                <button class="btn btn-lg btn-dark" onclick="ignoreHandler('<%=_id%>')">Ignore</button>
                             </td>
                         </tr>
                     <% } %>
                     </tbody>
                 </table>
-            </div>
         </div>
 
     </section>
