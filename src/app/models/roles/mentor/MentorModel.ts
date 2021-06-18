@@ -1,5 +1,5 @@
-import { SchemaOptions } from 'mongoose';
-import { arrayProp, getModelForClass, ModelOptions, Pre, Prop } from '@typegoose/typegoose';
+import {SchemaOptions} from 'mongoose';
+import {arrayProp, getModelForClass, ModelOptions, Pre, Prop} from '@typegoose/typegoose';
 import {
     ArrayPropOptions,
     BasePropOptions,
@@ -7,10 +7,10 @@ import {
     PropOptionsForString,
     Ref,
 } from '@typegoose/typegoose/lib/types';
-import { RoleName, User } from '../../user/UserModel';
-import { Patient } from '../patient/PatientModel';
+import {RoleName, User} from '../../user/UserModel';
+import {Patient} from '../patient/PatientModel';
 import MentorModelUtils from './MentorModelUtils';
-import IRole, { Status } from '../IRole';
+import IRole, {Status} from '../IRole';
 
 const mentorIdTypeOptions: PropOptionsForString = {
     type: String,
@@ -47,6 +47,13 @@ const statusTypeOptions: PropOptionsForString = {
     default: Status.PENDING,
 };
 
+const adviceTypeOptions: PropOptionsForString = {
+    type: String,
+    trim: true,
+    minlength: [3, 'Too short advice'],
+    maxlength: [200, 'Too long advice'],
+};
+
 const schemaOptions: SchemaOptions = {
     timestamps: true,
 };
@@ -66,6 +73,7 @@ class Mentor implements IRole {
     @Prop(userIdTypeOptions) public userId: string;
     @Prop(activeTypeOptions) public active: boolean;
     @Prop(statusTypeOptions) public status: string;
+    @Prop(adviceTypeOptions) public advice?: string;
 
     constructor(payload?: IRole) {
         if (payload) {
@@ -78,6 +86,7 @@ class Mentor implements IRole {
 interface IMentor extends IRole {
     _id: string;
     patients?: string[];
+    advice?: string;
 }
 
 const MentorModel = getModelForClass(Mentor);

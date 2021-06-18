@@ -11,6 +11,7 @@ class MentorApiRoute implements IRoute {
     public readonly ADD_PATIENT: string = '/add-patient';
     public readonly REMOVE_PATIENT: string = '/remove-patient';
     public readonly MY_PATIENTS: string = '/my-patients';
+    public readonly ADVICE: string = '/advice';
 
     @Inject(MentorController) public readonly mentorController: MentorController;
     @Inject(MentorMiddleware) public readonly mentorMiddleware: MentorMiddleware;
@@ -34,6 +35,7 @@ class MentorApiRoute implements IRoute {
         this.ROUTE.post(this.ADD_PATIENT, this.mentorController.addPatient);
         this.ROUTE.patch(this.REMOVE_PATIENT, this.mentorController.removePatient);
         this.ROUTE.get(this.MY_PATIENTS, this.mentorController.getMyPatients);
+        this.ROUTE.post(this.ADVICE, this.mentorController.updateAdvice);
     }
 
 }

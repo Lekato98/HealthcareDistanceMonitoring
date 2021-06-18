@@ -1,9 +1,10 @@
-import { DocumentType } from '@typegoose/typegoose';
-import MentorModel, { IMentor, Mentor } from './MentorModel';
-import { Status } from '../IRole';
-import { INACTIVE } from '../../../helpers/constants';
-import PatientModel, { IPatient, Patient } from '../patient/PatientModel';
+import {DocumentType} from '@typegoose/typegoose';
+import MentorModel, {IMentor, Mentor} from './MentorModel';
+import {Status} from '../IRole';
+import {INACTIVE} from '../../../helpers/constants';
+import PatientModel, {IPatient, Patient} from '../patient/PatientModel';
 import PatientService from '../patient/PatientService';
+import UserModel, {User} from "../../user/UserModel";
 
 class MentorService {
     public static readonly PATIENTS_LIMIT = 5;
@@ -51,6 +52,25 @@ class MentorService {
         const mentor = await MentorModel.findById(mentorId);
         const patients = mentor?.patients;
         return Promise.all(patients.map((patientId: any) => PatientService.findOneById(patientId)));
+    }
+
+    public static async getMentorByPatient(patientId: string): Promise<any> {
+        const matchStage = {$match: {patients: patientId}};
+        const lookupStage = {
+            $lookup: {
+                from: UserModel.collection.name,
+                localField: 'userId',
+                foreignField: '_id',
+                as: 'user',
+            }
+        };
+        const pipeline = [matchStage, lookupStage];
+
+        return MentorModel.aggregate(pipeline);
+    }
+
+    public static async updateAdvice(mentorId: string, advice: string): Promise<any> {
+        return MentorModel.updateOne({_id: mentorId}, {advice});
     }
 }
 

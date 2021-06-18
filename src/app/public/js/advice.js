@@ -18,9 +18,11 @@ async function adviceHandler(e) {
     };
 
     try {
-        const response = await fetch('/api/v1/doctor-advice/create', options);
+        const path = (roleName === 'doctor' ? '/api/v1/doctor-advice/create': '/api/v1/mentor/advice');
+        const response = await fetch(path, options);
         const payload = await response.json();
         if (payload.success) {
+            alert(payload.message);
             location.href = '/';
         } else {
             alert(payload.message);

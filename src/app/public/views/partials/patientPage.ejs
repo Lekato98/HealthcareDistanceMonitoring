@@ -6,10 +6,14 @@
                 <a href="#"><i class="icon fas fa-heartbeat fa-2x"></i></a>
             </div>
             <h4 >Health Status</h4>
+            <%if (new Date() > me.roles[0].expectedRecoveryDate) {%>
+            <h6 id="healthStatus" style="color: green">Recovered</h6>
+            <%} else {%>
             <h6 id="healthStatus"><%=me.roles[0].healthStatus%></h6>
             <h6 style="color: green;">Expected recovery
                 date <%= me.roles[0].expectedRecoveryDate.toLocaleDateString() %></h6>
-            <p>Your current health status occasionally updated by your designated doctor.</p>
+            <%}%>
+            <p><%=myMentor.advice%></p>
         </div>
 
         <div class="Features-item-r col-lg-3 col-md-6">

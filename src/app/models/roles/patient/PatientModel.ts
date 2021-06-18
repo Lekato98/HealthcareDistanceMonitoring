@@ -37,7 +37,7 @@ const healthStatusTypeOptions: PropOptionsForString = {
     type: String,
     required: true,
     trim: true,
-    enum: [HealthStatus.NO_STATUS, HealthStatus.IMMEDIATE_CARE, HealthStatus.BAD,
+    enum: [HealthStatus.NO_STATUS, HealthStatus.NEEDS_HOSPITALIZATION, HealthStatus.BAD,
         HealthStatus.GOOD, HealthStatus.VERY_GOOD, HealthStatus.EXCELLENT],
     default: HealthStatus.NO_STATUS
 };

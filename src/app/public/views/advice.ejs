@@ -10,7 +10,9 @@
 <%- include('./partials/notification.ejs') %>
 <%-include('./partials/navbar.ejs')%>
 
-
+<script>
+    const roleName = '<%=role%>';
+</script>
 
 <section id="emergency">
 
@@ -38,7 +40,7 @@
 
 </section>
 
-<script src="../js/doctorAdvice.js"></script>
+<script src="../js/advice.js"></script>
 <script src="../js/socket.js"></script>
 </body>
 </html>

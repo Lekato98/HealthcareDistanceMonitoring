@@ -13,7 +13,7 @@ class DoctorAdviceController {
             const {text} = req.body;
             const payload: IDoctorAdvice = {text, userId};
             const doctorAdvice = await DoctorAdviceService.createAdvice(payload);
-            const body = {success: SUCCESS, doctorAdvice};
+            const body = {success: SUCCESS, doctorAdvice, message: 'Advice posted successfully'};
             res.status(HttpStatusCode.CREATED_SUCCESSFULLY).json(body);
         } catch (e) {
             const body = {success: UNSUCCESSFUL, message: e.message};

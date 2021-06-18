@@ -57,17 +57,13 @@
                 <div class="carousel-item active">
                     <h2 class="light">OUR DOCTORS</h2>
                     <h2 class="heavy">ADVICES YOU TO</h2>
-                    <img class="testimonials-img" src="../images/jordan.png" alt="وزاره الصحه الاردنيه">
-                    <h5 class="doctor_name">Doctor Name</h5>
+                    <img class="testimonials-img"
+                         src="https://res.cloudinary.com/ddk75efat/image/upload/v1623423376/xm0gwif35favgrhjdjsv.png"
+                         alt="وزاره الصحه الاردنيه">
+                    <h5 class="doctor_name">Covid Doctor</h5>
                     <p class="testimonial-para">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad adipisci animi aperiam architecto
-                        dicta
-                        earum enim est harum illo inventore ipsa itaque iusto laboriosam laborum necessitatibus numquam
-                        officia pariatur porro possimus, quae quibusdam quidem vel! Accusamus delectus dolor excepturi,
-                        harum hic, modi officia optio placeat praesentium quam, soluta tempora veniam. Commodi incidunt
-                        liberoem.
+                        Swipe to go through all doctor's advises
                     </p>
-                    <p>Email: ABCD@XYZ.COM // Phone Number: +012 12 5677 6574</p>
                 </div>
                 <% for (const {text, user} of doctorAdvices) { %>
                     <div class="carousel-item">
@@ -75,12 +71,14 @@
                         <h2 class="heavy">ADVICES YOU TO</h2>
                         <img class="testimonials-img" src="<%= user.avatar %>" alt="<%= user.firstName %>">
                         <h5 class="doctor_name">
-                            <%= user.firstName %>
-                            <%= user.lastName %></h5>
+                            <a href="/profile/<%=user.nationalId%>">
+                                <%= user.firstName %>
+                                <%= user.lastName %>
+                            </a>
+                        </h5>
                         <p class='testimonial-para'>
                             <%= text %>
                         </p>
-                        <p>Email: <%= user.email %> // Phone Number: <%= user.phoneNumber %></p>
                     </div>
                 <% } %>
             </div>

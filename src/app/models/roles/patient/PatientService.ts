@@ -6,7 +6,6 @@ import DateUtils from '../../../utils/DateUtils';
 import {QueryUpdateOptions} from 'mongoose';
 import MentorModel from '../mentor/MentorModel';
 import UserModel from '../../user/UserModel';
-import UserService from '../../user/UserService';
 import DailyReportService from "../../reports/daily/DailyReportService";
 import {IDailyReport} from "../../reports/daily/DailyReportModel";
 import PatientModelUtils from "./PatientModelUtils";

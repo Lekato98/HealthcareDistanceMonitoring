@@ -12,14 +12,18 @@ import {IDailyReport} from "../../models/reports/daily/DailyReportModel";
 import PatientModelUtils from "../../models/roles/patient/PatientModelUtils";
 import DailyReportUtils from "../../models/reports/daily/DailyReportUtils";
 import DoctorAdviceService from "../../models/doctor-advice/DoctorAdviceService";
+import {Mentor} from "../../models/roles/mentor/MentorModel";
 
 @Injectable
 class HomeController {
     public async homePage(req: Request, res: Response): Promise<void> {
         try {
+            const patientId = req.app.locals.jwt.roleId;
             const doctorAdvices = await DoctorAdviceService.getAll();
-            res.render('home', {doctorAdvices});
+            const [myMentor] = patientId && await MentorService.getMentorByPatient(patientId);
+            res.render('home', {doctorAdvices, myMentor});
         } catch (e) {
+            console.log(e)
             res.redirect('/500');
         }
     }
@@ -76,9 +80,19 @@ class HomeController {
 
     public async emergencyCasesPage(req: Request, res: Response): Promise<void> {
         try {
-            const emergencyCases = await EmergencyService.getAll();
+            const {roleId, roleName} = req.app.locals.jwt;
+            let emergencyCases = await EmergencyService.getAll();
+
+            if (roleName === RoleName.MENTOR) {
+                const patients = await MentorService.getMyPatients(roleId);
+                emergencyCases = emergencyCases.filter(({patient}: any) =>
+                    patients.find(({_id}: any) => patient._id === _id)
+                );
+            }
+
             res.render('hospitalization.ejs', {emergencyCases});
         } catch (e) {
+            console.log(e);
             res.redirect('/500');
         }
     }
