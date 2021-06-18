@@ -1,11 +1,10 @@
-import { SchemaOptions } from 'mongoose';
-import { BasePropOptions, IModelOptions, PropOptionsForString } from '@typegoose/typegoose/lib/types';
-import { getModelForClass, ModelOptions, Pre, Prop } from '@typegoose/typegoose';
-import { RoleName, User } from '../../user/UserModel';
-import PatientModelUtils from './PatientModelUtils';
-import IRole, { Status } from '../IRole';
+import {SchemaOptions} from 'mongoose';
+import {BasePropOptions, IModelOptions, PropOptionsForString} from '@typegoose/typegoose/lib/types';
+import {getModelForClass, ModelOptions, Pre, Prop} from '@typegoose/typegoose';
+import {RoleName, User} from '../../user/UserModel';
+import PatientModelUtils, {HealthStatus} from './PatientModelUtils';
+import IRole, {Status} from '../IRole';
 import DateUtils from '../../../utils/DateUtils';
-import { Monitor } from '../monitor/MonitorModel';
 
 const patientIdTypeOptions: PropOptionsForString = {
     type: String,
@@ -30,9 +29,17 @@ const statusTypeOptions: PropOptionsForString = {
     type: String,
     required: true,
     trim: true,
-    lowercase: true,
     enum: [Status.ACCEPTED, Status.PENDING, Status.REJECTED],
     default: Status.ACCEPTED,
+};
+
+const healthStatusTypeOptions: PropOptionsForString = {
+    type: String,
+    required: true,
+    trim: true,
+    enum: [HealthStatus.NO_STATUS, HealthStatus.NEEDS_HOSPITALIZATION, HealthStatus.BAD,
+        HealthStatus.GOOD, HealthStatus.VERY_GOOD, HealthStatus.EXCELLENT],
+    default: HealthStatus.NO_STATUS
 };
 
 const expectedRecoveryDateTypeOptions: BasePropOptions = {
@@ -63,6 +70,7 @@ export class Patient implements IRole {
     @Prop(userIdTypeOptions) public userId: string;
     @Prop(activeTypeOptions) public active: boolean;
     @Prop(statusTypeOptions) public status: string;
+    @Prop(healthStatusTypeOptions) public healthStatus: string;
     @Prop(expectedRecoveryDateTypeOptions) public expectedRecoveryDate: Date;
     @Prop(nextDailyReportDateTypeOptions) public nextDailyReportDate: Date;
 
@@ -79,6 +87,9 @@ export class Patient implements IRole {
 
 export interface IPatient extends IRole {
     _id: string;
+    healthStatus: string;
+    expectedRecoveryDate: Date;
+    nextDailyReportDate: Date;
 }
 
 const PatientModel = getModelForClass(Patient);

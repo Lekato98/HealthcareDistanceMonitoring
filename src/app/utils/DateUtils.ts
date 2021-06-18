@@ -5,14 +5,19 @@ class DateUtils {
     public static readonly DEFAULT_MS = 0;
 
     public static getDayReportTimeAfterNDays(nDays: number) {
-        const date = new Date();
-        date.setDate(new Date().getDate() + nDays);
+        const currentDate = new Date();
+        const date = currentDate;
+        date.setDate(currentDate.getDate() + nDays);
         date.setHours(
             DateUtils.DEFAULT_HOURS,
             DateUtils.DEFAULT_MINUTES,
             DateUtils.DEFAULT_SECONDS,
             DateUtils.DEFAULT_MS,
         );
+
+        if (date <= currentDate) {
+            date.setDate(currentDate.getDate() + 1);
+        }
 
         return date;
     }

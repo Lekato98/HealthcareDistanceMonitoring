@@ -4,6 +4,7 @@ const enum CountryAbbreviation {
 
 class PhoneUtils {
     public static readonly phone = require('phone');
+    public static readonly jordanNumberRegex = /^(009627|9627|\+9627|07)(7|8|9)([0-9]{7})$/;
     public static readonly SUPPORTED_COUNTRY: CountryAbbreviation[] = [
         CountryAbbreviation.JOR,
     ];
@@ -14,7 +15,11 @@ class PhoneUtils {
 
     public static formatPhoneNumber(phoneNumber: string): string {
         const [formattedPhoneNumber] = PhoneUtils.phone(phoneNumber);
-        return formattedPhoneNumber;
+        return formattedPhoneNumber || phoneNumber;
+    }
+
+    public static isValidJordanNumber(phoneNumber: string): boolean {
+        return !!phoneNumber.match(PhoneUtils.jordanNumberRegex);
     }
 }
 

@@ -4,10 +4,20 @@ body {
     font-family: 'Montserrat', sans-serif;
 }
 
-.navbar-brand {
-    padding-left: 15%;
+input[type='file']{
+    opacity: 0;
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+    font-size: 0;
+    position: absolute;
 }
-/*body*/
+
+.profile-image {
+    border-radius: 30% 30% 30% 0;
+}
+
+    /*body*/
 .container {
     background: aliceblue;
 }
@@ -16,21 +26,27 @@ body {
     font-size: 20px;
 }
 
+.cap {
+    text-transform: capitalize;
+}
+
 .emp-profile {
     padding: 3%;
     margin-top: 7%;
     margin-bottom: 3%;
-    border-radius: 0.5rem;
-    background: aliceblue;
+    border-radius: 1.5rem;
+    color: white;
+    background-color: #7EA8ED;
 }
 
 .profile-img {
+    position: relative;
     text-align: center;
 }
 
 .profile-img img {
-    width: 200px;
-    height: 200px;
+    width: 250px;
+    height: 250px;
     /*border-radius: 100%;*/
 }
 
@@ -46,10 +62,19 @@ body {
 }
 
 .profile-img .file input {
+    width: 50px;
     position: absolute;
+    left: 0px;
+    bottom: 3px;
     opacity: 0;
-    right: 0;
-    top: 0;
+    height: 35px;
+}
+
+.file {
+    width: 50px !important;
+    border-radius: 20% !important;
+    height: 40px !important;
+    left: -75px !important;
 }
 
 .profile-head h5 {
@@ -63,11 +88,13 @@ body {
 .profile-edit-btn {
     border: none;
     border-radius: 1.5rem;
-    width: 70%;
-    padding: 2%;
     font-weight: 600;
     color: #6c757d;
     cursor: pointer;
+    padding: 10px 25px;
+    width: 150px;
+    background-color: #0062cc;
+    color: #fff;
 }
 
 .proile-rating {
@@ -125,5 +152,5 @@ body {
 
 .profile-tab p {
     font-weight: 600;
-    color: #0062cc;
+    color: #efefef;
 }

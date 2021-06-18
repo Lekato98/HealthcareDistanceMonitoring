@@ -1,252 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home distance monitoring</title>
-
-    <link rel="icon" href="../images/favicon.ico">
-    <!--google fonts-->
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;900&display=swap" rel="stylesheet">
-
-    <!--fontAwesome-->
-    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
-          integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
-
-    <!--CSS linking-->
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
-          integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
-
-    <!--Bootstrap Linking-->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-            crossorigin="anonymous"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
-            crossorigin="anonymous"></script>
-
+    <%- include('./partials/head.ejs') %>
+    <script src="../js/contact.js"></script>
+    <title>C19HDM | Patients</title>
     <link rel="stylesheet" href="../css/allPatients.css">
-    <link rel="stylesheet" href="../css/nav.css">
-
-
+    <link rel="stylesheet" href="../css/footer.css">
 </head>
 <body>
-<section id="title">
+<%- include('./partials/navbar.ejs') %>
+<%- include('./partials/notification.ejs') %>
 
-    <%-include('./partials/navbar.ejs')%>
-</section>
+<div class="main">
+    <section id="patients-list">
+        <input class="search-input" type="text" placeholder="Patient National ID">
+        <button class="btn btn-lg btn-primary search-btn">Search by National ID</button>
 
-<!--more-->
+        <div class="row">
+            <div class="col-lg-12 col-md-6 table-container main">
+                <table class="table table-fixed">
+                    <caption style="caption-side: top">All patients</caption>
+                    <thead>
+                    <tr>
+                        <th>Patient Name</th>
+                        <th>Age</th>
+                        <th>National ID</th>
+                        <th>Phone Number</th>
+                        <th>Health Status</th>
+                        <th>Options</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <% for (let {_id, user, isMine} of allPatients) { %>
+                        <tr>
+                            <td data-label="Name"><a href="/profile/<%=user.nationalId%>"><%= user.firstName %> <%= user.lastName %></a></td>
+                            <td data-label="Age"><%= user.birthdate.toLocaleDateString() %></td>
+                            <td data-label="National_ID"><%= user.nationalId %></td>
+                            <td data-label="Phone-number"><%= user.phoneNumber %></td>
+                            <td data-label="Health Status">Bad</td>
+                            <td>
+                                <button class="btn btn-lg btn-dark" value="<%= _id %>"
+                                        onclick="contact(this, '<%= user._id %>')">Contact
+                                </button>
+                                <% if (role === 'mentor') { %>
+                                    <% if (!isMine) { %>
+                                        <button class="btn btn-lg btn-primary add-patient" value="<%= _id %>">
+                                            Add Patient
+                                        </button>
+                                    <% } else { %>
+                                        <button class="btn btn-lg btn-primary remove-patient" value="<%= _id %>">
+                                            Remove Patient
+                                        </button>
+                                    <% } %>
+                                <% } %>
+                            </td>
+                        </tr>
+                    <% } %>
 
-<section id="patients-list">
-    <input type="text">
-    <button>Search by National ID</button>
+                    </tbody>
 
-    <div class="row">
-
-        <div class="col-lg-12 col-md-6 table-container">
-            <table class="table table-fixed">
-                <caption style="caption-side: top" >All patients</caption>
-                <thead>
-                <tr>
-                    <th>Patient Name</th>
-                    <th>Age</th>
-                    <th>National ID</th>
-                    <th>Phone Number</th>
-                    <th>Health Status</th>
-                    <th></th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td data-label="Name">Hamza</td>
-                    <td data-label="Age">21</td>
-                    <td data-label="National_ID">199916618</td>
-                    <td data-label="Phone-number">0776572329</td>
-                    <td  data-label="Health Status">Bad</td>
-                    <td>
-                        <a href=''><button>Contact</button></a>
-                        <a href=''><button>Add Patient</button></a>
-                    </td>
-                </tr>
-                <tr>
-                    <td data-label="Name">Hamza</td>
-                    <td data-label="Age">21</td>
-                    <td data-label="National_ID">199916618</td>
-                    <td data-label="Phone-number">0776572329</td>
-                    <td  data-label="Health Status">Bad</td>
-                    <td>
-                        <a href=''><button>Contact</button></a>
-                        <a href=''><button>Add Patient</button></a>
-                    </td>
-                </tr>
-                <tr>
-                    <td data-label="Name">Hamza</td>
-                    <td data-label="Age">21</td>
-                    <td data-label="National_ID">199916618</td>
-                    <td data-label="Phone-number">0776572329</td>
-                    <td  data-label="Health Status">Bad</td>
-                    <td>
-                        <a href=''><button>Contact</button></a>
-                        <a href=''><button>Add Patient</button></a>
-                    </td>
-                </tr>
-                <tr>
-                    <td data-label="Name">Hamza</td>
-                    <td data-label="Age">21</td>
-                    <td data-label="National_ID">199916618</td>
-                    <td data-label="Phone-number">0776572329</td>
-                    <td  data-label="Health Status">Bad</td>
-                    <td>
-                        <a href=''><button>Contact</button></a>
-                        <a href=''><button>Add Patient</button></a>
-                    </td>
-                </tr>
-                <tr>
-                    <td data-label="Name">Hamza</td>
-                    <td data-label="Age">21</td>
-                    <td data-label="National_ID">199916618</td>
-                    <td data-label="Phone-number">0776572329</td>
-                    <td  data-label="Health Status">Bad</td>
-                    <td>
-                        <a href=''><button>Contact</button></a>
-                        <a href=''><button>Add Patient</button></a>
-                    </td>
-                </tr>
-                <tr>
-                    <td data-label="Name">Hamza</td>
-                    <td data-label="Age">21</td>
-                    <td data-label="National_ID">199916618</td>
-                    <td data-label="Phone-number">0776572329</td>
-                    <td  data-label="Health Status">Bad</td>
-                    <td>
-                        <a href=''><button>Contact</button></a>
-                        <a href=''><button>Add Patient</button></a>
-                    </td>
-                </tr>
-                <tr>
-                    <td data-label="Name">Hamza</td>
-                    <td data-label="Age">21</td>
-                    <td data-label="National_ID">199916618</td>
-                    <td data-label="Phone-number">0776572329</td>
-                    <td  data-label="Health Status">Bad</td>
-                    <td>
-                        <a href=''><button>Contact</button></a>
-                        <a href=''><button>Add Patient</button></a>
-                    </td>
-                </tr>
-                <tr>
-                    <td data-label="Name">Hamza</td>
-                    <td data-label="Age">21</td>
-                    <td data-label="National_ID">199916618</td>
-                    <td data-label="Phone-number">0776572329</td>
-                    <td  data-label="Health Status">Bad</td>
-                    <td>
-                        <a href=''><button>Contact</button></a>
-                        <a href=''><button>Add Patient</button></a>
-                    </td>
-                </tr>
-                <tr>
-                    <td data-label="Name">Hamza</td>
-                    <td data-label="Age">21</td>
-                    <td data-label="National_ID">199916618</td>
-                    <td data-label="Phone-number">0776572329</td>
-                    <td  data-label="Health Status">Bad</td>
-                    <td>
-                        <a href=''><button>Contact</button></a>
-                        <a href=''><button>Add Patient</button></a>
-                    </td>
-                </tr>
-                <tr>
-                    <td data-label="Name">Hamza</td>
-                    <td data-label="Age">21</td>
-                    <td data-label="National_ID">199916618</td>
-                    <td data-label="Phone-number">0776572329</td>
-                    <td  data-label="Health Status">Bad</td>
-                    <td>
-                        <a href=''><button>Contact</button></a>
-                        <a href=''><button>Add Patient</button></a>
-                    </td>
-                </tr>
-                <tr>
-                    <td data-label="Name">Hamza</td>
-                    <td data-label="Age">21</td>
-                    <td data-label="National_ID">199916618</td>
-                    <td data-label="Phone-number">0776572329</td>
-                    <td  data-label="Health Status">Bad</td>
-                    <td>
-                        <a href=''><button>Contact</button></a>
-                        <a href=''><button>Add Patient</button></a>
-                    </td>
-                </tr>
-                <tr>
-                    <td data-label="Name">Hamza</td>
-                    <td data-label="Age">21</td>
-                    <td data-label="National_ID">199916618</td>
-                    <td data-label="Phone-number">0776572329</td>
-                    <td  data-label="Health Status">Bad</td>
-                    <td>
-                        <a href=''><button>Contact</button></a>
-                        <a href=''><button>Add Patient</button></a>
-                    </td>
-                </tr>
-                <tr>
-                    <td data-label="Name">Hamza</td>
-                    <td data-label="Age">21</td>
-                    <td data-label="National_ID">199916618</td>
-                    <td data-label="Phone-number">0776572329</td>
-                    <td  data-label="Health Status">Bad</td>
-                    <td>
-                        <a href=''><button>Contact</button></a>
-                        <a href=''><button>Add Patient</button></a>
-                    </td>
-                </tr>
-                <tr>
-                    <td data-label="Name">Hamza</td>
-                    <td data-label="Age">21</td>
-                    <td data-label="National_ID">199916618</td>
-                    <td data-label="Phone-number">0776572329</td>
-                    <td  data-label="Health Status">Bad</td>
-                    <td>
-                        <a href=''><button>Contact</button></a>
-                        <a href=''><button>Add Patient</button></a>
-                    </td>
-                </tr>
-                <tr>
-                    <td data-label="Name">Hamza</td>
-                    <td data-label="Age">21</td>
-                    <td data-label="National_ID">199916618</td>
-                    <td data-label="Phone-number">0776572329</td>
-                    <td  data-label="Health Status">Bad</td>
-                    <td>
-                        <a href=''><button>Contact</button></a>
-                        <a href=''><button>Add Patient</button></a>
-                    </td>
-                </tr>
-                <tr>
-                    <td data-label="Name">Hamza</td>
-                    <td data-label="Age">21</td>
-                    <td data-label="National_ID">199916618</td>
-                    <td data-label="Phone-number">0776572329</td>
-                    <td  data-label="Health Status">Bad</td>
-                    <td>
-                        <a href=''><button>Contact</button></a>
-                        <a href=''><button>Add Patient</button></a>
-                    </td>
-                </tr>
-
-                </tbody>
-
-            </table>
+                </table>
+            </div>
         </div>
-    </div>
 
-</section>
-
+    </section>
+</div>
 
 
 <!-- Footer -->
@@ -258,11 +76,11 @@
         <a href="#"><i class="fab fa-facebook-f"></i></a>
         <a href="#"><i class="fab fa-instagram"></i></a>
         <a href="#"><i class="fas fa-envelope"></i></a>
-        <p class="footer-p">&COPY; Copyright 2021 COVID-19 HEALTHCARE DISTANCE SYSTEM</p>
+        <p class="footer-p">&COPY; Copyright 2021 Covid-19 Home Monitoring System</p>
     </div>
 </footer>
 
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="../js/allPatients.js"></script>
 </body>
 </html>

@@ -4,9 +4,6 @@ body{
     font-family: 'Montserrat', sans-serif;
 }
 
-.navbar-brand{
-    margin-left:14% ;
-}
 
 /*home page content */
 
@@ -99,7 +96,10 @@ body{
     text-align: center;
     background-color:#D7ECFF;
     width: 100%;
-    height: 30rem;
+    height: 45rem;
+}
+.testimonial-para{
+    font-size: 16pt;
 }
 
 .carousel-item{
@@ -114,8 +114,10 @@ body{
     margin-bottom: 3rem ;
 }
 
-.patient_name{
+.doctor_name {
     color: #3D94F6;
+    padding: 10px;
+    font-size: 12pt;
 }
 
 .quotes{
@@ -128,80 +130,6 @@ body{
 #cta {
     margin-top: 2%;
     text-align: center;
-}
-
-/* footer */
-
-#footer{
-    margin:0;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.sm a{
-    display: inline-block;
-    font-size: 40px;
-    width: 100px;
-    height: 100px;
-    line-height: 100px;
-    text-align: center;
-    color: #426c88;
-    margin: 0 16px;
-    transition: .4s linear;
-    position: relative;
-}
-
-.sm a::before , .sm a::after{
-    content: '';
-    position: absolute;
-    box-sizing: border-box;
-    width: 100%;
-    height: 100%;
-    left: 0;
-    top: 0;
-    transition: .4s linear;
-}
-
-.sm a:hover{
-    transform: scale(.8);
-}
-
-#footer .sm a:hover::before{
-    border-left: 4px solid;
-    border-right: 4px solid;
-    transform:skewX(20deg) ;
-}
-
-#footer .sm a:hover::after{
-    border-top: 4px solid;
-    border-bottom: 4px solid;
-    transform:skewy(-20deg) ;
-}
-
-
-.serv-btn {
-    -webkit-border-radius: 20px;
-    -moz-border-radius: 20px;
-    border-radius: 20px;
-    color: #FFFFFF;
-    font-family: Brush Script MT;
-    font-size: 40px;
-    font-weight: 100;
-    padding: 40px;
-    background-color: #3D94F6;
-    border: solid #337FED 1px;
-    text-decoration: none;
-    display: inline-block;
-    cursor: pointer;
-    text-align: center;
-}
-
-.serv-btn:hover {
-    border: solid #337FED 1px;
-    background: #1E62D0;
-    text-decoration: none;
 }
 
 @media(max-width:1240px){
@@ -227,13 +155,8 @@ body{
     margin: 10px;
 }
 
-
-
-
-/*Questionnaire Page*/
-
-
-
-.questionnaire-body{
-    background-color: #b18821;
+.testimonials-img {
+    border-radius: 30% 30% 30% 0;
+    width: 150px;
+    height: 150px;
 }

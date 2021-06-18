@@ -1,12 +1,12 @@
-import { HttpStatusCode } from '../../utils/HttpUtils';
-import { Request, Response } from 'express';
+import {HttpStatusCode} from '../../utils/HttpUtils';
+import {Request, Response} from 'express';
 import RoleService from '../../models/roles/RoleService';
-import { Injectable } from 'dependency-injection-v1';
+import {Injectable} from 'dependency-injection-v1';
 import IRole from '../../models/roles/IRole';
-import { IJWTPayload } from '../../utils/JWTUtils';
+import {IJWTPayload} from '../../utils/JWTUtils';
 import AuthenticationUtils from '../../utils/AuthenticationUtils';
-import { RoleName, roleType } from '../../models/user/UserModel';
-import { SUCCESS, UNSUCCESSFUL } from '../../helpers/constants';
+import {RoleName, roleType} from '../../models/user/UserModel';
+import {SUCCESS, UNSUCCESSFUL} from '../../helpers/constants';
 
 @Injectable
 class RoleController {
@@ -26,11 +26,17 @@ class RoleController {
 
     public async deleteOneRole(req: Request, res: Response): Promise<void> {
         try {
-            const {roleName} = req.params;
-            const userId = req.app.locals.jwt._id;
-            const role = await RoleService.deleteOneRole(roleName, userId);
-            const body = {success: SUCCESS, role};
-            res.json(body);
+            const {roleName, userId} = req.params;
+            const {isAdmin = false} = req.app.locals.jwt;
+
+            if (!isAdmin && userId !== req.app.locals.jwt._id) {
+                const body = {success: UNSUCCESSFUL, message: 'Trying to delete another user role'};
+                res.status(HttpStatusCode.FORBIDDEN).json(body);
+            } else {
+                const role = await RoleService.deactivateOneRole(roleName, userId);
+                const body = {success: SUCCESS, role};
+                res.json(body);
+            }
         } catch (e) {
             const body = {success: UNSUCCESSFUL, message: e.message};
             res.status(HttpStatusCode.SERVER_ERROR).json(body);
@@ -39,10 +45,17 @@ class RoleController {
 
     public async deleteAllRoles(req: Request, res: Response): Promise<void> {
         try {
-            const userId = req.app.locals.jwt._id;
-            const roles = await RoleService.deleteAllRoles(userId);
-            const body = {success: SUCCESS, roles};
-            res.json(body);
+            const {userId} = req.params;
+            const {isAdmin = false} = req.app.locals;
+
+            if (!isAdmin && userId !== req.app.locals.jwt._id) {
+                const body = {success: UNSUCCESSFUL, message: 'Trying to delete another user role'};
+                res.status(HttpStatusCode.FORBIDDEN).json(body);
+            } else {
+                const roles = await RoleService.deleteAllRoles(userId);
+                const body = {success: SUCCESS, roles};
+                res.json(body);
+            }
         } catch (e) {
             const body = {success: UNSUCCESSFUL, message: e.message};
             res.status(HttpStatusCode.SERVER_ERROR).json(body);
@@ -136,6 +149,11 @@ class RoleController {
     public async switchRole(req: Request, res: Response): Promise<void> {
         try {
             const roleName: roleType = req.body.roleName;
+
+            if (roleName === RoleName.NO_ROLE) {
+                return res.redirect('/api/v1/role/quit')
+            }
+
             const oldJWTPayload: IJWTPayload = req.app.locals.jwt;
             const userRole = await RoleService.getUserRole(roleName, oldJWTPayload._id);
 
@@ -152,6 +170,20 @@ class RoleController {
                 };
                 res.status(HttpStatusCode.NOT_FOUND).json(body);
             }
+        } catch (e) {
+            const body = {success: UNSUCCESSFUL, message: e.message};
+            res.status(HttpStatusCode.SERVER_ERROR).json(body);
+        }
+    }
+
+    public async quitRoles(req: Request, res: Response): Promise<void> {
+        try {
+            const roleName: roleType = req.body.roleName;
+            const oldJWTPayload: IJWTPayload = req.app.locals.jwt;
+            const newJWTPayload: IJWTPayload = {...oldJWTPayload, roleName: roleName};
+            AuthenticationUtils.setAuthCookies(res, newJWTPayload);
+            const body = {success: SUCCESS, role: RoleName.NO_ROLE};
+            res.json(body);
         } catch (e) {
             const body = {success: UNSUCCESSFUL, message: e.message};
             res.status(HttpStatusCode.SERVER_ERROR).json(body);

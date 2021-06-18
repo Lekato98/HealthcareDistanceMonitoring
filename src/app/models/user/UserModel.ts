@@ -1,12 +1,13 @@
-import { SchemaOptions } from 'mongoose';
-import { ArrayPropOptions, BasePropOptions, IModelOptions, PropOptionsForString } from '@typegoose/typegoose/lib/types';
-import { getModelForClass, Index, ModelOptions, mongoose, Prop, Severity } from '@typegoose/typegoose';
+import {SchemaOptions} from 'mongoose';
+import {ArrayPropOptions, BasePropOptions, IModelOptions, PropOptionsForString} from '@typegoose/typegoose/lib/types';
+import {arrayProp, getModelForClass, Index, ModelOptions, Prop, Severity, mongoose} from '@typegoose/typegoose';
 import UserValidator from './UserValidator';
-import { UNIQUE } from '../../helpers/constants';
+import {UNIQUE} from '../../helpers/constants';
+import PhoneUtils from '../../utils/PhoneUtils';
 
-export const enum RoleName {
+export enum RoleName {
     PATIENT = 'patient',
-    MONITOR = 'monitor',
+    MENTOR = 'mentor',
     DOCTOR = 'doctor',
     NO_ROLE = 'no-role',
 }
@@ -37,16 +38,16 @@ const firstNameTypeOptions: PropOptionsForString = {
     type: String,
     required: true,
     trim: true,
-    maxlength: [50, 'Too large First Name'],
-    minlength: [1, 'Too short First Name'],
+    maxlength: [20, 'Too large First Name'],
+    minlength: [3, 'Too short First Name'],
 };
 
 const lastNameTypeOptions: PropOptionsForString = {
     type: String,
     required: true,
     trim: true,
-    maxlength: [50, 'Too large Last Name'],
-    minlength: [1, 'Too short Last Name'],
+    maxlength: [20, 'Too large Last Name'],
+    minlength: [3, 'Too short Last Name'],
 };
 
 const emailTypeOptions: PropOptionsForString = {
@@ -65,6 +66,13 @@ const genderTypeOptions: PropOptionsForString = {
     enum: [Gender.MALE, Gender.FEMALE],
 };
 
+const avatarTypeOptions: PropOptionsForString = {
+    type: String,
+    required: true,
+    lowercase: true,
+    trim: true,
+};
+
 const birthdateTypeOptions: BasePropOptions = {
     type: Date,
     required: true,
@@ -81,7 +89,7 @@ const phoneNumberTypeOptions: PropOptionsForString = {
     required: true,
     trim: true,
     validate: {
-        validator: UserValidator.phoneNumberValidator,
+        validator: PhoneUtils.isValidJordanNumber,
         message: 'Invalid phone number',
     },
 };
@@ -94,12 +102,14 @@ const passwordTypeOptions: PropOptionsForString = {
     minlength: [6, 'Too short Password'],
 };
 
-const rolesTypeOptions: ArrayPropOptions = {
+const notificationsTypeOptions: ArrayPropOptions = {
+    type: [mongoose.Schema.Types.Mixed],
+    default: [],
+};
+
+const securityTypeOptions: BasePropOptions = {
     type: mongoose.Schema.Types.Mixed,
-    validate: {
-        validator: UserValidator.rolesValidator,
-        message: 'Unknown role',
-    },
+    required: true
 };
 
 const schemaOptions: SchemaOptions = {
@@ -125,13 +135,14 @@ export class User {
     @Prop(firstNameTypeOptions) public firstName!: string;
     @Prop(lastNameTypeOptions) public lastName!: string;
     @Prop(genderTypeOptions) public gender!: string;
+    @Prop(avatarTypeOptions) public avatar!: string;
     @Prop(birthdateTypeOptions) public birthdate!: Date;
     @Prop(homeAddressTypeOptions) public homeAddress!: string;
     @Prop(phoneNumberTypeOptions) public phoneNumber!: string;
-    @Prop(rolesTypeOptions) public roles?: string[];
+    @Prop(securityTypeOptions) public security!: ISecurity;
+    @arrayProp(notificationsTypeOptions) public notifications?: object[];
 
     constructor(user?: IUser) {
-        // null object
         this.nationalId = user?.nationalId || '';
         this.email = user?.email || '';
         this.password = user?.password || '';
@@ -141,7 +152,14 @@ export class User {
         this.birthdate = user?.birthdate || new Date();
         this.homeAddress = user?.homeAddress || '';
         this.phoneNumber = user?.phoneNumber || '';
+        this.avatar = user?.avatar || '';
+        this.security = user?.security;
     }
+}
+
+export interface ISecurity {
+    question: string,
+    answer: string;
 }
 
 export interface IUser {
@@ -151,16 +169,17 @@ export interface IUser {
     firstName: string;
     lastName: string;
     gender: Gender;
+    avatar: string;
     birthdate: Date;
     homeAddress: string;
     phoneNumber: string;
     password: string;
-    roles?: string[];
+    security: ISecurity;
 }
 
 const UserModel = getModelForClass(User);
 
-UserModel.createIndexes().catch((err) => {
+UserModel.createIndexes().catch((err: any) => {
     console.error(err);
     process.exit(0);
 });

@@ -1,14 +1,14 @@
 import { RoleName } from '../user/UserModel';
 import IRole from './IRole';
-import { Monitor } from './monitor/MonitorModel';
+import { Mentor } from './mentor/MentorModel';
 import { Doctor } from './doctor/DoctorModel';
 import { Patient } from './patient/PatientModel';
 
 class RoleFactory {
     public static create(roleName: string, payload: IRole): IRole {
         switch (roleName) {
-            case RoleName.MONITOR:
-                return new Monitor(payload);
+            case RoleName.MENTOR:
+                return new Mentor(payload);
 
             case RoleName.DOCTOR:
                 return new Doctor(payload);

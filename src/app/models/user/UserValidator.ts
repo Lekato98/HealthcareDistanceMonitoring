@@ -12,14 +12,13 @@ class UserValidator {
         // 3 -> total number of roles
         return value.length <= 3 && value.reduce(
             (prev: boolean, role: RoleName) => prev &&
-                (role === RoleName.PATIENT || role === RoleName.MONITOR || role === RoleName.DOCTOR),
+                (role === RoleName.PATIENT || role === RoleName.MENTOR || role === RoleName.DOCTOR),
             true, // default if empty = true
         );
     }
 
     public static phoneNumberValidator(phoneNumber: string): boolean {
-        const [, countryAbbreviation] = PhoneUtils.phone(phoneNumber);
-        return PhoneUtils.isSupportedCountry(countryAbbreviation);
+        return PhoneUtils.isValidJordanNumber(phoneNumber);
     }
 
 }

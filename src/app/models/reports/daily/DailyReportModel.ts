@@ -84,7 +84,7 @@ const modelOptions: IModelOptions = {
 @ModelOptions(modelOptions)
 class DailyReport {
     @Prop(dailyIdTypeOptions) _id: string;
-    @Prop(patientTypeOptions) userId: Ref<Patient, string>;
+    @Prop(patientTypeOptions) patientId: Ref<Patient, string>;
     @Prop(headacheTypeOptions) headache: number;
     @Prop(soreThroatTypeOptions) soreThroat: number;
     @Prop(tasteTypeOptions) taste: number;
@@ -94,7 +94,7 @@ class DailyReport {
     @Prop(positiveContactTypeOptions) positiveContact: boolean;
 
     constructor(report?: DailyReport) {
-        this.userId = report?.userId || null;
+        this.patientId = report?.patientId || null;
         this.headache = report?.headache || 0;
         this.soreThroat = report?.soreThroat || 0;
         this.taste = report?.taste || 0;
@@ -107,7 +107,7 @@ class DailyReport {
 
 interface IDailyReport {
     _id: string;
-    userId: Ref<Patient, string>;
+    patientId: Ref<Patient, string>;
     headache: number;
     soreThroat: number;
     taste: number;
@@ -115,6 +115,8 @@ interface IDailyReport {
     fatigue: number;
     shortnessOfBreath: number;
     positiveContact: boolean;
+    createdAt?: Date;
+    updatedAt?: Date;
 }
 
 const DailyReportModel = getModelForClass(DailyReport);

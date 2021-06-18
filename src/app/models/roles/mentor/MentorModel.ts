@@ -1,5 +1,5 @@
-import { SchemaOptions } from 'mongoose';
-import { getModelForClass, ModelOptions, Pre, Prop } from '@typegoose/typegoose';
+import {SchemaOptions} from 'mongoose';
+import {arrayProp, getModelForClass, ModelOptions, Pre, Prop} from '@typegoose/typegoose';
 import {
     ArrayPropOptions,
     BasePropOptions,
@@ -7,12 +7,12 @@ import {
     PropOptionsForString,
     Ref,
 } from '@typegoose/typegoose/lib/types';
-import { RoleName, User } from '../../user/UserModel';
-import { Patient } from '../patient/PatientModel';
-import MonitorModelUtils from './MonitorModelUtils';
-import IRole, { Status } from '../IRole';
+import {RoleName, User} from '../../user/UserModel';
+import {Patient} from '../patient/PatientModel';
+import MentorModelUtils from './MentorModelUtils';
+import IRole, {Status} from '../IRole';
 
-const monitorIdTypeOptions: PropOptionsForString = {
+const mentorIdTypeOptions: PropOptionsForString = {
     type: String,
     required: true,
     trim: true,
@@ -34,6 +34,8 @@ const activeTypeOptions: BasePropOptions = {
 const patientsTypeOptions: ArrayPropOptions = {
     type: () => [String],
     ref: () => Patient,
+    default: [],
+    required: true,
 };
 
 const statusTypeOptions: PropOptionsForString = {
@@ -45,6 +47,13 @@ const statusTypeOptions: PropOptionsForString = {
     default: Status.PENDING,
 };
 
+const adviceTypeOptions: PropOptionsForString = {
+    type: String,
+    trim: true,
+    minlength: [3, 'Too short advice'],
+    maxlength: [200, 'Too long advice'],
+};
+
 const schemaOptions: SchemaOptions = {
     timestamps: true,
 };
@@ -52,18 +61,19 @@ const schemaOptions: SchemaOptions = {
 const modelOptions: IModelOptions = {
     schemaOptions,
     options: {
-        customName: RoleName.MONITOR,
+        customName: RoleName.MENTOR,
     },
 };
 
-@Pre<Monitor>('validate', MonitorModelUtils.preValidate)
+@Pre<Mentor>('validate', MentorModelUtils.preValidate)
 @ModelOptions(modelOptions)
-class Monitor implements IRole {
-    @Prop(monitorIdTypeOptions) _id: string;
-    @Prop(patientsTypeOptions) patients: Ref<Patient, string>[];
+class Mentor implements IRole {
+    @Prop(mentorIdTypeOptions) _id: string;
+    @arrayProp(patientsTypeOptions) patients: Ref<Patient>[];
     @Prop(userIdTypeOptions) public userId: string;
     @Prop(activeTypeOptions) public active: boolean;
     @Prop(statusTypeOptions) public status: string;
+    @Prop(adviceTypeOptions) public advice?: string;
 
     constructor(payload?: IRole) {
         if (payload) {
@@ -73,15 +83,16 @@ class Monitor implements IRole {
     }
 }
 
-interface IMonitor extends IRole {
+interface IMentor extends IRole {
     _id: string;
     patients?: string[];
+    advice?: string;
 }
 
-const MonitorModel = getModelForClass(Monitor);
+const MentorModel = getModelForClass(Mentor);
 
 export {
-    Monitor,
-    IMonitor,
+    Mentor,
+    IMentor,
 };
-export default MonitorModel;
+export default MentorModel;
