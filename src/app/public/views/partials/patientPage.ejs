@@ -5,8 +5,8 @@
             <div class="sm">
                 <a href="#"><i class="icon fas fa-heartbeat fa-2x"></i></a>
             </div>
-            <h4>Health Status</h4>
-            <h6 style="color: red;"><%=me.roles[0].healthStatus%></h6>
+            <h4 >Health Status</h4>
+            <h6 id="healthStatus"><%=me.roles[0].healthStatus%></h6>
             <h6 style="color: green;">Expected recovery
                 date <%= me.roles[0].expectedRecoveryDate.toLocaleDateString() %></h6>
             <p>Your current health status occasionally updated by your designated doctor.</p>
