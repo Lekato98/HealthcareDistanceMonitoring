@@ -39,6 +39,14 @@ class HomeMiddleware {
             next();
         }
     }
+
+    public preventAdmin(req: Request, res: Response, next: NextFunction): void {
+        if (req.app.locals.jwt?.isAdmin) {
+            res.redirect('/coordinator');
+        } else {
+            next();
+        }
+    }
 }
 
 export default HomeMiddleware;

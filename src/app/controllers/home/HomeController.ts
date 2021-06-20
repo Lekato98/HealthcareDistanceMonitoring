@@ -147,6 +147,10 @@ class HomeController {
         }
     }
 
+    public advicePage(req: Request, res: Response): void {
+        res.render('advice');
+    }
+
     public async notFoundPage(req: Request, res: Response): Promise<void> {
         res.render('404');
     }

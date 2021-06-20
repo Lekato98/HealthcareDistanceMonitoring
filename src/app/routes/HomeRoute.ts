@@ -44,23 +44,21 @@ class HomeRoute implements IRoute {
     }
 
     public initializeControllers(): void {
-        this.ROUTE.get(this.HOME_PAGE_URL, this.homeController.homePage);
-        this.ROUTE.get(this.ALL_PATIENTS_PAGE, this.homeController.allPatientsPage);
-        this.ROUTE.get(this.EMERGENCY_CASES_PAGE, this.homeController.emergencyCasesPage);
+        this.ROUTE.get(this.HOME_PAGE_URL, this.homeMiddleware.preventAdmin, this.homeController.homePage);
+        this.ROUTE.get(this.ALL_PATIENTS_PAGE, this.homeMiddleware.preventAdmin, this.homeController.allPatientsPage);
+        this.ROUTE.get(this.EMERGENCY_CASES_PAGE, this.homeMiddleware.preventAdmin, this.homeController.emergencyCasesPage);
         this.ROUTE.get(this.QUESTIONNAIRE_PAGE,
-            this.dailyReportMiddleware.isDailyReportAvailable,
+            [this.homeMiddleware.preventAdmin, this.dailyReportMiddleware.isDailyReportAvailable],
             this.homeController.questionnairePage
         );
-        this.ROUTE.get(this.REPORT_LIST_PAGE, this.homeController.reportListPage);
-        this.ROUTE.get(this.MY_MONITORED_PATIENTS_PAGE, this.homeController.monitoredPatientsPage);
-        this.ROUTE.get(this.EMERGENCY_PAGE, this.homeController.emergencyPage);
+        this.ROUTE.get(this.REPORT_LIST_PAGE, this.homeMiddleware.preventAdmin, this.homeController.reportListPage);
+        this.ROUTE.get(this.MY_MONITORED_PATIENTS_PAGE, this.homeMiddleware.preventAdmin, this.homeController.monitoredPatientsPage);
+        this.ROUTE.get(this.EMERGENCY_PAGE, this.homeMiddleware.preventAdmin, this.homeController.emergencyPage);
         this.ROUTE.get(this.COORDINATOR_PAGE, this.homeMiddleware.isAdmin, this.homeController.coordinatorPage);
-        this.ROUTE.get(this.CONVERSATIONS_PAGE, this.homeController.conversationsPage);
-        this.ROUTE.get(this.SPECIFIC_CONVERSATION_PAGE, this.homeController.conversationPage);
-        this.ROUTE.get(this.MENTOR_LIST_PAGE, this.homeController.mentorListPage);
-        this.ROUTE.get(this.CREATE_ADVICE_PAGE, (req, res) => {
-            res.render('advice');
-        });
+        this.ROUTE.get(this.CONVERSATIONS_PAGE, this.homeMiddleware.preventAdmin, this.homeController.conversationsPage);
+        this.ROUTE.get(this.SPECIFIC_CONVERSATION_PAGE, this.homeMiddleware.preventAdmin, this.homeController.conversationPage);
+        this.ROUTE.get(this.MENTOR_LIST_PAGE, this.homeMiddleware.preventAdmin, this.homeController.mentorListPage);
+        this.ROUTE.get(this.CREATE_ADVICE_PAGE, this.homeMiddleware.preventAdmin, );
 
         this.ROUTE.get(this.NOT_FOUND_PAGE, this.homeController.notFoundPage);
         this.ROUTE.get(this.SERVER_ERROR_PAGE, this.homeController.serverErrorPage);
