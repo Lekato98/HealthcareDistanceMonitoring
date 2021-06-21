@@ -64,7 +64,9 @@ class MentorService {
                 as: 'user',
             }
         };
-        const pipeline = [matchStage, lookupStage];
+        const unwindStage = {$unwind: '$user'};
+        const projectionStage = {$project: {'user.password': 0, 'patients': 0}};
+        const pipeline = [matchStage, lookupStage, unwindStage, projectionStage];
 
         return MentorModel.aggregate(pipeline);
     }

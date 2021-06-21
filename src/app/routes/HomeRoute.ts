@@ -58,7 +58,8 @@ class HomeRoute implements IRoute {
         this.ROUTE.get(this.CONVERSATIONS_PAGE, this.homeMiddleware.preventAdmin, this.homeController.conversationsPage);
         this.ROUTE.get(this.SPECIFIC_CONVERSATION_PAGE, this.homeMiddleware.preventAdmin, this.homeController.conversationPage);
         this.ROUTE.get(this.MENTOR_LIST_PAGE, this.homeMiddleware.preventAdmin, this.homeController.mentorListPage);
-        this.ROUTE.get(this.CREATE_ADVICE_PAGE, this.homeMiddleware.preventAdmin, );
+        this.ROUTE.get(this.CREATE_ADVICE_PAGE, this.homeMiddleware.preventAdmin,this.homeController.advicePage );
+
 
         this.ROUTE.get(this.NOT_FOUND_PAGE, this.homeController.notFoundPage);
         this.ROUTE.get(this.SERVER_ERROR_PAGE, this.homeController.serverErrorPage);

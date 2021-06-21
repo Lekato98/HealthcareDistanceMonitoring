@@ -164,18 +164,18 @@
                                 <i class="fas fa-user"></i> No Role
                             </a>
                         <% } %>
-                        <% if (me.roles[0]?.active && role !== 'patient') { %>
+                        <% if (me?.roles[0]?.active && role !== 'patient') { %>
                             <a id="patient-role" class="dropdown-item secondary-item" href="#">
                                 <i class="fas fa-hospital-user"></i> Patient
                             </a>
                         <% } %>
-                        <% if (me.roles[1]?.active && role !== 'mentor') { %>
+                        <% if (me?.roles[1]?.active && role !== 'mentor') { %>
                             <a id="mentor-role" class="dropdown-item secondary-item" href="#">
                                 <i class="fas fa-user-nurse"></i> Mentor
                             </a>
                         <% } %>
 
-                        <% if (me.roles[2]?.active && role !== 'doctor') { %>
+                        <% if (me?.roles[2]?.active && role !== 'doctor') { %>
                             <a id="doctor-role" class="dropdown-item secondary-item" href="#">
                                 <i class="fas fa-user-md"></i> Doctor
                             </a>

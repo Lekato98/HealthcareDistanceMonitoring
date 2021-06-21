@@ -6,6 +6,9 @@
                 <a href="#"><i class="icon fas fa-heartbeat fa-2x"></i></a>
             </div>
             <h4 >Health Status</h4>
+
+            <p>Monitored by : <a href="/profile/<%=myMentor.user.nationalId%>"><%=myMentor.user.firstName%> <%=myMentor.user.lastName%></a></p>
+
             <%if (new Date() > me.roles[0].expectedRecoveryDate) {%>
             <h6 id="healthStatus" style="color: green">Recovered</h6>
             <%} else {%>

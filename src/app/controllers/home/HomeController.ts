@@ -21,6 +21,7 @@ class HomeController {
             const patientId = req.app.locals.jwt.roleId;
             const doctorAdvices = await DoctorAdviceService.getAll();
             const [myMentor] = patientId && await MentorService.getMentorByPatient(patientId);
+
             res.render('home', {doctorAdvices, myMentor});
         } catch (e) {
             console.log(e)
