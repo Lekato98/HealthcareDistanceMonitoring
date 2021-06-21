@@ -7,7 +7,7 @@
             </div>
             <h4 >Health Status</h4>
 
-            <p>Monitored by : <a href="/profile/<%=myMentor.user.nationalId%>"><%=myMentor.user.firstName%> <%=myMentor.user.lastName%></a></p>
+            <p>Monitored by : <a href="/profile/<%=myMentor?.user?.nationalId%>"><%=myMentor?.user?.firstName%> <%=myMentor?.user?.lastName%></a></p>
 
             <%if (new Date() > me.roles[0].expectedRecoveryDate) {%>
             <h6 id="healthStatus" style="color: green">Recovered</h6>
@@ -16,7 +16,7 @@
             <h6 style="color: green;">Expected recovery
                 date <%= me.roles[0].expectedRecoveryDate.toLocaleDateString() %></h6>
             <%}%>
-            <p><%=myMentor.advice%></p>
+            <p><%=myMentor?.advice || 'Take care of your self'%></p>
         </div>
 
         <div class="Features-item-r col-lg-3 col-md-6">
