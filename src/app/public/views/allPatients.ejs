@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('./partials/head.ejs') %>
+    <script src="../js/contact.js"></script>
+    <title>C19HDM | Patients</title>
+    <link rel="stylesheet" href="../css/allPatients.css">
+    <link rel="stylesheet" href="../css/footer.css">
+</head>
+<body>
+<%- include('./partials/navbar.ejs') %>
+<%- include('./partials/notification.ejs') %>
+
+<div class="main">
+    <section id="patients-list">
+        <input class="search-input" type="text" placeholder="Patient National ID">
+        <button class="btn btn-lg btn-primary search-btn">Search by National ID</button>
+
+        <div class="row">
+            <div class="col-lg-12 col-md-6 table-container main">
+                <table class="table table-fixed">
+                    <caption style="caption-side: top">All patients</caption>
+                    <thead>
+                    <tr>
+                        <th>Patient Name</th>
+                        <th>Age</th>
+                        <th>National ID</th>
+                        <th>Phone Number</th>
+                        <th>Health Status</th>
+                        <th>Options</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <% for (let {_id, user, isMine} of allPatients) { %>
+                        <tr>
+                            <td data-label="Name"><a href="/profile/<%=user.nationalId%>"><%= user.firstName %> <%= user.lastName %></a></td>
+                            <td data-label="Age"><%= user.birthdate.toLocaleDateString() %></td>
+                            <td data-label="National_ID"><%= user.nationalId %></td>
+                            <td data-label="Phone-number"><%= user.phoneNumber %></td>
+                            <td data-label="Health Status">Bad</td>
+                            <td>
+                                <button class="btn btn-lg btn-dark" value="<%= _id %>"
+                                        onclick="contact(this, '<%= user._id %>')">Contact
+                                </button>
+                                <% if (role === 'mentor') { %>
+                                    <% if (!isMine) { %>
+                                        <button class="btn btn-lg btn-primary add-patient" value="<%= _id %>">
+                                            Add Patient
+                                        </button>
+                                    <% } else { %>
+                                        <button class="btn btn-lg btn-primary remove-patient" value="<%= _id %>">
+                                            Remove Patient
+                                        </button>
+                                    <% } %>
+                                <% } %>
+                            </td>
+                        </tr>
+                    <% } %>
+
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+
+    </section>
+</div>
+
+
+<!-- Footer -->
+
+
+<footer id="footer">
+    <div class="sm">
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fas fa-envelope"></i></a>
+        <p class="footer-p">&COPY; Copyright 2021 Covid-19 Home Monitoring System</p>
+    </div>
+</footer>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="../js/allPatients.js"></script>
+</body>
+</html>

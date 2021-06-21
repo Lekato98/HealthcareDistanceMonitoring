@@ -1,0 +1,193 @@
+<nav class="navbar navbar-expand-lg navbar-styling fixed-top">
+    <a class="navbar-brand" href="/">
+        <div>
+            <img class="logo" src="../../images/white.png" alt="white-logo">
+            <div class="text">
+                Covid-19 Home Monitoring System
+                <div class="role">
+                    <% if (role === 'patient') { %>
+                        <i class="fas fa-hospital-user"></i>
+                        Patient
+                    <% } else if (role === 'mentor') { %>
+                        <i class="fas fa-user-nurse"></i>
+                        Mentor
+                    <% } else if (role === 'doctor') { %>
+                        <i class="fas fa-user-md"></i>
+                        Doctor
+                    <% } else if (isAdmin) { %>
+                        <i class="fas fa-user-shield"></i>
+                        Admin
+                    <% } else { %>
+                        <i class="fas fa-user"></i>
+                        No Role
+                    <% } %>
+
+                </div>
+            </div>
+        </div>
+    </a>
+
+    <button
+            class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarNavDropdown"
+            aria-controls="navbarNavDropdown"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+    >
+        <span class="navbar-toggler-icon"><i class="fas fa-bars"></i></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+
+        <ul class="navbar-nav ml-auto mr-5">
+            <% if (!isAdmin) { %>
+                <li class="nav-item active">
+                    <a class="nav-link primary-item" href="/profile/<%= me.nationalId %>">
+                        <img class="profile-icon"
+                             src="<%= me.avatar %>"
+                             alt=""> <%= me.firstName %>
+                    </a>
+                </li>
+
+                <li class="nav-item active dropdown nav-item-container">
+                    <a
+                            class="nav-link dropdown-toggle my-dropdown-toggle"
+                            href="#"
+                            id="navbarDropdownMenuLink2"
+                            data-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="false"
+                    ><i class="fas fa-bell"></i></a>
+                    <% if (me.notifications.length) { %>
+                        <div class="dropdown-menu dropdown-menu-right noti-container"
+                             aria-labelledby="navbarDropdownMenuLink2">
+                            <% for (const {title, body, time} of me.notifications) { %>
+                                <div class="dropdown-item secondary-item noti-item">
+                                    <div class="inner-noti-item">
+                                        <div class="noti-remove"><i class="far fa-times"></i>
+                                        </div>
+                                        <h6 class="inner-noti-header"><%= title %></h6>
+                                        <p class="inner-noti-text"><%= body %></p>
+                                        <p class="inner-noti-time"><i
+                                                    class="far fa-clock"></i> <%= time.toLocaleString() %>
+                                        </p>
+                                    </div>
+                                </div>
+                            <% } %>
+                        </div>
+                    <% } else { %>
+                        <div class="dropdown-menu dropdown-menu-right noti-container"
+                             aria-labelledby="navbarDropdownMenuLink2" style="padding: 60px;">
+                            <a class="dropdown-item secondary-item noti-item">
+                                <div class="empty-item">
+                                    <i class="fad fa-snooze fa-4x"></i>
+                                    <p class="inner-empty-item">You currently have no reminders, come back later...</p>
+                                </div>
+                            </a>
+                        </div>
+                    <% } %>
+                </li>
+
+                <li class="nav-item active dropdown nav-item-container">
+                    <a
+                            class="nav-link dropdown-toggle my-dropdown-toggle"
+                            href="#"
+                            id="navbarDropdownMenuLink2"
+                            data-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="false"
+                    ><i class="fad fa-inbox"></i></a>
+                    <div class="dropdown-menu dropdown-menu-right noti-container"
+                         aria-labelledby="navbarDropdownMenuLink2"
+                         style=<%= me.conversations.length ? "" : "padding:60px;" %>>
+                        <% for (const {_id, users: [, from], lastMessage} of me.conversations) { %>
+                            <a class="dropdown-item secondary-item noti-item" href="/conversations/<%= _id %>">
+                                <div class="inner-noti-item">
+                                    <img class="message-image" src="<%= from.avatar %>" alt="profile-image">
+                                    <h6 class="inner-noti-header"><%= from.firstName %> <%= from.lastName %></h6>
+                                    <p class="inner-noti-text"> <%= lastMessage.message %> </p>
+                                    <p class="inner-noti-time"><i
+                                                class="far fa-clock"></i> <%= lastMessage.date.toLocaleString() %></p>
+                                </div>
+                            </a>
+                        <% } %>
+                        <% if (me.conversations.length === 0) { %>
+                            <a class="dropdown-item secondary-item noti-item" href="/conversations">
+                                <div class="empty-item">
+                                    <i class="fad fa-mailbox fa-4x"></i>
+                                    <p class="inner-empty-item">Your inbox seems empty, Come back later in later
+                                        time...</p>
+                                </div>
+                            </a>
+                        <% } %>
+                    </div>
+                </li>
+            <% } %>
+
+            <li class="nav-item active dropdown nav-item-container">
+                <a
+                        class="nav-link dropdown-toggle"
+                        href="#"
+                        id="navbarDropdownMenuLink"
+                        data-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                ></a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                    <% if(role === 'mentor') { %>
+                        <a class="dropdown-item secondary-item" href="/my-patients"><i
+                                    class="fas fa-monitor-heart-rate"></i> Monitored Patients</a>
+                    <% } %>
+
+                    <% if(role === 'mentor' || role === 'doctor') { %>
+                        <a class="dropdown-item secondary-item" href="/emergency-cases"><i class="fas fa-search"></i>
+                            Emergency cases</a>
+                        <a class="dropdown-item secondary-item" href="/all-patients"><i class="fas fa-search"></i> All
+                            Patients</a>
+                    <% } %>
+                    <a id="logout" class="dropdown-item secondary-item" href="#"><i class="fas fa-sign-out-alt"></i>
+                        Logout</a>
+                    <% if (!isAdmin) { %>
+                        <a class="dropdown-item secondary-item nav-link dropdown-toggle inner-dropdown"
+                           id="navbarDropdownMenuLink2"
+                           data-toggle="dropdown"
+                           aria-haspopup="true"
+                           aria-expanded="false"
+                           href="#"> <i class="fas fa-random"></i> Switch role to </a>
+                    <% } %>
+
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink2">
+                        <% if (role !== 'no-role') { %>
+                            <a id="no-role" class="dropdown-item secondary-item" href="#">
+                                <i class="fas fa-user"></i> No Role
+                            </a>
+                        <% } %>
+                        <% if (me?.roles[0]?.active && role !== 'patient') { %>
+                            <a id="patient-role" class="dropdown-item secondary-item" href="#">
+                                <i class="fas fa-hospital-user"></i> Patient
+                            </a>
+                        <% } %>
+                        <% if (me?.roles[1]?.active && role !== 'mentor') { %>
+                            <a id="mentor-role" class="dropdown-item secondary-item" href="#">
+                                <i class="fas fa-user-nurse"></i> Mentor
+                            </a>
+                        <% } %>
+
+                        <% if (me?.roles[2]?.active && role !== 'doctor') { %>
+                            <a id="doctor-role" class="dropdown-item secondary-item" href="#">
+                                <i class="fas fa-user-md"></i> Doctor
+                            </a>
+                        <% } %>
+                    </div>
+                </div>
+            </li>
+
+        </ul>
+
+    </div>
+</nav>
+
+<script src="../../js/nav.js"></script>
+

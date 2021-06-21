@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('./partials/head.ejs') %>
+    <title>C19HDM</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/footer.css">
+</head>
+<body>
+<%- include('./partials/navbar.ejs') %>
+<%- include('./partials/notification.ejs') %>
+<!--                         Navbar                                         -->
+
+<div class="main">
+    <section id="title">
+
+        <!--home page content-->
+        <div class="home-page-content container-fluid">
+            <div class="row">
+                <div class="left-contant col-lg-4">
+                    <h3 class="covid-header">Covid-19 Home Monitoring System</h3>
+                    <p>Changing Lives One Smile At A Time</p>
+                </div>
+                <div class="home-page-image col-lg-6">
+                    <img class="pat-img" src="../images/healthcare_image.jpg" alt="Patient_home-page_image">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!--                                  Features                     -->
+
+    <% if(role === 'patient') { %>
+        <%- include('./partials/patientPage') %>
+    <% } %>
+
+    <% if(role === 'doctor') { %>
+        <%- include('./partials/doctorPage.ejs') %>
+    <% } %>
+
+    <% if(role === 'mentor') { %>
+        <%- include('./partials/mentorPage.ejs') %>
+    <% } %>
+
+    <% if(role === 'no-role') { %>
+        <%- include('./partials/default.ejs') %>
+    <% } %>
+
+    <!--                testimonials                    -->
+
+    <section id="testimonials">
+
+        <div id="testimonial-caruosel" class="carousel slide" data-ride="false">
+
+            <div class="carousel-inner">
+
+                <div class="carousel-item active">
+                    <h2 class="light">OUR DOCTORS</h2>
+                    <h2 class="heavy">ADVICES YOU TO</h2>
+                    <img class="testimonials-img"
+                         src="https://res.cloudinary.com/ddk75efat/image/upload/v1623423376/xm0gwif35favgrhjdjsv.png"
+                         alt="وزاره الصحه الاردنيه">
+                    <h5 class="doctor_name">Covid Doctor</h5>
+                    <p class="testimonial-para">
+                        Swipe to go through all doctor's advises
+                    </p>
+                </div>
+                <% for (const {text, user} of doctorAdvices) { %>
+                    <div class="carousel-item">
+                        <h2 class="light">OUR DOCTORS</h2>
+                        <h2 class="heavy">ADVICES YOU TO</h2>
+                        <img class="testimonials-img" src="<%= user.avatar %>" alt="<%= user.firstName %>">
+                        <h5 class="doctor_name">
+                            <a href="/profile/<%=user.nationalId%>">
+                                <%= user.firstName %>
+                                <%= user.lastName %>
+                            </a>
+                        </h5>
+                        <p class='testimonial-para'>
+                            <%= text %>
+                        </p>
+                    </div>
+                <% } %>
+            </div>
+
+            <a class="carousel-control-prev" href="#testimonial-caruosel" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </a>
+            <a class="carousel-control-next" href="#testimonial-caruosel" role="button" data-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </a>
+        </div>
+    </section>
+
+    <!--                     Call To Action                         -->
+
+    <section id="cta">
+        <h3 class="cta-h3">Wear your Mask, Stay Distant, Stay Safe!</h3>
+    </section>
+</div>
+
+<!-- Footer -->
+
+<footer id="footer">
+    <div class="sm">
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fas fa-envelope"></i></a>
+        <p class="footer-p">&COPY; Copyright 2021 Covid-19 Home Monitoring System</p>
+    </div>
+</footer>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script src="../js/home.js"></script>
+<script src="../js/socket.js"></script>
+
+</body>
+</html>

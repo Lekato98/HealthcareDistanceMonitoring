@@ -1,0 +1,56 @@
+body{
+    margin: 0;
+    padding: 0;
+    background-color: #ecedf3;
+}
+
+
+#questionnaire{
+    margin: 7% 15%;
+    width: 60%;
+    background-color: #fff;
+    padding: 50px;
+    box-shadow: 0 0 10px 0 #888888;
+    border-radius: 0.5%;
+
+}
+input[type='radio'] {
+    transform: scale(1.5);
+}
+
+li{
+    list-style: none;
+
+}
+label.label{
+    font-size: 1.3rem;
+}
+.option-label{
+    padding: 0 10px;
+    font-size: 1.2rem;
+    transition: border-color 0.15s ease 0s;
+}
+
+
+.option-input{
+    cursor: pointer;
+}
+
+div.field.required{
+    margin-bottom: 5%;
+}
+
+.button{
+    background-color:#426c88 ;
+    border: none;
+    outline: none;
+}
+
+.option{
+    padding: 13px 2.7rem;
+    display: inline;
+}
+
+.inline{
+    display: inline;
+}

@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <%- include('./partials/head.ejs') %>
+    <title>C19HDM | Patients</title>
+    <link rel="stylesheet" href="../css/contact.css">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
+</head>
+<body>
+
+<%- include('./partials/navbar.ejs') %>
+<%- include('./partials/notification.ejs') %>
+<% if (conversation) { %>
+    <script>
+        const conversationId = "<%= conversation._id %>";
+        const to = "<%= conversation.users[1]._id %>";
+        const me = {
+            _id: "<%= conversation.users[0]._id %>",
+            firstName: "<%= conversation.users[0].firstName %>",
+            lastName: "<%= conversation.users[0].lastName %>",
+            avatar: "<%= conversation.users[0].avatar %>"
+        };
+        const you = {
+            _id: "<%= conversation.users[1]._id %>",
+            firstName: "<%= conversation.users[1].firstName %>",
+            avatar: "<%= conversation.users[1].avatar %>"
+        };
+    </script>
+<% } %>
+<div class="container">
+
+    <div class="container bootstrap snippets bootdey">
+        <div class="row">
+            <div class="col-md-4 bg-white ">
+                <div class=" row border-bottom padding-sm" style="height: 40px;">
+                    Member
+                </div>
+
+                <ul class="friend-list">
+                    <% for (const {
+                        _id,
+                        users: [, from],
+                        lastMessage
+                    } of me.conversations) { %>
+                        <li>
+                            <a href="/conversations/<%= _id %>" class="clearfix">
+                                <img src="<%= from.avatar %>" alt="" class="left-img">
+                                <div class="friend-name">
+                                    <strong><%= from.firstName %> <%= from.lastName %></strong>
+                                </div>
+                                <div class="last-message text-muted"><%= lastMessage.message %></div>
+                                <small class="time text-muted"><%= lastMessage.date.toLocaleString() %></small>
+                            </a>
+                        </li>
+                    <% } %>
+                </ul>
+            </div>
+
+            <!--=========================================================-->
+            <!-- selected chat -->
+            <% if (conversation) { %>
+                <div class="col-md-8 bg-white ">
+                    <div class="chat-message">
+                        <ul id="messages" class="chat">
+                            <% for (const {message, date, from} of conversation.messages) { %>
+                                <% if (from === conversation.users[0]._id ) { %>
+                                    <li class="left clearfix">
+                    	<span class="chat-img pull-left">
+                    		<img class="left-img" src="<%= conversation.users[0].avatar %>"
+                                 alt="<%= conversation.users[0].firstName %>">
+                    	</span>
+                                        <div class="chat-body clearfix">
+                                            <div class="header">
+                                                <strong class="primary-font"><%= conversation.users[0].firstName %></strong>
+                                                <small class="pull-right text-muted"><i
+                                                            class="fa fa-clock-o"></i> <%= date.toLocaleString() %>
+                                                </small>
+                                            </div>
+                                            <p>
+                                                <%= message %>
+                                            </p>
+                                        </div>
+                                    </li>
+                                <% }else{ %>
+                                    <li class="right clearfix">
+                    	<span class="chat-img pull-right">
+                    		<img class="right-img" src="<%= conversation.users[1].avatar %>" alt="<%= conversation.users[1].firstName %>">
+                    	</span>
+                                        <div class="chat-body clearfix">
+                                            <div class="header">
+                                                <strong class="primary-font"><%= conversation.users[1].firstName %></strong>
+                                                <small class="pull-right text-muted"> <i class="fa fa-clock-o"></i>
+                                                    <%= date.toLocaleString() %></small>
+                                            </div>
+                                            <p>
+                                                <%= message %>
+                                            </p>
+                                        </div>
+                                    </li>
+                                <% } %>
+                            <% } %>
+                        </ul>
+                    </div>
+                    <div class="chat-box bg-white">
+                        <div class="input-group">
+                            <input id="message-body" class="form-control border no-shadow no-rounded"
+                                   placeholder="Type your message here">
+                            <span class="input-group-btn">
+            			<button id="send-message" class="btn btn-primary no-rounded" type="button">Send</button>
+            		</span>
+                        </div>
+                    </div>
+                </div>
+            <% } %>
+        </div>
+    </div>
+
+</div>
+
+<script src="../js/socket.js"></script>
+<script
+        src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+        crossorigin="anonymous"></script>
+<script src="../js/conversation.js"></script>
+</body>
+</html>

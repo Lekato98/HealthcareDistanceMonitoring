@@ -1,0 +1,53 @@
+.notification-container {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    z-index: 1000;
+}
+
+.notification-item {
+    position: relative;
+    background-color: #f3f3f3;
+    width: 350px;
+    border-radius: 25px;
+    padding: 25px;
+    margin: 25px;
+    height: 100px;
+}
+
+.notification-title {
+    font-weight: bold;
+}
+
+.notification-body {
+    padding: 5px;
+}
+
+.notification-exit {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 7px;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.notification-exit:hover {
+    opacity: 0.8;
+}
+
+.notification-exit:active {
+    opacity: 0.6;
+}
+
+.success {
+    background-color: #d4edda;
+}
+
+.warning {
+    background-color: #fff3cd;
+}
+
+.danger {
+    background-color: #f8d7da;
+}

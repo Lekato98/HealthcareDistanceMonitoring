@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('./partials/head.ejs') %>
+    <script src="../js/contact.js"></script>
+    <title>C19HDM | <%= user.firstName %> <%= user.lastName %></title>
+    <link rel="stylesheet" href="../css/profile.css">
+</head>
+
+<body>
+
+<%- include('./partials/notification.ejs') %>
+<%- include('./partials/navbar.ejs') %>
+
+
+<!--content-->
+
+<div class="emp-profile container ">
+    <form id="profile-form" style="height: 720px;" method="POST" action="/api/v1/user/change-photo">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="profile-img" style="margin-left: -50px;">
+                    <img id="avatar-av" class="profile-image pro-img" src="<%= user.avatar %>" alt=""/>
+                    <div class="file btn btn-lg btn-primary" style="margin-right: 55px;">
+                        <i class="far fa-camera"></i>
+                        <input id="avatar" type="file" name="file" style="outline: none;border:none;"/>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-7">
+                <div class="profile-head">
+                    <h1 class="display-3">
+                        <%= user.firstName %> <%= user.lastName %>
+                    </h1>
+                    <hr>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <% if (me._id === user._id) { %>
+                    <a href="/profile/edit">
+                        <button type="button" class="profile-edit-btn" name="btnAddMore"> Edit Profile</button>
+                    </a>
+                    <br>
+                    <br>
+                <% } else { %>
+                        <button type="button" class="profile-edit-btn" name="btnAddMore" onclick="contact(this, '<%=user._id%>')">Contact</button>
+                <% } %>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-9">
+                <div class="tab-content profile-tab" id="myTabContent">
+                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="big">National Id</label>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="big"><%= user.nationalId %></p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="big">Birthdate</label>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="big"><%= user.birthdate.toLocaleDateString() %></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="big">Gender</label>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="big cap"><%= user.gender %></p>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="big">Email</label>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="big"><%= user.email %></p>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="big">Phone</label>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="big"><%= user.phoneNumber %></p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="big">Address</label>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="big"><%= user.homeAddress %></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </form>
+</div>
+
+<script src="../js/socket.js"></script>
+<script src="../js/profile.js"></script>
+</body>
+</html>
