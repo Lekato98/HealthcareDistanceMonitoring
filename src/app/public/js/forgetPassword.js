@@ -24,7 +24,7 @@ async function submitHandler(e) {
         const response = await fetch('/api/v1/auth/reset-password', options);
         const {success} = await response.json();
         if (success) {
-            alert("Password changed successfully login now :D")
+            alert("Password changed successfully login now!")
             location.href = '/auth/registration';
         } else {
             alert("Invalid information try again");

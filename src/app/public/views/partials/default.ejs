@@ -14,7 +14,7 @@
             <h4><%= me.roles[0]?.status === 'pending' ? '' : (me.roles[0]?.active === false ? '' :
                         me.roles[0]?.active ? 'Switch To' : 'Join') %>
                 Patient Role</h4>
-            <div style="text-transform: capitalize"><%= me.roles[0]?.status === 'pending' ? 'Pending' :
+            <div style="text-transform: capitalize"><%=!me.roles[0] ? 'Request' : me.roles[0]?.status === 'pending' ? 'Pending' :
                         (me.roles[0]?.active ? 'Active' : 'Inactive') %></div>
         </div>
 
@@ -33,7 +33,7 @@
             <h4><%= me.roles[1]?.status === 'pending' ? '' : (me.roles[1]?.active === false ? '' :
                         me.roles[1]?.active ? 'Switch To' : 'Join') %>
                 Mentor Role</h4>
-            <div style="text-transform: capitalize"><%= me.roles[1]?.status === 'pending' ? 'Pending' :
+            <div style="text-transform: capitalize"><%=!me.roles[1] ? 'Request': me.roles[1]?.status === 'pending' ? 'Pending' :
                         (me.roles[1]?.active ? 'Active' : 'Inactive') %></div>
         </div>
 
@@ -52,7 +52,7 @@
             <h4><%= me.roles[2]?.status === 'pending' ? '' : (me.roles[2]?.active === false ? '' :
                         me.roles[2]?.active ? 'Switch To' : 'Join') %>
                 Doctor Role</h4>
-            <div style="text-transform: capitalize"><%= me.roles[2]?.status === 'pending' ? 'Pending' :
+            <div style="text-transform: capitalize"><%= !me.roles[2] ? 'Request': me.roles[2]?.status === 'pending' ? 'Pending' :
                         (me.roles[2]?.active ? 'Active' : 'Inactive') %></div>
         </div>
 

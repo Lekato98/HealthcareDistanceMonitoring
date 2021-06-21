@@ -2,7 +2,7 @@ import {HttpStatusCode} from '../../utils/HttpUtils';
 import {Request, Response} from 'express';
 import RoleService from '../../models/roles/RoleService';
 import {Injectable} from 'dependency-injection-v1';
-import IRole from '../../models/roles/IRole';
+import IRole, {Status} from '../../models/roles/IRole';
 import {IJWTPayload} from '../../utils/JWTUtils';
 import AuthenticationUtils from '../../utils/AuthenticationUtils';
 import {RoleName, roleType} from '../../models/user/UserModel';
@@ -163,10 +163,14 @@ class RoleController {
                 const body = {success: SUCCESS, role: userRole};
                 res.json(body);
             } else {
+                const message = (!userRole ? 'you have to create your role before switch!' :
+                    userRole.status === Status.PENDING ? 'Your request is under consideration' :
+                        'Your role is inactive, Contact our support team to help you'
+                    );
                 const body = {
                     success: UNSUCCESSFUL,
-                    message: 'you have to create your role before switch!',
                     roleName: RoleName.NO_ROLE,
+                    message,
                 };
                 res.status(HttpStatusCode.NOT_FOUND).json(body);
             }

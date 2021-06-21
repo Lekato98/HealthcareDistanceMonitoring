@@ -278,7 +278,7 @@ function signUpValidation(body) {
 function securityAnswerValidator (element){
     if (element.value.length >= 3){
         greenBorder(securityAnswer);
-    } else if (element.value.length <= 0){
+    } else {
         redBorder(securityAnswer);
     }
 }
