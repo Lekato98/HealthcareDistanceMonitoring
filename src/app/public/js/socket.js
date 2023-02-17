@@ -1,4 +1,4 @@
-const client = io('http://localhost:3333', {query: {userId: localStorage.getItem('userId')}});
+const client = io('/', {query: {userId: localStorage.getItem('userId')}});
 const notification = document.querySelector('#notifications');
 const notificationAudio = document.querySelector('#notification-audio');
 const connectedMessage = {
