@@ -4,7 +4,7 @@ const messagesUl = document.querySelector('#messages');
 
 
 messagesUl && (messagesUl.scrollTop = messagesUl.scrollHeight);
-messageBtn.addEventListener('click', messageHandler);
+messageBtn?.addEventListener('click', messageHandler);
 client.on('receive_message', receiveMessageHandler);
 
 function receiveMessageHandler(message) {

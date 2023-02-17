@@ -42,15 +42,15 @@
                         _id,
                         users: [, from],
                         lastMessage
-                    } of me.conversations) { %>
+                    } of conversations) { %>
                         <li>
                             <a href="/conversations/<%= _id %>" class="clearfix">
                                 <img src="<%= from.avatar %>" alt="" class="left-img">
                                 <div class="friend-name">
                                     <strong><%= from.firstName %> <%= from.lastName %></strong>
                                 </div>
-                                <div class="last-message text-muted"><%= lastMessage.message %></div>
-                                <small class="time text-muted"><%= lastMessage.date.toLocaleString() %></small>
+                                <div class="last-message text-muted"><%= lastMessage?.message ?? '' %></div>
+                                <small class="time text-muted"><%= lastMessage?.date.toLocaleString() ?? '' %></small>
                             </a>
                         </li>
                     <% } %>

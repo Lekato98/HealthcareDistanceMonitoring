@@ -1,5 +1,11 @@
-import {getModelForClass, ModelOptions, Prop, Severity, mongoose} from '@typegoose/typegoose';
-import { BasePropOptions, IModelOptions, PropOptionsForString, Ref } from '@typegoose/typegoose/lib/types';
+import {getModelForClass, ModelOptions, mongoose, Prop, PropType, Severity} from '@typegoose/typegoose';
+import {
+    ArrayPropOptions,
+    BasePropOptions,
+    IModelOptions,
+    PropOptionsForString,
+    Ref
+} from '@typegoose/typegoose/lib/types';
 import {User} from "../user/UserModel";
 import {nanoid} from "nanoid";
 
@@ -9,7 +15,7 @@ const messageIdTypeOptions: PropOptionsForString = {
     trim: true,
 };
 
-const userTypeOptions: BasePropOptions = {
+const userTypeOptions: ArrayPropOptions = {
     type: [String],
     required: true,
     ref: () => User,
@@ -42,7 +48,7 @@ const modelOptions: IModelOptions = {
 export class Conversation {
     @Prop(messageIdTypeOptions) _id: string;
     @Prop(uniqueKeyTypeOptions) uniqueKey: string;
-    @Prop(userTypeOptions) users: Ref<User, string>[];
+    @Prop(userTypeOptions, PropType.ARRAY) users: string[];
     @Prop(textTypeOptions) messages: string[];
 
     constructor(payload: IConversation) {
