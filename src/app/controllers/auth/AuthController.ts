@@ -26,7 +26,7 @@ class AuthController {
             } else {
                 res.render('registration');
             }
-        } catch (e) {
+        } catch (e: any) {
             res.status(HttpStatusCode.SERVER_ERROR).send('Server Error');
         }
     }
@@ -50,7 +50,7 @@ class AuthController {
                 res.status(HttpStatusCode.BAD_REQUEST).json(body);
             }
 
-        } catch (e) {
+        } catch (e: any) {
             console.error(e);
             const body = {success: UNSUCCESSFUL, message: e.message};
             res.status(HttpStatusCode.SERVER_ERROR).json(body);
@@ -74,7 +74,7 @@ class AuthController {
 
             const body = {success: SUCCESS, user};
             res.json(body);
-        } catch (e) {
+        } catch (e: any) {
             if (e.message.startsWith('E11000')) {
                 const body = {success: UNSUCCESSFUL, message: 'National Id or Email is already used'};
                 res.status(HttpStatusCode.BAD_REQUEST).json(body);
@@ -102,7 +102,7 @@ class AuthController {
                 const body = {success: UNSUCCESSFUL, message: 'Invalid login'};
                 res.status(HttpStatusCode.BAD_REQUEST).json(body);
             }
-        } catch (e) {
+        } catch (e: any) {
             const body = {success: UNSUCCESSFUL, message: e.message};
             res.status(HttpStatusCode.SERVER_ERROR).json(body);
         }
@@ -117,7 +117,7 @@ class AuthController {
             res.clearCookie(JWTUtils.JWT_COOKIE_NAME);
             const body = {success: SUCCESS};
             res.json(body);
-        } catch (e) {
+        } catch (e: any) {
             const body = {success: UNSUCCESSFUL, message: e.message};
             res.status(HttpStatusCode.SERVER_ERROR).json(body);
         }
@@ -134,7 +134,7 @@ class AuthController {
           const success = await UserService.resetPassword(nationalId, security, password);
           const body = {success};
           res.json(body);
-      } catch (e) {
+      } catch (e: any) {
           const body = {success: UNSUCCESSFUL, message: e.message};
           res.status(HttpStatusCode.SERVER_ERROR).json(body);
       }

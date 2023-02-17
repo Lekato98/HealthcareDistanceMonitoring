@@ -1,6 +1,5 @@
-import {SchemaOptions} from 'mongoose';
 import {ArrayPropOptions, BasePropOptions, IModelOptions, PropOptionsForString} from '@typegoose/typegoose/lib/types';
-import {arrayProp, getModelForClass, Index, ModelOptions, Prop, Severity, mongoose} from '@typegoose/typegoose';
+import {getModelForClass, Index, ModelOptions, Prop, Severity, mongoose} from '@typegoose/typegoose';
 import UserValidator from './UserValidator';
 import {UNIQUE} from '../../helpers/constants';
 import PhoneUtils from '../../utils/PhoneUtils';
@@ -112,7 +111,7 @@ const securityTypeOptions: BasePropOptions = {
     required: true
 };
 
-const schemaOptions: SchemaOptions = {
+const schemaOptions: mongoose.SchemaOptions = {
     timestamps: true,
     discriminatorKey: '', // used in inheritance as collection name for the childes
 };
@@ -140,7 +139,7 @@ export class User {
     @Prop(homeAddressTypeOptions) public homeAddress!: string;
     @Prop(phoneNumberTypeOptions) public phoneNumber!: string;
     @Prop(securityTypeOptions) public security!: ISecurity;
-    @arrayProp(notificationsTypeOptions) public notifications?: object[];
+    @Prop(notificationsTypeOptions) public notifications?: object[];
 
     constructor(user?: IUser) {
         this.nationalId = user?.nationalId || '';

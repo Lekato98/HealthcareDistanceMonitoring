@@ -1,8 +1,7 @@
-import {DocumentType} from '@typegoose/typegoose';
+import {DocumentType, mongoose} from '@typegoose/typegoose';
 import IRole, {Status} from './IRole';
 import RoleFactory from './RoleFactory';
 import RoleUtils from './RoleUtils';
-import {QueryUpdateOptions} from 'mongoose';
 import {ACTIVE, INACTIVE} from '../../helpers/constants';
 import {RoleName} from "../user/UserModel";
 
@@ -61,7 +60,7 @@ class RoleService {
             },
         ];
 
-        const options: QueryUpdateOptions = {
+        const options: mongoose.QueryOptions = {
             runValidators: true,
             multi: true,
         };

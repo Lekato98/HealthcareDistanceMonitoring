@@ -20,7 +20,7 @@ class DoctorService {
     }
 
     public static async isExistByUserId(userId: string): Promise<boolean> {
-        return DoctorModel.exists({userId});
+        return await DoctorModel.exists({userId}) !== null;
     }
 }
 

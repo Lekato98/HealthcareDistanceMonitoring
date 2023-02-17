@@ -1,5 +1,4 @@
-import { SchemaOptions } from 'mongoose';
-import { getModelForClass, ModelOptions, Prop } from '@typegoose/typegoose';
+import { getModelForClass, ModelOptions, Prop, mongoose } from '@typegoose/typegoose';
 import { IModelOptions, PropOptionsForString } from '@typegoose/typegoose/lib/types';
 
 const adminIdTypeOptions: PropOptionsForString = {
@@ -15,7 +14,7 @@ const passwordTypeOptions: PropOptionsForString = {
     minlength: [6, 'Too short Password id'],
 };
 
-const schemaOptions: SchemaOptions = {
+const schemaOptions: mongoose.SchemaOptions = {
     timestamps: true,
 };
 

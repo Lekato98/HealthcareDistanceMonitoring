@@ -1,9 +1,8 @@
 import PatientModel, {IPatient, Patient} from './PatientModel';
-import {DocumentType} from '@typegoose/typegoose';
+import {DocumentType, mongoose} from '@typegoose/typegoose';
 import {Status} from '../IRole';
 import {ACTIVE} from '../../../helpers/constants';
 import DateUtils from '../../../utils/DateUtils';
-import {QueryUpdateOptions} from 'mongoose';
 import MentorModel from '../mentor/MentorModel';
 import UserModel from '../../user/UserModel';
 import DailyReportService from "../../reports/daily/DailyReportService";
@@ -59,7 +58,7 @@ class PatientService {
 
     public static async patchNextReportDate(patientId: string): Promise<any> {
         const nextDailyReportDate = DateUtils.getDayReportTimeAfterNDays(0);
-        const options: QueryUpdateOptions = {runValidators: true};
+        const options: mongoose.QueryOptions = {runValidators: true};
 
         return PatientModel.updateOne({_id: patientId}, {nextDailyReportDate}, options);
     }
@@ -83,14 +82,14 @@ class PatientService {
     }
 
     public static async isExistByUserId(userId: string): Promise<boolean> {
-        return PatientModel.exists({userId});
+        return await PatientModel.exists({userId}) !== null;
     }
 
     public static async getPatientsByPageNumber(page: number = 0, mentorId?: string): Promise<any[]> {
-        const sortStage = {$sort: {firstName: 1, lastName: 1}};
-        const skipStage = {$skip: page * this.PATIENTS_PAIR_PAGE};
-        const limitStage = {$limit: this.PATIENTS_PAIR_PAGE};
-        const lookupStage = {
+        const sortStage: mongoose.PipelineStage = {$sort: {firstName: 1, lastName: 1}};
+        const skipStage: mongoose.PipelineStage = {$skip: page * this.PATIENTS_PAIR_PAGE};
+        const limitStage: mongoose.PipelineStage = {$limit: this.PATIENTS_PAIR_PAGE};
+        const lookupStage: mongoose.PipelineStage = {
             $lookup: {
                 from: UserModel.collection.name,
                 localField: 'userId',
@@ -98,8 +97,8 @@ class PatientService {
                 as: 'user',
             },
         };
-        const unwindStage = {$unwind: '$user'};
-        const projectionStage = {
+        const unwindStage: mongoose.PipelineStage = {$unwind: '$user'};
+        const projectionStage: mongoose.PipelineStage = {
             $project: {
                 'user.password': 0,
                 'user.__v': 0,
@@ -108,17 +107,17 @@ class PatientService {
             },
         };
 
-        const pipeline = [sortStage, skipStage, limitStage, lookupStage, unwindStage, projectionStage];
+        const pipeline: Array<mongoose.PipelineStage> = [sortStage, skipStage, limitStage, lookupStage, unwindStage, projectionStage];
         const patients = await PatientModel.aggregate(pipeline);
         const mentor = mentorId && await MentorModel.findById(mentorId);
         return patients.map(patient => ({...patient, isMine: mentor?.patients.includes(patient._id)}));
     }
 
     public static async getMonitoredPatientsByPageNumber(page: number = 0): Promise<any[]> {
-        const sortStage = {$sort: {firstName: 1, lastName: 1}};
-        const skipStage = {$skip: page * this.PATIENTS_PAIR_PAGE};
-        const limitStage = {$limit: this.PATIENTS_PAIR_PAGE};
-        const lookupStage = {
+        const sortStage: mongoose.PipelineStage = {$sort: {firstName: 1, lastName: 1}};
+        const skipStage: mongoose.PipelineStage = {$skip: page * this.PATIENTS_PAIR_PAGE};
+        const limitStage: mongoose.PipelineStage = {$limit: this.PATIENTS_PAIR_PAGE};
+        const lookupStage: mongoose.PipelineStage = {
             $lookup: {
                 from: MentorModel.collection.name,
                 localField: '_id',
@@ -126,18 +125,18 @@ class PatientService {
                 as: 'mentor',
             },
         };
-        const matchStage = {$match: {mentor: {$exists: true}}};
-        const unwindStage = {$unwind: {path: '$mentor', preserveNullAndEmptyArrays: true}};
-        const pipeline = [lookupStage, unwindStage, matchStage, sortStage, skipStage, limitStage];
+        const matchStage: mongoose.PipelineStage = {$match: {mentor: {$exists: true}}};
+        const unwindStage: mongoose.PipelineStage = {$unwind: {path: '$mentor', preserveNullAndEmptyArrays: true}};
+        const pipeline: Array<mongoose.PipelineStage> = [lookupStage, unwindStage, matchStage, sortStage, skipStage, limitStage];
 
         return PatientModel.aggregate(pipeline);
     }
 
     public static async getUnmonitoredPatientsByPageNumber(page: number = 0): Promise<any[]> {
-        const sortStage = {$sort: {firstName: 1, lastName: 1}};
-        const skipStage = {$skip: page * this.PATIENTS_PAIR_PAGE};
-        const limitStage = {$limit: this.PATIENTS_PAIR_PAGE};
-        const lookupStage = {
+        const sortStage: mongoose.PipelineStage = {$sort: {firstName: 1, lastName: 1}};
+        const skipStage: mongoose.PipelineStage = {$skip: page * this.PATIENTS_PAIR_PAGE};
+        const limitStage: mongoose.PipelineStage = {$limit: this.PATIENTS_PAIR_PAGE};
+        const lookupStage: mongoose.PipelineStage = {
             $lookup: {
                 from: MentorModel.collection.name,
                 localField: '_id',
@@ -145,9 +144,9 @@ class PatientService {
                 as: 'mentor',
             },
         };
-        const matchStage = {$match: {mentor: {$exists: false}}};
-        const unwindStage = {$unwind: {path: '$mentor', preserveNullAndEmptyArrays: true}};
-        const pipeline = [lookupStage, unwindStage, matchStage, sortStage, skipStage, limitStage];
+        const matchStage: mongoose.PipelineStage = {$match: {mentor: {$exists: false}}};
+        const unwindStage: mongoose.PipelineStage = {$unwind: {path: '$mentor', preserveNullAndEmptyArrays: true}};
+        const pipeline: Array<mongoose.PipelineStage> = [lookupStage, unwindStage, matchStage, sortStage, skipStage, limitStage];
 
         return PatientModel.aggregate(pipeline);
     }

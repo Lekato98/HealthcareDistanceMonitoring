@@ -21,7 +21,7 @@ class PatientController {
                 const body = {success: UNSUCCESSFUL, message: 'error 404 patient not found'};
                 res.status(HttpStatusCode.NOT_FOUND).json(body);
             }
-        } catch (e) {
+        } catch (e: any) {
             const body = {success: UNSUCCESSFUL, message: e.message};
             res.status(HttpStatusCode.SERVER_ERROR).json(body);
         }
@@ -37,7 +37,7 @@ class PatientController {
             const patients = await PatientService.getPatientsByPageNumber(pageNumber);
             const body = {success: SUCCESS, patients};
             res.json(body);
-        } catch (e) {
+        } catch (e: any) {
             const body = {success: UNSUCCESSFUL, message: e.message};
             res.status(HttpStatusCode.SERVER_ERROR).json(body);
         }
@@ -53,7 +53,7 @@ class PatientController {
             const patients = await PatientService.getMonitoredPatientsByPageNumber(pageNumber);
             const body = {success: SUCCESS, patients};
             res.json(body);
-        } catch (e) {
+        } catch (e: any) {
             const body = {success: UNSUCCESSFUL, message: e.message};
             res.status(HttpStatusCode.SERVER_ERROR).json(body);
         }
@@ -69,7 +69,7 @@ class PatientController {
             const patients = await PatientService.getUnmonitoredPatientsByPageNumber(pageNumber);
             const body = {success: SUCCESS, patients};
             res.json(body);
-        } catch (e) {
+        } catch (e: any) {
             const body = {success: UNSUCCESSFUL, message: e.message};
             res.status(HttpStatusCode.SERVER_ERROR).json(body);
         }
@@ -85,7 +85,7 @@ class PatientController {
             const patients = await PatientService.searchPatients(textToSearch);
             const body = {success: SUCCESS, patients};
             res.json(body);
-        } catch (e) {
+        } catch (e: any) {
             const body = {success: UNSUCCESSFUL, message: e.message};
             res.status(HttpStatusCode.SERVER_ERROR).json(body);
         }

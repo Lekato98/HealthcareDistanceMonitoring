@@ -41,7 +41,7 @@ class AuthMiddleware {
                     delete req.app.locals.jwt;
                 }
             }
-        } catch (e) {
+        } catch (e: any) {
             AuthenticationUtils.removeAuthCookies(res);
             delete req.app.locals.jwt;
         } finally {

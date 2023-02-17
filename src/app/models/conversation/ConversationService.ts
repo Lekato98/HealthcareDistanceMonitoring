@@ -1,4 +1,4 @@
-import {DocumentType} from "@typegoose/typegoose";
+import {DocumentType, mongoose} from "@typegoose/typegoose";
 import ConversationModel, {Conversation, IConversation} from "./ConversationModel";
 import UserModel from "../user/UserModel";
 
@@ -9,8 +9,8 @@ class ConversationService {
     }
 
     public static async getAllByUserId(userId: string): Promise<any[]> {
-        const matchStage = {$match: {users: userId}};
-        const lookupStage = {
+        const matchStage: mongoose.PipelineStage = {$match: {users: userId}};
+        const lookupStage: mongoose.PipelineStage = {
             $lookup: {
                 from: UserModel.collection.name,
                 localField: 'users',
@@ -18,16 +18,16 @@ class ConversationService {
                 as: 'users'
             }
         };
-        const projectStage = {$project: {'users.notifications': 0, 'users.password': 0}}
-        const addLastMessageFieldStage = {
+        const projectStage: mongoose.PipelineStage = {$project: {'users.notifications': 0, 'users.password': 0}}
+        const addLastMessageFieldStage: mongoose.PipelineStage = {
             $addFields: {
                 lastMessage: {
                     $arrayElemAt: [ "$messages", -1 ]
                 }
             }
         };
-        const sortStage = {$sort: {'lastMessage.date': -1}};
-        const pipeline = [matchStage, lookupStage, projectStage, addLastMessageFieldStage, sortStage];
+        const sortStage: mongoose.PipelineStage = {$sort: {'lastMessage.date': -1}};
+        const pipeline: Array<mongoose.PipelineStage> = [matchStage, lookupStage, projectStage, addLastMessageFieldStage, sortStage];
         return (await ConversationModel.aggregate(pipeline)).map((conversation: any) => {
             if (conversation.users[1]._id === userId) {
                 [conversation.users[0], conversation.users[1]]

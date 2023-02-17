@@ -1,5 +1,4 @@
-import {SchemaOptions} from 'mongoose';
-import {getModelForClass, ModelOptions, Prop, Severity} from '@typegoose/typegoose';
+import {getModelForClass, ModelOptions, Prop, mongoose} from '@typegoose/typegoose';
 import {BasePropOptions, IModelOptions, PropOptionsForString, Ref} from '@typegoose/typegoose/lib/types';
 import {User} from "../user/UserModel";
 import {nanoid} from "nanoid";
@@ -22,7 +21,7 @@ const textTypeOptions: PropOptionsForString = {
     minlength: [3, 'Too short advice'],
 };
 
-const schemaOptions: SchemaOptions = {
+const schemaOptions: mongoose.SchemaOptions = {
     timestamps: true,
 };
 

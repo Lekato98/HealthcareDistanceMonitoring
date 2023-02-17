@@ -27,7 +27,7 @@ class PatientMiddleware {
                 const body = {success: UNSUCCESSFUL, message: 'Invalid action, looks like you are not a patient!'};
                 res.status(HttpStatusCode.FORBIDDEN).json(body);
             }
-        } catch (e) {
+        } catch (e: any) {
             const body = {success: UNSUCCESSFUL, message: e.message};
             res.status(HttpStatusCode.SERVER_ERROR).json(body);
         }

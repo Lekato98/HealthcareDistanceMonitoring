@@ -23,7 +23,7 @@ class HomeController {
             const [myMentor] = patientId && await MentorService.getMentorByPatient(patientId);
 
             res.render('home', {doctorAdvices, myMentor});
-        } catch (e) {
+        } catch (e: any) {
             console.log(e)
             res.redirect('/500');
         }
@@ -38,7 +38,7 @@ class HomeController {
             const mentorId = req.app.locals.jwt.roleId;
             const patients = await MentorService.getMyPatients(mentorId);
             res.render('monitorPatients.ejs', {patients});
-        } catch (e) {
+        } catch (e: any) {
             res.redirect('/500');
         }
     }
@@ -53,7 +53,7 @@ class HomeController {
             const mentorId = req.app.locals.jwt.roleId;
             const allPatients = await PatientService.getPatientsByPageNumber(page, mentorId);
             res.render('allPatients.ejs', {allPatients});
-        } catch (e) {
+        } catch (e: any) {
             res.redirect('/500');
         }
     }
@@ -65,7 +65,7 @@ class HomeController {
                 .map(DailyReportUtils.transform);
 
             res.render('reportList.ejs', {reports});
-        } catch (e) {
+        } catch (e: any) {
             res.redirect('/500');
         }
     }
@@ -74,7 +74,7 @@ class HomeController {
         try {
             const mentors = await RoleService.getAcceptedByRoleName('mentor');
             res.render('mentorList.ejs', {mentors});
-        } catch (e) {
+        } catch (e: any) {
             res.redirect('/500');
         }
     }
@@ -92,7 +92,7 @@ class HomeController {
             }
 
             res.render('hospitalization.ejs', {emergencyCases});
-        } catch (e) {
+        } catch (e: any) {
             console.log(e);
             res.redirect('/500');
         }
@@ -117,7 +117,7 @@ class HomeController {
                 inactiveMentors,
                 inactiveDoctors
             });
-        } catch (e) {
+        } catch (e: any) {
             res.redirect('/500');
         }
     }
@@ -127,7 +127,7 @@ class HomeController {
             const userId = req.app.locals.jwt._id;
             const conversations = await ConversationService.getAllByUserId(userId);
             res.render('contact', {conversations, conversation: null});
-        } catch (e) {
+        } catch (e: any) {
             res.redirect('/500');
         }
     }
@@ -143,7 +143,7 @@ class HomeController {
             } else {
                 res.render('contact', {conversations, conversation});
             }
-        } catch (e) {
+        } catch (e: any) {
             res.redirect('/500');
         }
     }

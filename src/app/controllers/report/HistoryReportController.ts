@@ -17,7 +17,7 @@ class HistoryReportController {
             const report = await HistoryReportService.getReport(historyId);
             const body = {success: SUCCESS, report};
             res.json(body);
-        } catch (e) {
+        } catch (e: any) {
             const body = {success: UNSUCCESSFUL, message: e.message};
             res.status(HttpStatusCode.SERVER_ERROR).json(body);
         }
@@ -34,7 +34,7 @@ class HistoryReportController {
             const report = await HistoryReportService.createReport(payload);
             const body = {success: SUCCESS, report};
             res.status(HttpStatusCode.CREATED_SUCCESSFULLY).json(body);
-        } catch (e) {
+        } catch (e: any) {
             const body = {success: UNSUCCESSFUL, message: e.message};
             res.status(HttpStatusCode.SERVER_ERROR).json(body);
         }
@@ -51,7 +51,7 @@ class HistoryReportController {
             const report = await HistoryReportService.deleteReport(historyId, userId);
             const body = {success: SUCCESS, report};
             res.json(body);
-        } catch (e) {
+        } catch (e: any) {
             const body = {success: UNSUCCESSFUL, message: e.message};
             res.status(HttpStatusCode.SERVER_ERROR).json(body);
         }
@@ -70,7 +70,7 @@ class HistoryReportController {
             const report = await HistoryReportService.updateReport(historyId, userId, payload);
             const body = {success: SUCCESS, report};
             res.json(body);
-        } catch (e) {
+        } catch (e: any) {
             const body = {success: UNSUCCESSFUL, message: e.message};
             res.status(HttpStatusCode.SERVER_ERROR).json(body);
         }

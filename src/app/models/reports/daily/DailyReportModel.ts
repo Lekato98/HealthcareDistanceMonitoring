@@ -1,4 +1,3 @@
-import { SchemaOptions } from 'mongoose';
 import {
     BasePropOptions,
     IModelOptions,
@@ -6,7 +5,7 @@ import {
     PropOptionsForString,
     Ref,
 } from '@typegoose/typegoose/lib/types';
-import { getModelForClass, ModelOptions, Pre, Prop } from '@typegoose/typegoose';
+import { getModelForClass, ModelOptions, Pre, Prop, mongoose } from '@typegoose/typegoose';
 import { Patient } from '../../roles/patient/PatientModel';
 import DailyReportModelHooks from './DailyReportModelHooks';
 
@@ -69,7 +68,7 @@ const positiveContactTypeOptions: BasePropOptions = {
     required: true,
 };
 
-const schemaOptions: SchemaOptions = {
+const schemaOptions: mongoose.SchemaOptions = {
     timestamps: true,
 };
 

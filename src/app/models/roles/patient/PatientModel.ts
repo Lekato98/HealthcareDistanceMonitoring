@@ -1,6 +1,5 @@
-import {SchemaOptions} from 'mongoose';
 import {BasePropOptions, IModelOptions, PropOptionsForString} from '@typegoose/typegoose/lib/types';
-import {getModelForClass, ModelOptions, Pre, Prop} from '@typegoose/typegoose';
+import {getModelForClass, ModelOptions, Pre, Prop, mongoose} from '@typegoose/typegoose';
 import {RoleName, User} from '../../user/UserModel';
 import PatientModelUtils, {HealthStatus} from './PatientModelUtils';
 import IRole, {Status} from '../IRole';
@@ -52,7 +51,7 @@ const nextDailyReportDateTypeOptions: BasePropOptions = {
     default: Date.now,
 };
 
-const schemaOptions: SchemaOptions = {
+const schemaOptions: mongoose.SchemaOptions = {
     timestamps: true,
 };
 

@@ -23,7 +23,7 @@ class ConversationController {
                 const body = {success: SUCCESS, conversation};
                 res.status(HttpStatusCode.CREATED_SUCCESSFULLY).json(body);
             }
-        } catch (e) {
+        } catch (e: any) {
             if (e.message.startsWith('E11000')) {
                 const conversation = await ConversationService.getByUsers(payload.users);
                 const body = {success: SUCCESS, conversation};
@@ -45,7 +45,7 @@ class ConversationController {
             const conversations = await ConversationService.getAllByUserId(userId);
             const body = {success: SUCCESS, conversations};
             res.json(body);
-        } catch (e) {
+        } catch (e: any) {
             const body = {success: UNSUCCESSFUL, message: e.message};
             res.status(HttpStatusCode.SERVER_ERROR).json(body);
         }
@@ -62,7 +62,7 @@ class ConversationController {
             const conversation = await ConversationService.addMessage(userId, conversationId, message);
             const body = {success: SUCCESS, conversation};
             res.json(body);
-        } catch (e) {
+        } catch (e: any) {
             const body = {success: UNSUCCESSFUL, message: e.message};
             res.status(HttpStatusCode.SERVER_ERROR).json(body);
         }

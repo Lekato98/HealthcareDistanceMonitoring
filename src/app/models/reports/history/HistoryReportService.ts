@@ -1,8 +1,7 @@
-import { DocumentType } from '@typegoose/typegoose';
+import { DocumentType, mongoose } from '@typegoose/typegoose';
 import HistoryReportModel, { HistoryReport, IHistory } from './HistoryReportModel';
 import UserModel from '../../user/UserModel';
 import PatientService from '../../roles/patient/PatientService';
-import { QueryUpdateOptions } from 'mongoose';
 
 class HistoryReportService {
     public static readonly REPORTS_LIMIT_PER_PAGE = 10;
@@ -44,7 +43,7 @@ class HistoryReportService {
     public static async updateReport(historyId: string, userId: string, payload: IHistory) {
         const patient = await PatientService.getPatientByUserId(userId);
         const report = new HistoryReport(payload);
-        const options: QueryUpdateOptions = {runValidators: true};
+        const options: mongoose.QueryOptions = {runValidators: true};
 
         return HistoryReportModel.updateOne({_id: historyId, patient: patient._id}, report, options);
     }

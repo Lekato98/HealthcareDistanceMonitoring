@@ -19,7 +19,7 @@ class DailyReportController {
             const patchReport = await PatientService.patchNextReportDate(patientId);
             const body = {success: 1, report, patchReport};
             res.json(body);
-        } catch (e) {
+        } catch (e: any) {
             const body = {success: 0, message: e.message};
             res.status(HttpStatusCode.SERVER_ERROR).json(body);
         }
@@ -42,7 +42,7 @@ class DailyReportController {
                 res.status(HttpStatusCode.NOT_FOUND).json(body);
             }
 
-        } catch (e) {
+        } catch (e: any) {
             const body = {success: 0, message: e.message};
             res.status(HttpStatusCode.SERVER_ERROR).json(body);
         }
@@ -58,7 +58,7 @@ class DailyReportController {
             const reports = await DailyReportService.getAll(page);
             const body = {success: 1, reports};
             res.json(body);
-        } catch (e) {
+        } catch (e: any) {
             const body = {success: 0, message: e.message};
             res.status(HttpStatusCode.SERVER_ERROR).json(body);
         }
@@ -74,7 +74,7 @@ class DailyReportController {
             const report = await DailyReportService.deleteOneReport(dailyId);
             const body = {success: 1, report};
             res.json(body);
-        } catch (e) {
+        } catch (e: any) {
             const body = {success: 0, message: e.message};
             res.status(HttpStatusCode.SERVER_ERROR).json(body);
         }
@@ -90,7 +90,7 @@ class DailyReportController {
             const reports = await DailyReportService.getReportsByUserId(userId);
             const body = {success: 1, reports};
             res.json(body);
-        } catch (e) {
+        } catch (e: any) {
             const body = {success: 0, message: e.message};
             res.status(HttpStatusCode.SERVER_ERROR).json(body);
         }
@@ -106,7 +106,7 @@ class DailyReportController {
             const reports = await DailyReportService.getReportsByNationalId(nationalId);
             const body = {success: 1, reports};
             res.json(body);
-        } catch (e) {
+        } catch (e: any) {
             const body = {success: 0, message: e.message};
             res.status(HttpStatusCode.SERVER_ERROR).json(body);
         }

@@ -28,7 +28,7 @@ class DailyReportMiddleware {
                 const body = {success: UNSUCCESSFUL, message: 'its looks like you don\'t have permission'};
                 res.status(HttpStatusCode.FORBIDDEN).json(body);
             }
-        } catch (e) {
+        } catch (e: any) {
             const body = {success: UNSUCCESSFUL, message: e.message};
             res.status(HttpStatusCode.SERVER_ERROR).json(body);
         }

@@ -1,5 +1,4 @@
-import { SchemaOptions } from 'mongoose';
-import {arrayProp, getModelForClass, ModelOptions, mongoose, Pre, Prop, Severity} from '@typegoose/typegoose';
+import {getModelForClass, ModelOptions, Prop, Severity, mongoose} from '@typegoose/typegoose';
 import { BasePropOptions, IModelOptions, PropOptionsForString, Ref } from '@typegoose/typegoose/lib/types';
 import {User} from "../user/UserModel";
 import {nanoid} from "nanoid";
@@ -27,7 +26,7 @@ const uniqueKeyTypeOptions: PropOptionsForString = {
     required: true,
 };
 
-const schemaOptions: SchemaOptions = {
+const schemaOptions: mongoose.SchemaOptions = {
     timestamps: true,
 };
 
@@ -43,8 +42,8 @@ const modelOptions: IModelOptions = {
 export class Conversation {
     @Prop(messageIdTypeOptions) _id: string;
     @Prop(uniqueKeyTypeOptions) uniqueKey: string;
-    @arrayProp(userTypeOptions) users: Ref<User, string>[];
-    @arrayProp(textTypeOptions) messages: string[];
+    @Prop(userTypeOptions) users: Ref<User, string>[];
+    @Prop(textTypeOptions) messages: string[];
 
     constructor(payload: IConversation) {
         this._id = payload._id || `conversation~${nanoid()}`;

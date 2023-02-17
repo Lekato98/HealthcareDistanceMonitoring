@@ -1,5 +1,4 @@
 import { config } from '../../config/config';
-import { promises } from 'dns';
 
 abstract class CloudinaryService {
     public static readonly cloudinary = require('cloudinary');

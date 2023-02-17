@@ -15,7 +15,7 @@ class DoctorAdviceController {
             const doctorAdvice = await DoctorAdviceService.createAdvice(payload);
             const body = {success: SUCCESS, doctorAdvice, message: 'Advice posted successfully'};
             res.status(HttpStatusCode.CREATED_SUCCESSFULLY).json(body);
-        } catch (e) {
+        } catch (e: any) {
             const body = {success: UNSUCCESSFUL, message: e.message};
             res.status(HttpStatusCode.SERVER_ERROR).json(body);
         }
@@ -26,7 +26,7 @@ class DoctorAdviceController {
             const doctorAdvices = await DoctorAdviceService.getAll();
             const body = {success: SUCCESS, doctorAdvices};
             res.status(HttpStatusCode.CREATED_SUCCESSFULLY).json(body);
-        } catch (e) {
+        } catch (e: any) {
             const body = {success: UNSUCCESSFUL, message: e.message};
             res.status(HttpStatusCode.SERVER_ERROR).json(body);
         }

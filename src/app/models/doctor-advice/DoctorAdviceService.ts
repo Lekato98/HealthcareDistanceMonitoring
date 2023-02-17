@@ -1,5 +1,5 @@
 import DoctorAdviceModel, {DoctorAdvice, IDoctorAdvice} from "./DoctorAdviceModel";
-import {DocumentType} from "@typegoose/typegoose";
+import {DocumentType, mongoose} from "@typegoose/typegoose";
 import UserModel from "../user/UserModel";
 import SocketIO, {INotificationMessage} from "../../io/SocketIO";
 
@@ -19,7 +19,7 @@ class DoctorAdviceService {
     }
 
     public static async getAll(): Promise<any> {
-        const lookupStage = {
+        const lookupStage: mongoose.PipelineStage = {
             $lookup: {
                 from: UserModel.collection.name,
                 localField: 'userId',
@@ -27,9 +27,9 @@ class DoctorAdviceService {
                 as: 'user',
             }
         };
-        const unwindStage = {$unwind: '$user'};
-        const sortStage = {$sort: {createdAt: 1}};
-        const pipeline = [lookupStage, unwindStage, sortStage];
+        const unwindStage: mongoose.PipelineStage = {$unwind: '$user'};
+        const sortStage: mongoose.PipelineStage = {$sort: {createdAt: 1}};
+        const pipeline: Array<mongoose.PipelineStage> = [lookupStage, unwindStage, sortStage];
         return DoctorAdviceModel.aggregate(pipeline);
     }
 }

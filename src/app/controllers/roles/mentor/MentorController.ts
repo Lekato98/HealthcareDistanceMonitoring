@@ -18,7 +18,7 @@ class MentorController {
             const monitoredPatient = await MentorService.addPatient(mentorId, patientId);
             const body = {success: SUCCESS, monitoredPatient};
             res.json(body);
-        } catch (e) {
+        } catch (e: any) {
             if (e.message.startsWith('E11000')) {
                 const body = {success: UNSUCCESSFUL, message: 'Patient is already monitored by mentor'};
                 res.status(HttpStatusCode.BAD_REQUEST).json(body);
@@ -40,7 +40,7 @@ class MentorController {
             const removedPatient = await MentorService.removePatient(mentorId, patientId);
             const body = {success: SUCCESS, removedPatient};
             res.json(body);
-        } catch (e) {
+        } catch (e: any) {
             const body = {success: UNSUCCESSFUL, message: e.message};
             res.status(HttpStatusCode.SERVER_ERROR).json(body);
         }
@@ -56,7 +56,7 @@ class MentorController {
             const patients = await MentorService.getMyPatients(mentorId);
             const body = {success: SUCCESS, patients};
             res.json(body);
-        } catch (e) {
+        } catch (e: any) {
             const body = {success: UNSUCCESSFUL, message: e.message};
             res.status(HttpStatusCode.SERVER_ERROR).json(body);
         }
@@ -83,7 +83,7 @@ class MentorController {
             patients.forEach(({user: {_id}}: any) => SocketIO.notifyUser(_id, message));
             const body = {success: SUCCESS, text, message: 'Advice updated successfully'};
             res.json(body);
-        } catch (e) {
+        } catch (e: any) {
             const body = {success: UNSUCCESSFUL, message: e.message};
             res.status(HttpStatusCode.SERVER_ERROR).json(body);
         }

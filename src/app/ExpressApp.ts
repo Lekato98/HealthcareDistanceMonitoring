@@ -2,7 +2,6 @@ import express, { Express } from 'express';
 import HomeRoute from './routes/HomeRoute';
 import path from 'path';
 import cors from 'cors';
-import MongooseService from './services/MongooseService';
 import ApiRoute from './routes/apis/v1/ApiRoute';
 import AuthRoute from './routes/AuthRoute';
 import AuthMiddleware from './middlewares/AuthMiddleware';
@@ -13,7 +12,6 @@ import DateUtils from './utils/DateUtils';
 import PatientService from './models/roles/patient/PatientService';
 import SocketIO from './io/SocketIO';
 import UserService from './models/user/UserService';
-import CloudinaryService from './services/CloudinaryService';
 
 const cookieParser = require('cookie-parser');
 const rateLimit = require('express-rate-limit');
@@ -50,13 +48,6 @@ class ExpressApp {
         this.initializeRoutes();
         this.initializeReminders();
         this.app.set('trust proxy', 1);
-
-        // connect to mongoDB
-        MongooseService.connect()
-            .then(() => console.log('~Mongoose Connected'));
-
-        // connect to Cloudinary
-        CloudinaryService.connect();
     }
 
     public initializeViewEngine(): void {

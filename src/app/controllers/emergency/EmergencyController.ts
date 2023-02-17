@@ -12,7 +12,7 @@ class EmergencyController {
             const emergencyCases = await EmergencyService.getAll();
             const body = {success: SUCCESS, emergencyCases};
             res.json(body);
-        } catch (e) {
+        } catch (e: any) {
             const body = {success: UNSUCCESSFUL, message: e.message};
             res.status(HttpStatusCode.SERVER_ERROR).json(body);
         }
@@ -35,7 +35,7 @@ class EmergencyController {
 
             SocketIO.emitDoctorAndMentors(message);
             res.json(body);
-        } catch (e) {
+        } catch (e: any) {
             const body = {success: UNSUCCESSFUL, message: e.message};
             res.status(HttpStatusCode.SERVER_ERROR).json(body);
         }
@@ -47,7 +47,7 @@ class EmergencyController {
             await EmergencyService.delete(emergencyId);
             const body = {success: SUCCESS, message: 'Waiting for hospital response'};
             res.json(body);
-        } catch (e) {
+        } catch (e: any) {
             const body = {success: UNSUCCESSFUL, message: e.message};
             res.status(HttpStatusCode.SERVER_ERROR).json(body);
         }
@@ -59,7 +59,7 @@ class EmergencyController {
             await EmergencyService.delete(emergencyId);
             const body = {success: SUCCESS, message: 'Removed successfully'};
             res.json(body);
-        } catch (e) {
+        } catch (e: any) {
             const body = {success: UNSUCCESSFUL, message: e.message};
             res.status(HttpStatusCode.SERVER_ERROR).json(body);
         }

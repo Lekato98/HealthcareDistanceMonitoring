@@ -27,7 +27,7 @@ class HomeMiddleware {
                     res.redirect('/auth/registration');
                 }
             }
-        } catch (e) {
+        } catch (e: any) {
             res.status(HttpStatusCode.SERVER_ERROR).render('500');
         }
     }

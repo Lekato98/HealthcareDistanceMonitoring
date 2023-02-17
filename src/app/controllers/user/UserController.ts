@@ -24,7 +24,7 @@ class UserController {
             }  else {
                 res.render('profile', {user});
             }
-        } catch (e) {
+        } catch (e: any) {
             res.status(HttpStatusCode.SERVER_ERROR).send('Server Error');
         }
     }
@@ -36,7 +36,7 @@ class UserController {
     public async editProfilePage(req: Request, res: Response): Promise<void> {
         try {
             res.render('editProfile.ejs');
-        } catch (e) {
+        } catch (e: any) {
             res.status(HttpStatusCode.SERVER_ERROR).send('Server Error');
         }
     }
@@ -59,7 +59,7 @@ class UserController {
                 res.status(HttpStatusCode.NOT_FOUND).json(body);
             }
 
-        } catch (e) {
+        } catch (e: any) {
             const body = {success: UNSUCCESSFUL, message: e.message};
             res.json(body);
         }
@@ -76,7 +76,7 @@ class UserController {
             const user = await UserService.patchOne(nationalId, payload);
             const body = {success: SUCCESS, user};
             res.json(body);
-        } catch (e) {
+        } catch (e: any) {
             const body = {success: UNSUCCESSFUL, message: e.message};
             res.status(HttpStatusCode.SERVER_ERROR).json(body);
         }
@@ -92,7 +92,7 @@ class UserController {
             const users = await UserService.getAll(pageNumber);
             const body = {success: SUCCESS, users};
             res.json(body);
-        } catch (e) {
+        } catch (e: any) {
             const body = {success: UNSUCCESSFUL, message: e.message};
             res.status(HttpStatusCode.SERVER_ERROR).json(body);
         }
@@ -108,7 +108,7 @@ class UserController {
             const user = await UserService.deleteOneUser(_id);
             const body = {success: SUCCESS, user};
             res.json(body);
-        } catch (e) {
+        } catch (e: any) {
             const body = {success: UNSUCCESSFUL, message: e.message};
             res.status(HttpStatusCode.SERVER_ERROR).json(body);
         }
@@ -124,7 +124,7 @@ class UserController {
             const notification = await UserService.addNotification(userId, payload);
             const body = {success: SUCCESS, notification};
             res.json(body);
-        } catch (e) {
+        } catch (e: any) {
             const body = {success: UNSUCCESSFUL, message: e.message};
             res.status(HttpStatusCode.SERVER_ERROR).json(body);
         }
@@ -141,7 +141,7 @@ class UserController {
             const notification = await UserService.removeNotification(userId, index);
             const body = {success: SUCCESS, notification};
             res.json(body);
-        } catch (e) {
+        } catch (e: any) {
             const body = {success: UNSUCCESSFUL, message: e.message};
             res.status(HttpStatusCode.SERVER_ERROR).json(body);
         }
@@ -159,7 +159,7 @@ class UserController {
             await UserService.patchOne(nationalId, {avatar: imageInfo.url});
             const body = {success: SUCCESS, imageInfo};
             res.json(body);
-        } catch (e) {
+        } catch (e: any) {
             const body = {success: UNSUCCESSFUL, message: e.message};
             res.status(HttpStatusCode.SERVER_ERROR).json(body);
         }

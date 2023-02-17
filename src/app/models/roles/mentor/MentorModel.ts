@@ -1,5 +1,4 @@
-import {SchemaOptions} from 'mongoose';
-import {arrayProp, getModelForClass, ModelOptions, Pre, Prop} from '@typegoose/typegoose';
+import {getModelForClass, ModelOptions, Pre, Prop, mongoose} from '@typegoose/typegoose';
 import {
     ArrayPropOptions,
     BasePropOptions,
@@ -54,7 +53,7 @@ const adviceTypeOptions: PropOptionsForString = {
     maxlength: [200, 'Too long advice'],
 };
 
-const schemaOptions: SchemaOptions = {
+const schemaOptions: mongoose.SchemaOptions = {
     timestamps: true,
 };
 
@@ -69,7 +68,7 @@ const modelOptions: IModelOptions = {
 @ModelOptions(modelOptions)
 class Mentor implements IRole {
     @Prop(mentorIdTypeOptions) _id: string;
-    @arrayProp(patientsTypeOptions) patients: Ref<Patient>[];
+    @Prop(patientsTypeOptions) patients: Ref<Patient>[];
     @Prop(userIdTypeOptions) public userId: string;
     @Prop(activeTypeOptions) public active: boolean;
     @Prop(statusTypeOptions) public status: string;

@@ -18,7 +18,7 @@ class RoleController {
             const role = await RoleService.createRole(roleName, payload);
             const body = {success: SUCCESS, role};
             res.json(body);
-        } catch (e) {
+        } catch (e: any) {
             const body = {success: UNSUCCESSFUL, message: e.message};
             res.status(HttpStatusCode.SERVER_ERROR).json(body);
         }
@@ -37,7 +37,7 @@ class RoleController {
                 const body = {success: SUCCESS, role};
                 res.json(body);
             }
-        } catch (e) {
+        } catch (e: any) {
             const body = {success: UNSUCCESSFUL, message: e.message};
             res.status(HttpStatusCode.SERVER_ERROR).json(body);
         }
@@ -56,7 +56,7 @@ class RoleController {
                 const body = {success: SUCCESS, roles};
                 res.json(body);
             }
-        } catch (e) {
+        } catch (e: any) {
             const body = {success: UNSUCCESSFUL, message: e.message};
             res.status(HttpStatusCode.SERVER_ERROR).json(body);
         }
@@ -68,7 +68,7 @@ class RoleController {
             const role = await RoleService.acceptByRoleName(roleName, userId);
             const body = {success: SUCCESS, role};
             res.json(body);
-        } catch (e) {
+        } catch (e: any) {
             const body = {success: UNSUCCESSFUL, message: e.message};
             res.status(HttpStatusCode.SERVER_ERROR).json(body);
         }
@@ -80,7 +80,7 @@ class RoleController {
             const role = await RoleService.rejectByRoleName(roleName, userId);
             const body = {success: SUCCESS, role};
             res.json(body);
-        } catch (e) {
+        } catch (e: any) {
             const body = {success: UNSUCCESSFUL, message: e.message};
             res.status(HttpStatusCode.SERVER_ERROR).json(body);
         }
@@ -92,7 +92,7 @@ class RoleController {
             const role = await RoleService.getActiveByRoleName(roleName);
             const body = {success: SUCCESS, role};
             res.json(body);
-        } catch (e) {
+        } catch (e: any) {
             const body = {success: UNSUCCESSFUL, message: e.message};
             res.status(HttpStatusCode.SERVER_ERROR).json(body);
         }
@@ -104,7 +104,7 @@ class RoleController {
             const role = await RoleService.getInActiveByRoleName(roleName);
             const body = {success: SUCCESS, role};
             res.json(body);
-        } catch (e) {
+        } catch (e: any) {
             const body = {success: UNSUCCESSFUL, message: e.message};
             res.status(HttpStatusCode.SERVER_ERROR).json(body);
         }
@@ -116,7 +116,7 @@ class RoleController {
             const role = await RoleService.getPendingByRoleName(roleName);
             const body = {success: SUCCESS, role};
             res.json(body);
-        } catch (e) {
+        } catch (e: any) {
             const body = {success: UNSUCCESSFUL, message: e.message};
             res.status(HttpStatusCode.SERVER_ERROR).json(body);
         }
@@ -128,7 +128,7 @@ class RoleController {
             const role = await RoleService.getAcceptedByRoleName(roleName);
             const body = {success: SUCCESS, role};
             res.json(body);
-        } catch (e) {
+        } catch (e: any) {
             const body = {success: UNSUCCESSFUL, message: e.message};
             res.status(HttpStatusCode.SERVER_ERROR).json(body);
         }
@@ -140,7 +140,7 @@ class RoleController {
             const role = await RoleService.getRejectedByRoleName(roleName);
             const body = {success: SUCCESS, role};
             res.json(body);
-        } catch (e) {
+        } catch (e: any) {
             const body = {success: UNSUCCESSFUL, message: e.message};
             res.status(HttpStatusCode.SERVER_ERROR).json(body);
         }
@@ -174,7 +174,7 @@ class RoleController {
                 };
                 res.status(HttpStatusCode.NOT_FOUND).json(body);
             }
-        } catch (e) {
+        } catch (e: any) {
             const body = {success: UNSUCCESSFUL, message: e.message};
             res.status(HttpStatusCode.SERVER_ERROR).json(body);
         }
@@ -188,7 +188,7 @@ class RoleController {
             AuthenticationUtils.setAuthCookies(res, newJWTPayload);
             const body = {success: SUCCESS, role: RoleName.NO_ROLE};
             res.json(body);
-        } catch (e) {
+        } catch (e: any) {
             const body = {success: UNSUCCESSFUL, message: e.message};
             res.status(HttpStatusCode.SERVER_ERROR).json(body);
         }

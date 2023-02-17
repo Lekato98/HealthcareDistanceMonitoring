@@ -25,7 +25,8 @@ class MentorService {
     }
 
     public static async isExistByUserId(userId: string): Promise<boolean> {
-        return MentorModel.exists({userId});
+        const user = await MentorModel.exists({userId})
+        return user !== null;
     }
 
     public static async addPatient(mentorId: string, patientId: string): Promise<any> {

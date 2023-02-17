@@ -8,7 +8,7 @@ class RoleMiddleware {
     public async isValidRole(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
 
-        } catch (e) {
+        } catch (e: any) {
             const body = {success: UNSUCCESSFUL, message: e.messageType};
             res.status(HttpStatusCode.SERVER_ERROR).json(body);
         }

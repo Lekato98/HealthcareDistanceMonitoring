@@ -1,10 +1,9 @@
-import {DocumentType} from '@typegoose/typegoose';
+import {DocumentType, mongoose} from '@typegoose/typegoose';
 import UserModelUtils from './UserModelUtils';
 import UserModel, {ISecurity, IUser, RoleName, User} from './UserModel';
 import RoleService from '../roles/RoleService';
 import UserModelHooks from './UserModelHooks';
 import {ILogin} from '../../controllers/auth/AuthController';
-import {QueryUpdateOptions} from 'mongoose';
 import ConversationService from "../conversation/ConversationService";
 
 const bcrypt = require('bcrypt');
@@ -56,15 +55,15 @@ class UserService {
 
     public static async patchOne(nationalId: string, payload: object): Promise<any> {
         const userObject = UserModelUtils.userObjectForUpdate(payload);
-        const options: QueryUpdateOptions = {runValidators: true};
+        const options: mongoose.QueryOptions = {runValidators: true};
         return UserModel.updateOne({nationalId}, {...userObject}, options);
     }
 
     public static async getAll(pageNumber: number): Promise<DocumentType<User>[]> {
-        const sortStage = {$sort: {firstName: 1, lastName: 1}}; // stage 1 sort by created time
-        const skipStage = {$skip: (pageNumber - 1) * this.USERS_LIMIT_PER_PAGE}; // stage 2 skip previous pages
-        const limitStage = {$limit: this.USERS_LIMIT_PER_PAGE}; // stage 3 limitation users number
-        const projectionStage = {$project: {password: 0, updatedAt: 0}}; // stage 4 remove password from the data
+        const sortStage: mongoose.PipelineStage = {$sort: {firstName: 1, lastName: 1}}; // stage 1 sort by created time
+        const skipStage: mongoose.PipelineStage = {$skip: (pageNumber - 1) * this.USERS_LIMIT_PER_PAGE}; // stage 2 skip previous pages
+        const limitStage: mongoose.PipelineStage = {$limit: this.USERS_LIMIT_PER_PAGE}; // stage 3 limitation users number
+        const projectionStage: mongoose.PipelineStage = {$project: {password: 0, updatedAt: 0}}; // stage 4 remove password from the data
 
         return UserModel.aggregate([
             sortStage,

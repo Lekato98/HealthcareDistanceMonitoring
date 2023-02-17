@@ -1,5 +1,4 @@
-import { SchemaOptions } from 'mongoose';
-import { getModelForClass, ModelOptions, Pre, Prop } from '@typegoose/typegoose';
+import { getModelForClass, ModelOptions, Pre, Prop, mongoose } from '@typegoose/typegoose';
 import { BasePropOptions, IModelOptions, PropOptionsForString, Ref } from '@typegoose/typegoose/lib/types';
 import { Patient } from '../../roles/patient/PatientModel';
 import HistoryReportModelHooks from './HistoryReportModelHooks';
@@ -24,7 +23,7 @@ const textTypeOptions: PropOptionsForString = {
     maxlength: [1000, 'Too large report text'],
 };
 
-const schemaOptions: SchemaOptions = {
+const schemaOptions: mongoose.SchemaOptions = {
     timestamps: true,
 };
 
