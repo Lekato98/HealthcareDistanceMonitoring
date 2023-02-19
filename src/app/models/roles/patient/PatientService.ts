@@ -11,17 +11,18 @@ import PatientModelUtils from "./PatientModelUtils";
 
 class PatientService {
     private static readonly PATIENTS_PAIR_PAGE = 20;
+    private static readonly NUMBER_OF_SYMPTOMS = 5;
 
     public static async updateStatus(patientId: string): Promise<any> {
         const reports = await DailyReportService.getReportsByPatientId(patientId);
         const healthStatusRate = reports.length && reports.reduce((total: number, report: IDailyReport) => (
             total +
-            report.headache +
+            (report.headache +
             report.soreThroat +
             report.smell +
             report.fatigue +
             report.shortnessOfBreath +
-            report.taste
+            report.taste) / this.NUMBER_OF_SYMPTOMS
         ), 0) / reports.length;
 
         const healthStatus = PatientModelUtils.healthStatusToString(healthStatusRate);

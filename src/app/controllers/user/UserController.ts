@@ -156,7 +156,7 @@ class UserController {
             const nationalId = req.app.locals.jwt.nationalId;
             // @ts-ignore
             const imageInfo = await CloudinaryService.uploadSingleImage(req.file.path);
-            await UserService.patchOne(nationalId, {avatar: imageInfo.url});
+            await UserService.patchOne(nationalId, {avatar: imageInfo.secure_url});
             const body = {success: SUCCESS, imageInfo};
             res.json(body);
         } catch (e: any) {
